@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <node pkg="luggage" type="luggage_node" name="luggage" output="screen" launch-prefix="xterm -e"/>
+  
+</launch>
