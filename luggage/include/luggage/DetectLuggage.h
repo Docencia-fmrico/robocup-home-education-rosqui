@@ -49,6 +49,8 @@ class DetectLuggage : public BT::ActionNodeBase
     typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image,
     darknet_ros_msgs::BoundingBoxes> MySyncPolicy_bbx;
     message_filters::Synchronizer<MySyncPolicy_bbx> sync_bbx;
+    int min_x;
+    int max_x;
 };
 
 }  // namespace luggage

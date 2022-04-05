@@ -47,8 +47,6 @@ const darknet_ros_msgs::BoundingBoxesConstPtr& boxes)
       return;
   }
 
-  int px = 0;
-  int py = 0;
   float dist = 0;
   float prob = 0;
   // Darknet only detects person
@@ -56,17 +54,12 @@ const darknet_ros_msgs::BoundingBoxesConstPtr& boxes)
   {
     ROS_INFO("PROB: %f", box.probability);
     if ((box.probability > 0.2) && (box.probability > prob))
-    {
-      prob = box.probability;
+    {     
       ROS_INFO("DETECTED TRUE");
-      px = (box.xmax + box.xmin) / 2;
-      py = (box.ymax + box.ymin) / 2;
+      min_x = box.xmin; 
+      max_x = box.xmax;
 
-      dist = img_ptr_depth->image.at<float>(cv::Point(px, py));  // *0.001f;
-      if (isnan(dist))
-        dist = 0;
-
-      ROS_INFO("person_x: %d \t person_z: %f\n", px, dist);
+      ROS_INFO("MIN_X: %d \t MAX_X: %d\n", min_x, max_x);
     }
   }
 }
@@ -81,6 +74,15 @@ BT::NodeStatus
 DetectLuggage::tick()
 {
   ROS_INFO("Detect Luggage Tick");
+
+  if (min_x < 50)   // Numero mágico
+  {
+    
+  } else if (max_x > 450)   // Numero mágico
+  {
+
+  }
+
   return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage
