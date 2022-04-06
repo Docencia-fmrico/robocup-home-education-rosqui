@@ -23,14 +23,16 @@
 namespace luggage
 {
 
-DetectLuggage::DetectLuggage(const std::string& name)
-: BT::ActionNodeBase(name, {}),
+DetectLuggage::DetectLuggage(const std::string& name, const BT::NodeConfiguration & config)
+: BT::ActionNodeBase(name, config),
   nh_(),
   image_depth_sub(nh_, "/camera/depth/image_raw", 1),
   bbx_sub(nh_, "/darknet_ros/bounding_boxes", 1),
   sync_bbx(MySyncPolicy_bbx(10), image_depth_sub, bbx_sub)
 {
   sync_bbx.registerCallback(boost::bind(&DetectLuggage::callback_bbx, this, _1, _2));
+  min_x = 100;
+  max_x = 100;
 }
 
 void DetectLuggage::callback_bbx(const sensor_msgs::ImageConstPtr& image,
@@ -47,16 +49,14 @@ const darknet_ros_msgs::BoundingBoxesConstPtr& boxes)
       return;
   }
 
-  float dist = 0;
   float prob = 0;
   // Darknet only detects person
   for (const auto & box : boxes->bounding_boxes)
   {
     ROS_INFO("PROB: %f", box.probability);
-    if ((box.probability > 0.2) && (box.probability > prob))
-    {     
-      ROS_INFO("DETECTED TRUE");
-      min_x = box.xmin; 
+    if (box.probability > 0.8)
+    {
+      min_x = box.xmin;
       max_x = box.xmax;
 
       ROS_INFO("MIN_X: %d \t MAX_X: %d\n", min_x, max_x);
@@ -74,12 +74,22 @@ BT::NodeStatus
 DetectLuggage::tick()
 {
   ROS_INFO("Detect Luggage Tick");
+  /* setOutput("bag_pos", "right");
+  return BT::NodeStatus::SUCCESS; */
 
   if (min_x < 50)   // Numero mágico
   {
-    
+    ROS_INFO("USER'S LEFT");
+    setOutput("bag_pos", "left");
+    return BT::NodeStatus::SUCCESS;
+
+
   } else if (max_x > 450)   // Numero mágico
   {
+    ROS_INFO("USER'S RIGHT");
+    setOutput("bag_pos", "right");
+    return BT::NodeStatus::SUCCESS;
+
 
   }
 

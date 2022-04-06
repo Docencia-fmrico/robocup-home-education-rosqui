@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_DETECTLUGGAGE_H
-#define LUGGAGE_DETECTLUGGAGE_H
+#ifndef LUGGAGE_GoToBag_H
+#define LUGGAGE_GoToBag_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -31,16 +31,14 @@
 namespace luggage
 {
 
-class DetectLuggage : public BT::ActionNodeBase
+class GoToBag : public BT::ActionNodeBase
 {
   public:
-    explicit DetectLuggage(const std::string& name, const BT::NodeConfiguration & config);
-    void callback_bbx(const sensor_msgs::ImageConstPtr& image,
-    const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
+    explicit GoToBag(const std::string& name, const BT::NodeConfiguration & config);
 
     static BT::PortsList providedPorts()
     {
-        return { BT::OutputPort<std::string>("bag_pos")};
+        return { BT::InputPort<std::string>("bag_pos")};
     }
 
     void halt();
@@ -49,15 +47,8 @@ class DetectLuggage : public BT::ActionNodeBase
 
   private:
     ros::NodeHandle nh_;
-    message_filters::Subscriber<sensor_msgs::Image> image_depth_sub;
-    message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> bbx_sub;
-    typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image,
-    darknet_ros_msgs::BoundingBoxes> MySyncPolicy_bbx;
-    message_filters::Synchronizer<MySyncPolicy_bbx> sync_bbx;
-    int min_x;
-    int max_x;
 };
 
 }  // namespace luggage
 
-#endif  // LUGGAGE_DETECTLUGGAGE_H
+#endif  // LUGGAGE_GoToBag_H
