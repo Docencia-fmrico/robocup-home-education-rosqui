@@ -30,6 +30,7 @@ GoToBag::GoToBag(const std::string& name, const BT::NodeConfiguration & config)
   ROS_INFO("CONSTRUCTOR BAG");
   pub_vel_ = nh_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity",1);
   first = true;
+
 }
 
 void
@@ -61,7 +62,7 @@ GoToBag::tick()
       return BT::NodeStatus::RUNNING;
 
   }
-  else if (current_ts_ < 2*ACTION_TIME_)
+  else if (current_ts_ <= 2*ACTION_TIME_)
   {
       cmd.linear.x = 0;
 
@@ -77,7 +78,7 @@ GoToBag::tick()
   }
   else
   {
-      ROS_INFO("END");
+      ROS_INFO("BAG REACHED");
       return BT::NodeStatus::SUCCESS;
   }
 
