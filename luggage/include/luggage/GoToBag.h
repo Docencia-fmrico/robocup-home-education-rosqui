@@ -18,13 +18,8 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include <message_filters/subscriber.h>
-#include <message_filters/time_synchronizer.h>
-#include <message_filters/sync_policies/approximate_time.h>
 
-#include <cv_bridge/cv_bridge.h>
-
-#include <sensor_msgs/Image.h>
-#include <darknet_ros_msgs/BoundingBoxes.h>
+#include "geometry_msgs/Twist.h"
 
 #include <string>
 
@@ -46,7 +41,15 @@ class GoToBag : public BT::ActionNodeBase
     BT::NodeStatus tick();
 
   private:
+    ros::Time detected_ts_;
     ros::NodeHandle nh_;
+    std::string bag_pos_;
+    static constexpr double FORWARD_VEL = 0.2;
+    static constexpr double TURNING_VEL_ = 0.3;
+    static constexpr double ACTION_TIME_ = 2.0;
+    ros::Publisher pub_vel_;
+    bool first;
+
 };
 
 }  // namespace luggage

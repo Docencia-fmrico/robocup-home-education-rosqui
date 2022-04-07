@@ -28,6 +28,8 @@ GoToBag::GoToBag(const std::string& name, const BT::NodeConfiguration & config)
   nh_()
 {
   ROS_INFO("CONSTRUCTOR BAG");
+  pub_vel_ = nh_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity",1);
+  first = true;
 }
 
 void
@@ -39,13 +41,46 @@ GoToBag::halt()
 BT::NodeStatus
 GoToBag::tick()
 {
-  ROS_INFO("Go To Bag Tick");
+  if (first)
+  {
+    detected_ts_ = ros::Time::now();
+    bag_pos_ = getInput<std::string>("bag_pos").value();
+    first = false;
+  }
+  
+  geometry_msgs::Twist cmd;
+  double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
+  ROS_INFO("TIME: %f", current_ts_);
+  
+  if ( (current_ts_ < ACTION_TIME_) ||  ((current_ts_ > 2*ACTION_TIME_) && (current_ts_ < 3*ACTION_TIME_)) )
+  {
+      cmd.linear.x = FORWARD_VEL;
+      cmd.angular.z = 0;
+      ROS_INFO("TIME: %f %s", current_ts_, "FORWARD");
+      pub_vel_.publish(cmd);
+      return BT::NodeStatus::RUNNING;
 
-    std::string bag_pos = getInput<std::string>("bag_pos").value();
+  }
+  else if (current_ts_ < 2*ACTION_TIME_)
+  {
+      cmd.linear.x = 0;
 
-    ROS_INFO("BAG_POS:%s", bag_pos.c_str());
+      if (bag_pos_ == "right")
+        cmd.angular.z = TURNING_VEL_;
+      else
+        cmd.angular.z = -TURNING_VEL_;
 
-  return BT::NodeStatus::RUNNING;
+      ROS_INFO("TIME: %f %f", current_ts_, TURNING_VEL_);
+      pub_vel_.publish(cmd);
+      return BT::NodeStatus::RUNNING;
+
+  }
+  else
+  {
+      ROS_INFO("END");
+      return BT::NodeStatus::SUCCESS;
+  }
+
 }
 }  // namespace luggage
 

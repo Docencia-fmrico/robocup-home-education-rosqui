@@ -42,7 +42,6 @@ int main(int argc, char **argv)
   std::string xml_file = pkgpath + "/behavior_trees_xml/luggage.xml";
 
   BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
-  ROS_INFO("TEST3");
 
   auto publisher_zmq = std::make_shared<BT::PublisherZMQ>(tree, 10, 1666, 1667);
 
