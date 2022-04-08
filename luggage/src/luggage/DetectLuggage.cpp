@@ -23,14 +23,16 @@
 namespace luggage
 {
 
-DetectLuggage::DetectLuggage(const std::string& name)
-: BT::ActionNodeBase(name, {}),
+DetectLuggage::DetectLuggage(const std::string& name, const BT::NodeConfiguration & config)
+: BT::ActionNodeBase(name, config),
   nh_(),
   image_depth_sub(nh_, "/camera/depth/image_raw", 1),
   bbx_sub(nh_, "/darknet_ros/bounding_boxes", 1),
   sync_bbx(MySyncPolicy_bbx(10), image_depth_sub, bbx_sub)
 {
   sync_bbx.registerCallback(boost::bind(&DetectLuggage::callback_bbx, this, _1, _2));
+  min_x = 100;
+  max_x = 100;
 }
 
 void DetectLuggage::callback_bbx(const sensor_msgs::ImageConstPtr& image,
@@ -47,26 +49,17 @@ const darknet_ros_msgs::BoundingBoxesConstPtr& boxes)
       return;
   }
 
-  int px = 0;
-  int py = 0;
-  float dist = 0;
   float prob = 0;
   // Darknet only detects person
   for (const auto & box : boxes->bounding_boxes)
   {
     ROS_INFO("PROB: %f", box.probability);
-    if ((box.probability > 0.2) && (box.probability > prob))
+    if (box.probability > 0.8)
     {
-      prob = box.probability;
-      ROS_INFO("DETECTED TRUE");
-      px = (box.xmax + box.xmin) / 2;
-      py = (box.ymax + box.ymin) / 2;
+      min_x = box.xmin;
+      max_x = box.xmax;
 
-      dist = img_ptr_depth->image.at<float>(cv::Point(px, py));  // *0.001f;
-      if (isnan(dist))
-        dist = 0;
-
-      ROS_INFO("person_x: %d \t person_z: %f\n", px, dist);
+      ROS_INFO("MIN_X: %d \t MAX_X: %d\n", min_x, max_x);
     }
   }
 }
@@ -81,6 +74,26 @@ BT::NodeStatus
 DetectLuggage::tick()
 {
   ROS_INFO("Detect Luggage Tick");
+  /*sleep(2);
+  setOutput("bag_pos", "right");
+  return BT::NodeStatus::SUCCESS;*/
+
+  if (min_x < 50)   // Numero mágico
+  {
+    ROS_INFO("USER'S LEFT");
+    setOutput("bag_pos", "left");
+    return BT::NodeStatus::SUCCESS;
+
+
+  } else if (max_x > 450)   // Numero mágico
+  {
+    ROS_INFO("USER'S RIGHT");
+    setOutput("bag_pos", "right");
+    return BT::NodeStatus::SUCCESS;
+
+
+  }
+
   return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage

@@ -33,15 +33,21 @@ int main(int argc, char **argv)
   BT::SharedLibrary loader;
 
   factory.registerFromPlugin(loader.getOSName("asr_detect_luggage_bt_node"));
+  factory.registerFromPlugin(loader.getOSName("asr_goto_bag_bt_node"));
 
   auto blackboard = BT::Blackboard::create();
+  blackboard->set("bag_pos", "pos");
+
   std::string pkgpath = ros::package::getPath("luggage");
   std::string xml_file = pkgpath + "/behavior_trees_xml/luggage.xml";
 
   BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
+
   auto publisher_zmq = std::make_shared<BT::PublisherZMQ>(tree, 10, 1666, 1667);
 
   ros::Rate loop_rate(10);
+
+  int count = 0;
 
   while (ros::ok())
   {

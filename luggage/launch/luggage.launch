@@ -3,4 +3,11 @@
 
   <node pkg="luggage" type="luggage_node" name="luggage" output="screen" launch-prefix="xterm -e"/>
   
+  <include file="$(find darknet_ros)/launch/darknet_ros.launch">
+    <arg name="image" value="/camera/rgb/image_raw/"/>
+  </include>
+
+ 
+  <include file="$(find robots)/launch/kobuki_astra.launch"/>
+
 </launch>

@@ -3,12 +3,20 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
-            <Action ID="DetectLuggage"/>
+            <SequenceStar>
+                <Action ID="DetectLuggage" bag_pos="{bag_pos}"/>
+                <Action ID="GoToBag" bag_pos="{bag_pos}"/>
+            </SequenceStar>
         </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
-        <Action ID="DetectLuggage"/>
+        <Action ID="DetectLuggage">
+            <input_port name="bag_pos"/>
+        </Action>
+        <Action ID="GoToBag">
+            <output_port name="bag_pos"/>
+        </Action>
     </TreeNodesModel>
     <!-- ////////// -->
 </root>
