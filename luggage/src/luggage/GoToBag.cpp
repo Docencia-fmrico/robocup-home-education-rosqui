@@ -53,35 +53,30 @@ GoToBag::tick()
   double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
   ROS_INFO("TIME: %f", current_ts_);
   
-  if ( (current_ts_ < ACTION_TIME_) ||  ((current_ts_ > 2*ACTION_TIME_) && (current_ts_ < 3*ACTION_TIME_)) )
-  {
-      cmd.linear.x = FORWARD_VEL;
-      cmd.angular.z = 0;
-      ROS_INFO("TIME: %f %s", current_ts_, "FORWARD");
-      pub_vel_.publish(cmd);
-      return BT::NodeStatus::RUNNING;
-
-  }
-  else if (current_ts_ <= 2*ACTION_TIME_)
+  if ( (current_ts_ < ACTION_TIME_))
   {
       cmd.linear.x = 0;
 
-      if (bag_pos_ == "right")
+      if (bag_pos_ == "left")
         cmd.angular.z = TURNING_VEL_;
       else
         cmd.angular.z = -TURNING_VEL_;
 
       ROS_INFO("TIME: %f %f", current_ts_, TURNING_VEL_);
-      pub_vel_.publish(cmd);
-      return BT::NodeStatus::RUNNING;
-
   }
-  else
+  else if (current_ts_ <= 2*ACTION_TIME_)
+  {
+      cmd.linear.x = FORWARD_VEL;
+      cmd.angular.z = 0;
+      ROS_INFO("TIME: %f %s", current_ts_, "FORWARD");
+  }
+  else if (current_ts_ >= 5*ACTION_TIME_)
   {
       ROS_INFO("BAG REACHED");
       return BT::NodeStatus::SUCCESS;
   }
-
+  pub_vel_.publish(cmd);
+  return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage
 

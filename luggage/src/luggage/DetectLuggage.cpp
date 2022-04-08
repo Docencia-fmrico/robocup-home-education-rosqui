@@ -75,7 +75,7 @@ DetectLuggage::tick()
 {
   ROS_INFO("Detect Luggage Tick");
   /*sleep(2);
-  setOutput("bag_pos", "left");
+  setOutput("bag_pos", "right");
   return BT::NodeStatus::SUCCESS;*/
 
   if (min_x < 50)   // Numero mágico
