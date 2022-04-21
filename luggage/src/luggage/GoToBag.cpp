@@ -49,8 +49,8 @@ GoToBag::tick()
     first = false;
   }
   
-  std::vector<int> hsv_avg = getInput<std::vector<int>>("hsv_avg").value();
-  ROS_INFO("AVG:%d", hsv_avg[0]);
+  std::vector<int> color = getInput<std::vector<int>>("color").value();
+  ROS_INFO("R_%d,G:%d,B:%d",color[0], color[1], color[2]);
   
   geometry_msgs::Twist cmd;
   double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
