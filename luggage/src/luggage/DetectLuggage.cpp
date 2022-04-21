@@ -32,8 +32,15 @@ DetectLuggage::DetectLuggage(const std::string& name, const BT::NodeConfiguratio
 {
   sync_bbx.registerCallback(boost::bind(&DetectLuggage::callback_bbx, this, _1, _2));
   min_x = 100;
-  max_x = 100;
+  max_x = 100;  
 }
+
+void DetectLuggage::get_color(int x, int y)
+{
+  hsv_avg_[0] = 1;
+  return;
+}
+
 
 void DetectLuggage::callback_bbx(const sensor_msgs::ImageConstPtr& image,
 const darknet_ros_msgs::BoundingBoxesConstPtr& boxes)
@@ -74,11 +81,17 @@ BT::NodeStatus
 DetectLuggage::tick()
 {
   ROS_INFO("Detect Luggage Tick");
-  /*sleep(2);
-  setOutput("bag_pos", "right");
-  return BT::NodeStatus::SUCCESS;*/
 
-  if (min_x < 50)   // Numero mágico
+  get_color(5,4);
+  ROS_INFO("%d",hsv_avg_[0]);
+  setOutput("hsv_avg", hsv_avg_);
+  
+  setOutput("bag_pos", "right");
+  return BT::NodeStatus::SUCCESS;
+
+ 
+
+  /*if (min_x < 50)   // Numero mágico
   {
     ROS_INFO("USER'S LEFT");
     setOutput("bag_pos", "left");
@@ -94,7 +107,7 @@ DetectLuggage::tick()
 
   }
 
-  return BT::NodeStatus::RUNNING;
+  return BT::NodeStatus::RUNNING;*/
 }
 }  // namespace luggage
 

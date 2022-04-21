@@ -22,6 +22,7 @@
 #include "geometry_msgs/Twist.h"
 
 #include <string>
+#include <vector>
 
 namespace luggage
 {
@@ -33,7 +34,7 @@ class GoToBag : public BT::ActionNodeBase
 
     static BT::PortsList providedPorts()
     {
-        return { BT::InputPort<std::string>("bag_pos")};
+        return { BT::InputPort<std::string>("bag_pos"), BT::InputPort<std::vector<int>>("hsv_avg")};
     }
 
     void halt();

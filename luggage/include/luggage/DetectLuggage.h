@@ -27,6 +27,7 @@
 #include <darknet_ros_msgs/BoundingBoxes.h>
 
 #include <string>
+#include <vector>
 
 namespace luggage
 {
@@ -37,16 +38,17 @@ class DetectLuggage : public BT::ActionNodeBase
     explicit DetectLuggage(const std::string& name, const BT::NodeConfiguration & config);
     void callback_bbx(const sensor_msgs::ImageConstPtr& image,
     const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
+    void get_color(int x, int y);
 
     static BT::PortsList providedPorts()
     {
-        return { BT::OutputPort<std::string>("bag_pos")};
+        return { BT::OutputPort<std::string>("bag_pos"), BT::OutputPort<std::vector<int>>("hsv_avg")};
     }
 
     void halt();
 
     BT::NodeStatus tick();
-
+    
   private:
     ros::NodeHandle nh_;
     message_filters::Subscriber<sensor_msgs::Image> image_depth_sub;
@@ -56,6 +58,7 @@ class DetectLuggage : public BT::ActionNodeBase
     message_filters::Synchronizer<MySyncPolicy_bbx> sync_bbx;
     int min_x;
     int max_x;
+    std::vector<int> hsv_avg_ = {0,0,0};
 };
 
 }  // namespace luggage

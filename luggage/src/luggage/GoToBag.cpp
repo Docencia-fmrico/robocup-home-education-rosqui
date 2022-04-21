@@ -49,6 +49,9 @@ GoToBag::tick()
     first = false;
   }
   
+  std::vector<int> hsv_avg = getInput<std::vector<int>>("hsv_avg").value();
+  ROS_INFO("AVG:%d", hsv_avg[0]);
+  
   geometry_msgs::Twist cmd;
   double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
   ROS_INFO("TIME: %f", current_ts_);

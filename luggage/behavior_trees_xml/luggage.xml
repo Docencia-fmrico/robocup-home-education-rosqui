@@ -4,8 +4,8 @@
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
             <SequenceStar>
-                <Action ID="DetectLuggage" bag_pos="{bag_pos}"/>
-                <Action ID="GoToBag" bag_pos="{bag_pos}"/>
+                <Action ID="DetectLuggage" bag_pos="{bag_pos}" hsv_avg="{hsv_avg}"/>
+                <Action ID="GoToBag" bag_pos="{bag_pos}" hsv_avg="{hsv_avg}"/>
             </SequenceStar>
         </SequenceStar>
     </BehaviorTree>
@@ -13,9 +13,11 @@
     <TreeNodesModel>
         <Action ID="DetectLuggage">
             <input_port name="bag_pos"/>
+            <input_port name="hsv_avg"/>
         </Action>
         <Action ID="GoToBag">
             <output_port name="bag_pos"/>
+            <output_port name="hsv_avg"/>
         </Action>
     </TreeNodesModel>
     <!-- ////////// -->
