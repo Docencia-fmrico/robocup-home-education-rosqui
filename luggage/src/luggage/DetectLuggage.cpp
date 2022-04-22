@@ -84,14 +84,11 @@ DetectLuggage::tick()
     setOutput("bag_pos", "left");
     return BT::NodeStatus::SUCCESS;
 
-
   } else if (max_x > 450)   // Numero mágico
   {
     ROS_INFO("USER'S RIGHT");
     setOutput("bag_pos", "right");
     return BT::NodeStatus::SUCCESS;
-
-
   }
 
   return BT::NodeStatus::RUNNING;
