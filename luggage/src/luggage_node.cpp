@@ -36,7 +36,10 @@ int main(int argc, char **argv)
   factory.registerFromPlugin(loader.getOSName("asr_goto_bag_bt_node"));
 
   auto blackboard = BT::Blackboard::create();
-  blackboard->set("bag_pos", "pos");
+  blackboard->set("bag_pos", "pos"); 
+  blackboard->set("color", "color");
+  blackboard->set("person_x", "X");
+  blackboard->set("person_z", "Z");
 
   std::string pkgpath = ros::package::getPath("luggage");
   std::string xml_file = pkgpath + "/behavior_trees_xml/luggage.xml";
