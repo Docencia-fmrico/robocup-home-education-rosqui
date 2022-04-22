@@ -74,5 +74,8 @@ set(cv_bridge_DIR /usr/local/share/cv_bridge/cmake)
 roslint_cpp(
   src/luggage_node.cpp
   include/luggage/DetectLuggage.h src/luggage/DetectLuggage.cpp
-  include/luggage/GoToBag.h src/luggage/GoToBag.cpp
+  include/luggage/PidController.h src/luggage/PIDController.cpp
+  include/luggage/PercievePerson.h src/luggage/PercievePerson.
+  include/visual_behavior/Turn.h src/visual_behavior/Turn.cpp
+  include/luggage/FollowPerson.h src/luggage/FollowPerson.cpp
 )

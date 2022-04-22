@@ -38,6 +38,8 @@ int main(int argc, char **argv)
   auto blackboard = BT::Blackboard::create();
   blackboard->set("bag_pos", "pos"); 
   blackboard->set("color", "color");
+  blackboard->set("person_x", "X");
+  blackboard->set("person_z", "Z");
 
   std::string pkgpath = ros::package::getPath("luggage");
   std::string xml_file = pkgpath + "/behavior_trees_xml/luggage.xml";
