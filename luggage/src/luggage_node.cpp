@@ -33,10 +33,13 @@ int main(int argc, char **argv)
   BT::SharedLibrary loader;
 
   factory.registerFromPlugin(loader.getOSName("asr_detect_luggage_bt_node"));
-  factory.registerFromPlugin(loader.getOSName("asr_goto_bag_bt_node"));
-  factory.registerFromPlugin(loader.getOSName("asr_follow_person1_bt_node"));
+  factory.registerFromPlugin(loader.getOSName("asr_go_to_bag_bt_node"));
+  ROS_INFO("A");
   factory.registerFromPlugin(loader.getOSName("asr_turn1_bt_node"));
   factory.registerFromPlugin(loader.getOSName("asr_percieve_person1_bt_node"));
+  factory.registerFromPlugin(loader.getOSName("asr_follow_person1_bt_node"));
+  ROS_INFO("B");
+
 
   auto blackboard = BT::Blackboard::create();
   blackboard->set("bag_pos", "pos"); 
@@ -46,6 +49,7 @@ int main(int argc, char **argv)
 
   std::string pkgpath = ros::package::getPath("luggage");
   std::string xml_file = pkgpath + "/behavior_trees_xml/luggage.xml";
+
 
   BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
 

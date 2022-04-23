@@ -54,17 +54,18 @@ link_directories(
 	${PCL_LIBRARY_DIRS}
 )
 
-add_library(asr_detect_luggage_bt_node SHARED src/luggage/DetectLuggage.cpp)
-add_library(asr_goto_bag_bt_node SHARED src/luggage/GoToBag.cpp)
+add_library(luggage src/PIDController.cpp)
 add_library(asr_follow_person1_bt_node SHARED src/luggage/FollowPerson.cpp)
 add_library(asr_turn1_bt_node SHARED src/luggage/Turn.cpp)
 add_library(asr_percieve_person1_bt_node SHARED src/luggage/PercievePerson.cpp)
+add_library(asr_detect_luggage_bt_node SHARED src/luggage/DetectLuggage.cpp)
+add_library(asr_go_to_bag_bt_node SHARED src/luggage/GoToBag.cpp)
 list(APPEND plugin_libs
   asr_follow_person1_bt_node
   asr_turn1_bt_node
   asr_percieve_person1_bt_node
-  asr_detect_luggage_bt_node
-  asr_goto_bag_bt_node
+  asr_detect_luggage_bt_node 
+  asr_go_to_bag_bt_node 
 )
 
 foreach(bt_plugin ${plugin_libs})
@@ -80,8 +81,8 @@ set(cv_bridge_DIR /usr/local/share/cv_bridge/cmake)
 roslint_cpp(
   src/luggage_node.cpp
   include/luggage/DetectLuggage.h src/luggage/DetectLuggage.cpp
-  include/luggage/PidController.h src/luggage/PIDController.cpp
-  include/luggage/PercievePerson.h src/luggage/PercievePerson.
+  include/luggage/PIDController.h src/PIDController.cpp
+  include/luggage/PercievePerson.h src/luggage/PercievePerson.cpp
   include/luggage/Turn.h src/luggage/Turn.cpp
   include/luggage/FollowPerson.h src/luggage/FollowPerson.cpp
 )
