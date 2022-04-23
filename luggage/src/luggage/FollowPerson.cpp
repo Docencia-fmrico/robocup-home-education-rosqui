@@ -12,11 +12,11 @@
 // See the License for the specific674b3e6 language governing permissions and
 // limitations under the License.
 
-#include "visual_behavior/FollowPerson.h"
-#include "visual_behavior/PIDController.h"
+#include "luggage/FollowPerson.h"
+#include "luggage/PIDController.h"
 #include <string>
 
-namespace visual_behavior
+namespace luggage
 {
 
 FollowPerson::FollowPerson(const std::string& name, const BT::NodeConfiguration & config)
@@ -60,10 +60,10 @@ FollowPerson::tick()
   return BT::NodeStatus::SUCCESS;
 }
 
-}  // namespace visual_behavior
+}  // namespace luggage
 
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<visual_behavior::FollowPerson>("FollowPerson");
+  factory.registerNodeType<luggage::FollowPerson>("FollowPerson");
 }

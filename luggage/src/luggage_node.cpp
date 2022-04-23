@@ -34,6 +34,9 @@ int main(int argc, char **argv)
 
   factory.registerFromPlugin(loader.getOSName("asr_detect_luggage_bt_node"));
   factory.registerFromPlugin(loader.getOSName("asr_goto_bag_bt_node"));
+  factory.registerFromPlugin(loader.getOSName("asr_follow_person1_bt_node"));
+  factory.registerFromPlugin(loader.getOSName("asr_turn1_bt_node"));
+  factory.registerFromPlugin(loader.getOSName("asr_percieve_person1_bt_node"));
 
   auto blackboard = BT::Blackboard::create();
   blackboard->set("bag_pos", "pos"); 

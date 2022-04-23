@@ -14,9 +14,9 @@
 
 #include <algorithm>
 
-#include "visual_behavior/PIDController.h"
+#include "luggage/PIDController.h"
 
-namespace visual_behavior
+namespace luggage
 {
 
 PIDController::PIDController(double min_ref, double max_ref, double min_output, double max_output)
@@ -78,4 +78,4 @@ PIDController::get_output(double new_reference)
   return std::clamp(output, -max_output_, max_output_);
 }
 
-}  // namespace visual_behavior
+}  // namespace luggage

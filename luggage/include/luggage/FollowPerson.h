@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef VISUAL_BEHAVIOR_FOLLOWPERSON_H
-#define VISUAL_BEHAVIOR_FOLLOWPERSON_H
+#ifndef LUGGAGE_FOLLOWPERSON_H
+#define LUGGAGE_FOLLOWPERSON_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
-#include "visual_behavior/PIDController.h"
+#include "luggage/PIDController.h"
 
 #include <string>
 #include <iostream>
@@ -25,7 +25,7 @@
 #include "geometry_msgs/Twist.h"
 #include "ros/ros.h"
 
-namespace visual_behavior
+namespace luggage
 {
 
 class FollowPerson : public BT::ActionNodeBase
@@ -49,6 +49,6 @@ class FollowPerson : public BT::ActionNodeBase
     PIDController angular_pid_;
 };
 
-}  // namespace visual_behavior
+}  // namespace luggage
 
-#endif  // VISUAL_BEHAVIOR_FOLLOWPERSON_H
+#endif  // LUGGAGE_FOLLOWPERSON_H
