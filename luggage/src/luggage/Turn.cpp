@@ -13,10 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "visual_behavior/Turn.h"
+#include "luggage/Turn.h"
 #include <string>
 
-namespace visual_behavior
+namespace luggage
 {
 
 Turn::Turn(const std::string& name)
@@ -44,10 +44,10 @@ Turn::tick()
   return BT::NodeStatus::FAILURE;
 }
 
-}  // namespace visual_behavior
+}  // namespace luggage
 
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<visual_behavior::Turn>("Turn");
+  factory.registerNodeType<luggage::Turn>("Turn");
 }

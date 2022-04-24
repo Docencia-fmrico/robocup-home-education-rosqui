@@ -14,13 +14,13 @@
 
 #include <string>
 
-#include "visual_behavior/PercievePerson.h"
+#include "luggage/PercievePerson.h"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 
 #include "ros/ros.h"
 
-namespace visual_behavior
+namespace luggage
 {
 
 PercievePerson::PercievePerson(const std::string& name, const BT::NodeConfiguration & config)
@@ -114,10 +114,10 @@ PercievePerson::tick()
     return BT::NodeStatus::RUNNING;
   }
 }
-}  // namespace visual_behavior
+}  // namespace luggage
 
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<visual_behavior::PercievePerson>("PercievePerson");
+  factory.registerNodeType<luggage::PercievePerson>("PercievePerson");
 }

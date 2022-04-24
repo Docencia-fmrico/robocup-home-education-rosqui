@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef VISUAL_BEHAVIOR_PERCIEVEPERSON_H
-#define VISUAL_BEHAVIOR_PERCIEVEPERSON_H
+#ifndef LUGGAGE_PERCIEVEPERSON_H
+#define LUGGAGE_PERCIEVEPERSON_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -30,7 +30,7 @@
 
 #include <string>
 
-namespace visual_behavior
+namespace luggage
 {
 
 class PercievePerson : public BT::ActionNodeBase
@@ -62,6 +62,6 @@ class PercievePerson : public BT::ActionNodeBase
     bool first;
 };
 
-}  // namespace visual_behavior
+}  // namespace luggage
 
-#endif  // VISUAL_BEHAVIOR_PERCIEVEPERSON_H
+#endif  // LUGGAGE_PERCIEVEPERSON_H

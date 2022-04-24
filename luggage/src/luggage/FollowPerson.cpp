@@ -12,11 +12,11 @@
 // See the License for the specific674b3e6 language governing permissions and
 // limitations under the License.
 
-#include "visual_behavior/FollowPerson.h"
-#include "visual_behavior/PIDController.h"
+#include "luggage/FollowPerson.h"
+#include "luggage/PIDController.h"
 #include <string>
 
-namespace visual_behavior
+namespace luggage
 {
 
 FollowPerson::FollowPerson(const std::string& name, const BT::NodeConfiguration & config)
@@ -34,36 +34,35 @@ FollowPerson::halt()
 BT::NodeStatus
 FollowPerson::tick()
 {
-  ROS_INFO("FollowPerson tick");
+    ROS_INFO("FollowPerson tick");
 
-  std::string person_x = getInput<std::string>("person_x").value();
-  std::string person_z = getInput<std::string>("person_z").value();
+    std::string person_x = getInput<std::string>("person_x").value();
+    std::string person_z = getInput<std::string>("person_z").value();
 
-  ROS_INFO("x:%s z:%s", person_x.c_str(), person_z.c_str());
-  int x = std::stoi(person_x.c_str());
-  double z = std::stod(person_z.c_str());
+    ROS_INFO("X:%s Z:%s", person_x.c_str(), person_z.c_str());
+    int X = std::stoi(person_x.c_str());
+    double Z = std::stod(person_z.c_str());
 
-  geometry_msgs::Twist cmd;
-  angular_pid_.set_pid(0.4, 0.05, 0.55);
-  linear_pid_.set_pid(0.4, 0.05, 0.55);
-  if (x > 320)
-  {
-    cmd.angular.z = -angular_pid_.get_output(x - 320);
-  } else {
-    cmd.angular.z = angular_pid_.get_output(320 - x);
-  }
-  cmd.linear.x = linear_pid_.get_output(z-1);
+    geometry_msgs::Twist cmd;
+    angular_pid_.set_pid(0.4, 0.05, 0.55);
+    linear_pid_.set_pid(0.4, 0.05, 0.55);
+    if (X > 320)
+    {
+      X *= -X;
+    }
+      cmd.angular.z = angular_pid_.get_output(X);
+      cmd.linear.x = linear_pid_.get_output(Z-1);
 
-  ROS_INFO("x: %d = %lf\t z: %lf = %lf", x, cmd.angular.z, z-1, cmd.linear.x);
-  pub_vel_.publish(cmd);
+      ROS_INFO("X: %d = %lf\t Z: %lf = %lf", X, cmd.angular.z, Z-1, cmd.linear.x);
+    pub_vel_.publish(cmd);
 
-  return BT::NodeStatus::SUCCESS;
+    return BT::NodeStatus::SUCCESS;
 }
 
-}  // namespace visual_behavior
+}  // namespace luggage
 
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<visual_behavior::FollowPerson>("FollowPerson");
+  factory.registerNodeType<luggage::FollowPerson>("FollowPerson");
 }

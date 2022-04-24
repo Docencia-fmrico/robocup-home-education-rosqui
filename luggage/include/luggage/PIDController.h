@@ -13,12 +13,12 @@
 // limitations under the License.
 
 
-#ifndef VISUAL_BEHAVIOR_PIDCONTROLLER_H
-#define VISUAL_BEHAVIOR_PIDCONTROLLER_H
+#ifndef LUGGAGE_PIDCONTROLLER_H
+#define LUGGAGE_PIDCONTROLLER_H
 
 #include <cmath>
 
-namespace visual_behavior
+namespace luggage
 {
 
 class PIDController
@@ -37,6 +37,6 @@ private:
   double prev_error_, int_error_;
 };
 
-}  // namespace visual_behavior
+}  // namespace luggage
 
-#endif  // VISUAL_BEHAVIOR_PIDCONTROLLER_H
+#endif  // LUGGAGE_PIDCONTROLLER_H
