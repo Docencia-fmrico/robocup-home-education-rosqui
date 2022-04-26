@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_DETECTLUGGAGE_H
-#define LUGGAGE_DETECTLUGGAGE_H
+#ifndef LUGGAGE_PERCIEVEPERSON_H
+#define LUGGAGE_PERCIEVEPERSON_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -26,42 +26,42 @@
 #include <sensor_msgs/Image.h>
 #include <darknet_ros_msgs/BoundingBoxes.h>
 
+#include "ros/ros.h"
+
 #include <string>
-#include <vector>
 
 namespace luggage
 {
 
-class DetectLuggage : public BT::ActionNodeBase
+class PercievePerson : public BT::ActionNodeBase
 {
   public:
-    explicit DetectLuggage(const std::string& name, const BT::NodeConfiguration & config);
+    explicit PercievePerson(const std::string& name, const BT::NodeConfiguration & config);
     void callback_bbx(const sensor_msgs::ImageConstPtr& image,
     const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
-    void get_color();
-
-    static BT::PortsList providedPorts()
-    {
-        return { BT::OutputPort<std::string>("bag_pos"), BT::OutputPort<std::vector<int>>("color")};
-    }
 
     void halt();
 
+    static BT::PortsList providedPorts()
+    {
+        return { BT::OutputPort<std::string>("person_z"), BT::OutputPort<std::string>("person_x")};
+    }
+
+
     BT::NodeStatus tick();
-    
+
   private:
     ros::NodeHandle nh_;
-    message_filters::Subscriber<sensor_msgs::Image> image_color_sub;
+    message_filters::Subscriber<sensor_msgs::Image> image_depth_sub;
     message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> bbx_sub;
     typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image,
     darknet_ros_msgs::BoundingBoxes> MySyncPolicy_bbx;
     message_filters::Synchronizer<MySyncPolicy_bbx> sync_bbx;
-    int min_x;
-    int max_x;
-    std::vector<int> color_ = {0,0,0};
-
+    ros::Time initial_ts_;
+    bool detected;
+    bool first;
 };
 
 }  // namespace luggage
 
-#endif  // LUGGAGE_DETECTLUGGAGE_H
+#endif  // LUGGAGE_PERCIEVEPERSON_H
