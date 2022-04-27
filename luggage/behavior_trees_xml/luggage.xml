@@ -3,17 +3,15 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
-            <SequenceStar>
-                <Action ID="DetectLuggage" bag_pos="{bag_pos}" color="{color}"/>
-                <Action ID="GoToBag" bag_pos="{bag_pos}" color="{color}"/>
-                <ReactiveSequence>
-                    <Fallback>
-                        <Action ID="PercievePerson" person_x="{person_x}" person_z="{person_z}"/>
-                        <Action ID="Turn"/>
-                    </Fallback>
-                    <Action ID="FollowPerson" person_x="{person_x}" person_z="{person_z}"/>
-                </ReactiveSequence>
-            </SequenceStar>
+            <Action ID="DetectLuggage" bag_pos="{bag_pos}" color="{color}"/>
+            <Action ID="GoToBag" bag_pos="{bag_pos}"/>
+            <ReactiveSequence>
+                <Fallback>
+                    <Action ID="PercievePerson" bag_pos="{bag_pos}" person_x="{person_x}" person_z="{person_z}"/>
+                    <Action ID="Turn"/>
+                </Fallback>
+                <Action ID="FollowPerson" person_x="{person_x}" person_z="{person_z}"/>
+            </ReactiveSequence>
         </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
@@ -28,9 +26,9 @@
         </Action>
         <Action ID="GoToBag">
             <output_port name="bag_pos"/>
-            <output_port name="color"/>
         </Action>
         <Action ID="PercievePerson">
+            <output_port name="bag_pos"/>
             <input_port name="person_x"/>
             <input_port name="person_z"/>
         </Action>
