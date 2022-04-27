@@ -44,7 +44,7 @@ class PercievePerson : public BT::ActionNodeBase
 
     static BT::PortsList providedPorts()
     {
-        return { BT::OutputPort<std::string>("person_z"), BT::OutputPort<std::string>("person_x")};
+        return { BT::OutputPort<std::string>("person_z"), BT::OutputPort<std::string>("person_x"),  BT::OutputPort<std::string>("color")};
     }
 
 

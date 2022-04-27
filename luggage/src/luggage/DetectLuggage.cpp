@@ -87,9 +87,9 @@ DetectLuggage::tick()
   setOutput("color", color_);
   
   setOutput("bag_pos", "right");
-  return BT::NodeStatus::SUCCESS;*/
+  return BT::NodeStatus::SUCCESS; */
 
- 
+  ROS_INFO("DETECT LUGGAGE TICK");
 
     if (min_x < 50)   // Numero mágico
   {
