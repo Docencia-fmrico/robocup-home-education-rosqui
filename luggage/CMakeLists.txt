@@ -29,6 +29,12 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_conversions
   pcl_ros
   darknet_ros_msgs
+  dialogflow_ros_msgs
+  std_srvs
+  sound_play
+  actionlib
+  actionlib_msgs
+  gb_dialog
 )
 
 catkin_package(
@@ -56,8 +62,10 @@ link_directories(
 
 add_library(asr_detect_luggage_bt_node SHARED src/luggage/DetectLuggage.cpp)
 add_library(asr_goto_bag_bt_node SHARED src/luggage/GoToBag.cpp)
+add_library(asr_dialog_interface_node SHARED src/luggage/DialogInterface.cpp)
 list(APPEND plugin_libs
   asr_detect_luggage_bt_node
+  asr_dialog_interface_node
   asr_goto_bag_bt_node
 )
 
@@ -75,5 +83,7 @@ roslint_cpp(
   src/luggage_node.cpp
   include/luggage/DetectLuggage.h src/luggage/DetectLuggage.cpp
   include/luggage/GoToBag.h src/luggage/GoToBag.cpp
-  include/luggage/Dialoginterface.h src/luggage/exampleDF.cpp
+  include/luggage/DialogInterface.h src/luggage/DialogInterface.cpp
+  include/luggage/example.cpp
+  include/luggage/Dialog.h
 )

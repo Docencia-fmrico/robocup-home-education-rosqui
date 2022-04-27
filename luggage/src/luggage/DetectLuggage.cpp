@@ -16,6 +16,8 @@
 
 #include "luggage/DetectLuggage.h"
 
+#include "luggage/Dialog.h"
+
 #include "behaviortree_cpp_v3/behavior_tree.h"
 
 #include "ros/ros.h"
@@ -74,6 +76,12 @@ BT::NodeStatus
 DetectLuggage::tick()
 {
   ROS_INFO("Detect Luggage Tick");
+
+  luggage::Dialog forwarder;
+  ros::Duration(1, 0).sleep();
+  forwarder.speak("Good morning, what is your name?");
+  forwarder.listen();
+
   /*sleep(2);
   setOutput("bag_pos", "right");
   return BT::NodeStatus::SUCCESS;*/
