@@ -74,12 +74,17 @@ foreach(bt_plugin ${plugin_libs})
 endforeach()
 
 add_executable(luggage_node src/luggage_node.cpp)
+add_executable(cv_node src/cv.cpp)
+
 target_link_libraries(luggage_node ${catkin_LIBRARIES} ${ZMQ_LIBRARIES} ${OpenCV_LIBRARIES})
+target_link_libraries(cv_node ${catkin_LIBRARIES} ${ZMQ_LIBRARIES} ${OpenCV_LIBRARIES})
+
 
 set(cv_bridge_DIR /usr/local/share/cv_bridge/cmake)
 
 roslint_cpp(
   src/luggage_node.cpp
+  src/cv.cpp
   include/luggage/GoToBag.h src/luggage/GoToBag.cpp
   include/luggage/DetectLuggage.h src/luggage/DetectLuggage.cpp
   include/luggage/GoToBag.h src/luggage/GoToBag.cpp
