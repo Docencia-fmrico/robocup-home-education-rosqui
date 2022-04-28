@@ -1,7 +1,7 @@
 /*********************************************************************
 *  Software License Agreement (BSD License)
 *
-*   Copyright (c) 2018, Intelligent Robotics Labs
+*   Copyright (c) 2018, Intelligent Robotics
 *   All rights reserved.
 *
 *   Redistribution and use in source and binary forms, with or without
@@ -35,67 +35,52 @@
 /* Author: Jonatan Gines jginesclavero@gmail.com */
 
 /* Mantainer: Jonatan Gines jginesclavero@gmail.com */
-#include <luggage/DialogInterface.h>
-#include <sound_play/SoundRequest.h>
+#ifndef DIALOGINTERFACE__H
+#define DIALOGINTERFACE__H
+
+#include <ros/ros.h>
 #include <string>
+#include <dialogflow_ros_msgs/DialogflowResult.h>
+#include <boost/algorithm/string/replace.hpp>
+#include <std_srvs/Empty.h>
+#include <std_msgs/Bool.h>
+#include <std_msgs/String.h>
+#include <sound_play/sound_play.h>
+#include <regex>
+#include <map>
 
-namespace ph = std::placeholders;
-
-namespace luggage
+namespace find_my_mates
 {
-class Dialog : public DialogInterface
+class DialogInterface
 {
-  public:
-    Dialog(): nh_()
-    {
-      this->registerCallback(std::bind(&Dialog::noIntentCB, this, ph::_1));
-      this->registerCallback(
-        std::bind(&Dialog::DetectLCB, this, ph::_1),
-        "Detect Luggage");
-      this->registerCallback(
-        std::bind(&Dialog::PresentationCB, this, ph::_1),
-        "Presentation");
-      
-    }
+public:
+  using DialogflowResult = dialogflow_ros_msgs::DialogflowResult;
 
-    void noIntentCB(dialogflow_ros_msgs::DialogflowResult result)
-    {
-      ROS_INFO("[Dialog] noIntentCB: intent [%s]", result.intent.c_str());
-      ros::Duration(1, 0).sleep();
-      speak("Sorry, can you repeat it please?");
-      listen();
-    }
+  DialogInterface();
 
-    void PresentationCB(dialogflow_ros_msgs::DialogflowResult result)
-    {
-      ROS_INFO("[Dialog] PresentationCB: intent [%s]", result.intent.c_str());
-      
-      for (const auto & param : result.parameters) {
-        std::cerr << param << std::endl;
-        for (const auto & value : param.value) {
-          std::cerr << "\t" << value << std::endl;
-        }
-      } 
-      speak(result.fulfillment_text);
-      listen();
-    }
+  bool speak(std::string str);
+  bool listen();
+  virtual void listenCallback(DialogflowResult result){}
+  void registerCallback(
+    std::function<void(const DialogflowResult & result)> cb,
+    std::string intent = "(.*)");
 
-    void DetectLCB(dialogflow_ros_msgs::DialogflowResult result)
-    {
-      ROS_INFO("[Dialog] DetectLCB: intent [%s]", result.intent.c_str());
-      
-      for (const auto & param : result.parameters) {
-        std::cerr << param << std::endl;
-        for (const auto & value : param.value) {
-          std::cerr << "\t" << value << std::endl;
-        }
-      }
-      speak(result.fulfillment_text);
-      listen();
-    }
+private:
+  bool idle_;
+  ros::NodeHandle nh_;
+  std::string results_topic_, start_srv_;
+  ros::ServiceClient sound_client_;
+  ros::Subscriber df_result_sub_;
+  ros::Publisher listening_gui_, speak_gui_;
+  std::regex intent_re_;
 
-  private:
-    ros::NodeHandle nh_;
+  std::map<std::string, std::function<void(const DialogflowResult & result)>> registered_cbs_;
+
+  sound_play::SoundClient sc_;
+
+  void init();
+  void dfCallback(const DialogflowResult::ConstPtr& result);
 };
-}  // namespace luggage
+};  // namespace find_my_mates
 
+#endif

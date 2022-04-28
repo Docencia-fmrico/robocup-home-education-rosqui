@@ -29,6 +29,12 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_conversions
   pcl_ros
   darknet_ros_msgs
+  dialogflow_ros_msgs
+  std_srvs
+  sound_play
+  actionlib
+  actionlib_msgs
+  gb_dialog
 )
 
 catkin_package(
@@ -84,4 +90,6 @@ roslint_cpp(
   include/find_my_mates/Go_to_person.h src/find_my_mates/Go_to_person.cpp
   include/find_my_mates/Go_to_referee.h src/find_my_mates/Go_to_referee.cpp
   include/find_my_mates/Say_the_description.h src/find_my_mates/Say_the_description.cpp
+  include/find_my_mates/BTNavAction.h
+  include/find_my_mates/DialogInterface.h
 )
