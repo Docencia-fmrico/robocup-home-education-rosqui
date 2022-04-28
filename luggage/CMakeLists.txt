@@ -35,6 +35,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   actionlib_msgs
   gb_dialog
+  backward_ros
 )
 
 catkin_package(

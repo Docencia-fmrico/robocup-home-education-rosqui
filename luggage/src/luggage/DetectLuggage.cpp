@@ -35,6 +35,7 @@ DetectLuggage::DetectLuggage(const std::string& name, const BT::NodeConfiguratio
   sync_bbx.registerCallback(boost::bind(&DetectLuggage::callback_bbx, this, _1, _2));
   min_x = 100;
   max_x = 100;
+  listen_t = ros::Time::now();
 }
 
 void DetectLuggage::callback_bbx(const sensor_msgs::ImageConstPtr& image,
@@ -76,17 +77,22 @@ BT::NodeStatus
 DetectLuggage::tick()
 {
   ROS_INFO("Detect Luggage Tick");
-
   luggage::Dialog forwarder;
-  ros::Duration(1, 0).sleep();
-  forwarder.speak("Good morning, what is your name?");
-  forwarder.listen();
+  ros::Time actual_t = ros::Time::now();
+
+  if((ros::Time::now() - listen_t).toSec() > 5){
+    ros::Duration(1, 0).sleep();
+    listen_t = ros::Time::now();
+    forwarder.speak("Good morning, what is your name?");
+  } else {
+    forwarder.listen();
+  }
 
   /*sleep(2);
   setOutput("bag_pos", "right");
   return BT::NodeStatus::SUCCESS;*/
 
-  if (min_x < 50)   // Numero mágico
+  /*if (max_x =ç 1)   // Numero mágico
   {
     ROS_INFO("USER'S LEFT");
     setOutput("bag_pos", "left");
@@ -97,7 +103,7 @@ DetectLuggage::tick()
     ROS_INFO("USER'S RIGHT");
     setOutput("bag_pos", "right");
     return BT::NodeStatus::SUCCESS;
-  }
+  }*/
 
   return BT::NodeStatus::RUNNING;
 }

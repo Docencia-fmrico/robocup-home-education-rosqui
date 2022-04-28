@@ -56,6 +56,7 @@ class DetectLuggage : public BT::ActionNodeBase
     message_filters::Synchronizer<MySyncPolicy_bbx> sync_bbx;
     int min_x;
     int max_x;
+    ros::Time listen_t;
 };
 
 }  // namespace luggage
