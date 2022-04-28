@@ -74,7 +74,7 @@ foreach(bt_plugin ${plugin_libs})
   target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
 endforeach()
 
-add_executable(luggage_node src/luggage_node.cpp)
+add_executable(luggage_node src/luggage_node.cpp src/luggage/DialogInterface.cpp )
 target_link_libraries(luggage_node ${catkin_LIBRARIES} ${ZMQ_LIBRARIES} ${OpenCV_LIBRARIES})
 
 set(cv_bridge_DIR /usr/local/share/cv_bridge/cmake)
