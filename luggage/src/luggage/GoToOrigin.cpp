@@ -43,8 +43,7 @@ GoToOrigin::halt()
 void
 GoToOrigin::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
-	//result_ = msg->status;
-	result_ = 3;
+	result_ = msg->status.status;
 }
 
 BT::NodeStatus
