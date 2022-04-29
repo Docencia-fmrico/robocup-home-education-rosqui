@@ -14,6 +14,7 @@
 
 #include "luggage/FollowPerson.h"
 #include "luggage/PIDController.h"
+#include "geometry_msgs/Point.h"
 #include <string>
 
 namespace luggage

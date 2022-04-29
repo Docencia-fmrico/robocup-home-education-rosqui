@@ -18,7 +18,7 @@
 #include "nav_node.cpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
-#include <move_base_msgs/MoveBaseActionResult.h>
+#include "move_base_msgs/MoveBaseActionResult.h"
 
 #include "ros/ros.h"
 
@@ -53,15 +53,14 @@ GoToOrigin::tick()
 	MyNode my_node;
 	my_node.doWork(200, coords_);
 
-	ROS_INFO("NAV START");
+	ROS_INFO("GO TO ORIGIN");
 
-	while (result_ != 3)
+	if (result_ == 3)
 	{
-		ros::spinOnce();
-		ROS_INFO("Result: %d",result_);
+		  	return BT::NodeStatus::SUCCESS;
 	}
 
-  	return BT::NodeStatus::SUCCESS;
+  	return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage
 

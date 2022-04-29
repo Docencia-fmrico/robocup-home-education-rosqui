@@ -55,15 +55,14 @@ GoToRef::tick()
 	MyNode my_node;
 	my_node.doWork(200, coords_);
 
-	ROS_INFO("NAV START");
+	ROS_INFO("GO TO REF");
 
-	while (result_ != 3)
+	if (result_ == 3)
 	{
-		ros::spinOnce();
-		ROS_INFO("Result: %d",result_);
+		  	return BT::NodeStatus::SUCCESS;
 	}
 
-  	return BT::NodeStatus::SUCCESS;
+  	return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage
 
