@@ -32,7 +32,8 @@ GoToRef::GoToRef(const std::string& name)
   ROS_INFO("CONSTRUCTOR GoToRef");
   result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToRef::ResultCallback, this);
   result_ = 0;
-  coords_[0] = 2.0;
+  coords_[0] = 1.0;
+  coords_[1] = 1.0;
   
 }
 
@@ -45,8 +46,7 @@ GoToRef::halt()
 void
 GoToRef::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
-	//result_ = msg->status;
-	result_ = 3;
+	result_ = msg->status.status;
 }
 
 BT::NodeStatus
