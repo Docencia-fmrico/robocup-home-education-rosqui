@@ -12,47 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_GoToBag_H
-#define LUGGAGE_GoToBag_H
+#ifndef LUGGAGE_FOLLOWPERSON_H
+#define LUGGAGE_FOLLOWPERSON_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
-#include <message_filters/subscriber.h>
-
-#include "geometry_msgs/Twist.h"
+#include "luggage/PIDController.h"
 
 #include <string>
-#include <vector>
+#include <iostream>
+
+#include "geometry_msgs/Twist.h"
+#include "ros/ros.h"
 
 namespace luggage
 {
 
-class GoToBag : public BT::ActionNodeBase
+class FollowPerson : public BT::ActionNodeBase
 {
   public:
-    explicit GoToBag(const std::string& name, const BT::NodeConfiguration & config);
-
-    static BT::PortsList providedPorts()
-    {
-        return { BT::InputPort<std::string>("bag_pos"), BT::InputPort<std::vector<int>>("color")};
-    }
+    explicit FollowPerson(const std::string& name, const BT::NodeConfiguration & config);
 
     void halt();
 
     BT::NodeStatus tick();
 
-  private:
-    ros::Time detected_ts_;
-    ros::NodeHandle nh_;
-    std::string bag_pos_;
-    static constexpr double FORWARD_VEL = 0.2;
-    static constexpr double TURNING_VEL_ = 0.3;
-    static constexpr double ACTION_TIME_ = 2.0;
-    ros::Publisher pub_vel_;
-    bool first;
+    static BT::PortsList providedPorts()
+    {
+        return { BT::InputPort<std::string>("person_z"), BT::InputPort<std::string>("person_x")};
+    }
 
+  protected:
+    ros::NodeHandle nh_;
+    ros::Publisher pub_vel_;
+    PIDController linear_pid_;
+    PIDController angular_pid_;
 };
 
 }  // namespace luggage
 
-#endif  // LUGGAGE_GoToBag_H
+#endif  // LUGGAGE_FOLLOWPERSON_H

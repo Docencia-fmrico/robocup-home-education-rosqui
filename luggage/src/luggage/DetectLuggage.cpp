@@ -28,9 +28,9 @@ namespace luggage
 DetectLuggage::DetectLuggage(const std::string& name, const BT::NodeConfiguration & config)
 : BT::ActionNodeBase(name, config),
   nh_(),
-  image_depth_sub(nh_, "/camera/depth/image_raw", 1),
+  image_color_sub(nh_, "/camera/rgb/image_raw", 1),
   bbx_sub(nh_, "/darknet_ros/bounding_boxes", 1),
-  sync_bbx(MySyncPolicy_bbx(10), image_depth_sub, bbx_sub)
+  sync_bbx(MySyncPolicy_bbx(10), image_color_sub, bbx_sub)
 {
   sync_bbx.registerCallback(boost::bind(&DetectLuggage::callback_bbx, this, _1, _2));
   min_x = 100;
@@ -41,10 +41,10 @@ DetectLuggage::DetectLuggage(const std::string& name, const BT::NodeConfiguratio
 void DetectLuggage::callback_bbx(const sensor_msgs::ImageConstPtr& image,
 const darknet_ros_msgs::BoundingBoxesConstPtr& boxes)
 {
-  cv_bridge::CvImagePtr img_ptr_depth;
+  cv_bridge::CvImagePtr img_ptr_color;
   try
   {
-      img_ptr_depth = cv_bridge::toCvCopy(*image, sensor_msgs::image_encodings::TYPE_32FC1);
+      img_ptr_color = cv_bridge::toCvCopy(*image, sensor_msgs::image_encodings::TYPE_32FC1);
   }
   catch (cv_bridge::Exception& e)
   {
@@ -62,6 +62,13 @@ const darknet_ros_msgs::BoundingBoxesConstPtr& boxes)
       min_x = box.xmin;
       max_x = box.xmax;
 
+      int x = (box.xmax - box.xmin) / 2;
+      int y = (box.ymax - box.ymin) / 2;
+
+      color_[0] = img_ptr_color->image.at<cv::Vec3b>(y,x)[0];
+      color_[1] = img_ptr_color->image.at<cv::Vec3b>(y,x)[1];
+      color_[2] = img_ptr_color->image.at<cv::Vec3b>(y,x)[2];
+
       ROS_INFO("MIN_X: %d \t MAX_X: %d\n", min_x, max_x);
     }
   }
@@ -76,6 +83,7 @@ DetectLuggage::halt()
 BT::NodeStatus
 DetectLuggage::tick()
 {
+
   ROS_INFO("Detect Luggage Tick");
   luggage::Dialog forwarder;
   ros::Time actual_t = ros::Time::now();
@@ -89,18 +97,24 @@ DetectLuggage::tick()
   }
 
   /*sleep(2);
-  setOutput("bag_pos", "right");
-  return BT::NodeStatus::SUCCESS;*/
 
-  /*if (max_x =ç 1)   // Numero mágico
+  setOutput("bag_pos", "right");
+  return BT::NodeStatus::SUCCESS; */
+
+  ROS_INFO("DETECT LUGGAGE TICK");
+
+
+    if (min_x < 50)   // Numero mágico
   {
     ROS_INFO("USER'S LEFT");
+    setOutput("color", color_);
     setOutput("bag_pos", "left");
     return BT::NodeStatus::SUCCESS;
 
   } else if (max_x > 450)   // Numero mágico
   {
     ROS_INFO("USER'S RIGHT");
+    setOutput("color", color_);
     setOutput("bag_pos", "right");
     return BT::NodeStatus::SUCCESS;
   }*/
