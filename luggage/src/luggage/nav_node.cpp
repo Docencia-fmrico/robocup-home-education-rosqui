@@ -15,18 +15,18 @@ public:
 		ROS_INFO("Action server started, sending goal.");
 	}
 
-	void doWork(long int until)
+	void doWork(long int until, std::vector<float> coords)
 	{
 		move_base_msgs::MoveBaseGoal goal;
     goal.target_pose.header.frame_id = "map";
     goal.target_pose.header.stamp = ros::Time::now();
-    goal.target_pose.pose.position.x = 2.0;
-    goal.target_pose.pose.position.y = 2.0;
-    goal.target_pose.pose.position.z = 0.0;
-    goal.target_pose.pose.orientation.x = 0.0;
-    goal.target_pose.pose.orientation.y = 0.0;
-    goal.target_pose.pose.orientation.z = 0.0;
-    goal.target_pose.pose.orientation.w = 1.0;
+    goal.target_pose.pose.position.x = coords[0];
+    goal.target_pose.pose.position.y = coords[1];
+    goal.target_pose.pose.position.z = coords[2];
+    goal.target_pose.pose.orientation.x = coords[3];
+    goal.target_pose.pose.orientation.y = coords[4];
+    goal.target_pose.pose.orientation.z = coords[5];
+    goal.target_pose.pose.orientation.w = coords[6];
 
     ROS_INFO("Sending action");
 		ac.sendGoal(goal,

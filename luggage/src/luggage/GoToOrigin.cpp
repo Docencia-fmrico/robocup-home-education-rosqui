@@ -14,7 +14,7 @@
 
 #include <string>
 
-#include "luggage/Navigation.h"
+#include "luggage/GoToOrigin.h"
 #include "nav_node.cpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
@@ -25,33 +25,33 @@
 namespace luggage
 {
 
-Navigation::Navigation(const std::string& name)
+GoToOrigin::GoToOrigin(const std::string& name)
 : BT::ActionNodeBase(name, {}),
   nh_()
 {
-  ROS_INFO("CONSTRUCTOR NAVIGATION");
-  result_sub_ = nh_.subscribe("/move_base/result", 1, &Navigation::ResultCallback, this);
+  ROS_INFO("CONSTRUCTOR GoToOrigin");
+  result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToOrigin::ResultCallback, this);
   result_ = 0;
 }
 
 void
-Navigation::halt()
+GoToOrigin::halt()
 {
-  ROS_INFO("Navigation halt");
+  ROS_INFO("GoToOrigin halt");
 }
 
 void
-Navigation::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
+GoToOrigin::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
 	//result_ = msg->status;
 	result_ = 3;
 }
 
 BT::NodeStatus
-Navigation::tick()
+GoToOrigin::tick()
 {
 	MyNode my_node;
-	my_node.doWork(200);
+	my_node.doWork(200, coords_);
 
 	ROS_INFO("NAV START");
 
@@ -68,5 +68,5 @@ Navigation::tick()
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<luggage::Navigation>("Navigation");
+  factory.registerNodeType<luggage::GoToOrigin>("GoToOrigin");
 }

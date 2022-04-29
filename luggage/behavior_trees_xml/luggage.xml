@@ -3,9 +3,9 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
-            <Action ID="Navigation"/>
+            <Action ID="GoToRef"/>
             <Action ID="DetectLuggage" bag_pos="{bag_pos}" color="{color}"/>
-            <Action ID="GoToBag" bag_pos="{bag_pos}" color=""/>
+            <Action ID="GoToBag" bag_pos="{bag_pos}"/>
             <ReactiveSequence>
                 <Fallback>
                     <Action ID="PercievePerson" color="{color}" person_x="{person_x}" person_z="{person_z}"/>
@@ -13,7 +13,7 @@
                 </Fallback>
                 <Action ID="FollowPerson" person_x="{person_x}" person_z="{person_z}"/>
             </ReactiveSequence>
-            <Action ID="Navigation"/>
+            <Action ID="GoToOrigin"/>
         </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
@@ -29,6 +29,8 @@
         <Action ID="GoToBag">
             <output_port name="bag_pos"/>
         </Action>
+        <Action ID="GoToOrigin"/>
+        <Action ID="GoToRef"/>
         <Action ID="Navigation"/>
         <Action ID="PercievePerson">
             <output_port name="color"/>

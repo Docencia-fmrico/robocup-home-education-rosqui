@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_Navigation_H
-#define LUGGAGE_Navigation_H
+#ifndef LUGGAGE_GoToOrigin_H
+#define LUGGAGE_GoToOrigin_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -29,10 +29,10 @@
 namespace luggage
 {
 
-class Navigation : public BT::ActionNodeBase
+class GoToOrigin : public BT::ActionNodeBase
 {
   public:
-    explicit Navigation(const std::string& name);
+    explicit GoToOrigin(const std::string& name);
     void halt();
     BT::NodeStatus tick();
     void ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg);
@@ -41,8 +41,9 @@ class Navigation : public BT::ActionNodeBase
     ros::NodeHandle nh_;
     ros::Subscriber result_sub_;
     int result_;
+    std::vector<float> coords_ = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 };
 
 }  // namespace luggage
 
-#endif  // LUGGAGE_Navigation_H
+#endif  // LUGGAGE_GoToOrigin_H
