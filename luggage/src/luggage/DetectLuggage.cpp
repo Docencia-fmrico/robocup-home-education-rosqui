@@ -117,7 +117,7 @@ DetectLuggage::tick()
     setOutput("color", color_);
     setOutput("bag_pos", "right");
     return BT::NodeStatus::SUCCESS;
-  }*/
+  }
 
   return BT::NodeStatus::RUNNING;
 }
