@@ -66,6 +66,8 @@ const darknet_ros_msgs::BoundingBoxesConstPtr& boxes)
       color_[1] = img_ptr_color->image.at<cv::Vec3b>(y,x)[1];
       color_[2] = img_ptr_color->image.at<cv::Vec3b>(y,x)[2];
 
+      std::cerr << "color 1: " << color_[0] << " color 2: " << color_[1] << " color 1: " << color_[2] << std::endl; 
+
       ROS_INFO("MIN_X: %d \t MAX_X: %d\n", min_x, max_x);
     }
   }
