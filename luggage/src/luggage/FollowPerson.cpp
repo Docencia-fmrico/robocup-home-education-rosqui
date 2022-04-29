@@ -56,7 +56,7 @@ FollowPerson::tick()
       ROS_INFO("X: %d = %lf\t Z: %lf = %lf", X, cmd.angular.z, Z-1, cmd.linear.x);
     pub_vel_.publish(cmd);
 
-    return BT::NodeStatus::SUCCESS;
+    return BT::NodeStatus::RUNNING;
 }
 
 }  // namespace luggage

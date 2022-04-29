@@ -91,7 +91,7 @@ PercievePerson::tick()
     initial_ts_ = ros::Time::now();
     first = false;
   }
-
+  
   double current_ts_ = (ros::Time::now() - initial_ts_).toSec();
 
   ROS_INFO("current_ts_: %f", current_ts_);
