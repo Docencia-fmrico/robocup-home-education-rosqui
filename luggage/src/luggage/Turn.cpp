@@ -34,6 +34,9 @@ Turn::halt()
 BT::NodeStatus
 Turn::tick()
 {
+  return BT::NodeStatus::SUCCESS;
+
+
   ROS_INFO("Turn tick");
   geometry_msgs::Twist cmd;
 
