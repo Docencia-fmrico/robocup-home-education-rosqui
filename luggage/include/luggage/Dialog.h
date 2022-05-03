@@ -43,46 +43,46 @@ namespace ph = std::placeholders;
 
 namespace luggage
 {
-class ExampleDF: public DialogInterface
+class Dialog : public DialogInterface
 {
   public:
-    ExampleDF(): nh_()
+    Dialog(): nh_()
     {
-      this->registerCallback(std::bind(&ExampleDF::noIntentCB, this, ph::_1));
+      this->registerCallback(std::bind(&Dialog::noIntentCB, this, ph::_1));
       this->registerCallback(
-        std::bind(&ExampleDF::DetectL, this, ph::_1),
+        std::bind(&Dialog::DetectLCB, this, ph::_1),
         "Detect Luggage");
       this->registerCallback(
-        std::bind(&ExampleDF::Presentation, this, ph::_1),
+        std::bind(&Dialog::PresentationCB, this, ph::_1),
         "Presentation");
       
     }
 
     void noIntentCB(dialogflow_ros_msgs::DialogflowResult result)
     {
-      ROS_INFO("[ExampleDF] noIntentCB: intent [%s]", result.intent.c_str());
+      ROS_INFO("[Dialog] noIntentCB: intent [%s]", result.intent.c_str());
+      ros::Duration(1, 0).sleep();
+      speak("Sorry, can you repeat it please?");
       listen();
     }
 
-    void Presentation(dialogflow_ros_msgs::DialogflowResult result)
+    void PresentationCB(dialogflow_ros_msgs::DialogflowResult result)
     {
-      ROS_INFO("[ExampleDF] PresentationCB: intent [%s]", result.intent.c_str());
+      ROS_INFO("[Dialog] PresentationCB: intent [%s]", result.intent.c_str());
       
       for (const auto & param : result.parameters) {
         std::cerr << param << std::endl;
         for (const auto & value : param.value) {
           std::cerr << "\t" << value << std::endl;
         }
-      }
+      } 
       speak(result.fulfillment_text);
-      ros::Duration(1, 0).sleep();
-      speak("Which luggage is yours?")
       listen();
     }
 
-    void DetectL(dialogflow_ros_msgs::DialogflowResult result)
+    void DetectLCB(dialogflow_ros_msgs::DialogflowResult result)
     {
-      ROS_INFO("[ExampleDF] introduceIntentCB: intent [%s]", result.intent.c_str());
+      ROS_INFO("[Dialog] DetectLCB: intent [%s]", result.intent.c_str());
       
       for (const auto & param : result.parameters) {
         std::cerr << param << std::endl;
@@ -97,17 +97,5 @@ class ExampleDF: public DialogInterface
   private:
     ros::NodeHandle nh_;
 };
-}  // namespace luggages
+}  // namespace luggage
 
-int main(int argc, char** argv)
-{
-  ros::init(argc, argv, "example_df_node");
-
-  gb_dialog::ExampleDF forwarder;
-  ros::Duration(1, 0).sleep();
-  forwarder.speak("Good morning, what is your name?");
-  forwarder.listen();
-
-  ros::spin();
-  return 0;
-}

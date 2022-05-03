@@ -49,7 +49,7 @@
 #include <regex>
 #include <map>
 
-namespace luggage
+namespace find_my_mates
 {
 class DialogInterface
 {
@@ -81,6 +81,6 @@ private:
   void init();
   void dfCallback(const DialogflowResult::ConstPtr& result);
 };
-};  // namespace luggage
+};  // namespace find_my_mates
 
 #endif
