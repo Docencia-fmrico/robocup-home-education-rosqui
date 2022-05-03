@@ -53,6 +53,7 @@ BT::NodeStatus
 GoToRef::tick()
 {
 	MyNode my_node;
+
 	my_node.doWork(200, coords_);
 
 	ROS_INFO("GO TO REF");

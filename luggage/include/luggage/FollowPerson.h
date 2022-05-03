@@ -34,7 +34,7 @@ class FollowPerson : public BT::ActionNodeBase
     explicit FollowPerson(const std::string& name, const BT::NodeConfiguration & config);
 
     void halt();
-
+    char getch();
     BT::NodeStatus tick();
 
     static BT::PortsList providedPorts()

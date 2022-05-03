@@ -1,4 +1,3 @@
-
 // Copyright 2022 ROSqui
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,44 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "luggage/Turn.h"
+#ifndef LUGGAGE_Lost_H
+#define LUGGAGE_Lost_H
+
+#include "behaviortree_cpp_v3/behavior_tree.h"
+#include "behaviortree_cpp_v3/bt_factory.h"
+
 #include <string>
+#include "geometry_msgs/Twist.h"
+#include "ros/ros.h"
 
 namespace luggage
 {
 
-Turn::Turn(const std::string& name)
-: BT::ActionNodeBase(name, {})
+class Lost : public BT::ActionNodeBase
 {
-    pub_vel_ = nh_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 100);
-}
+  public:
+    explicit Lost(const std::string& name);
 
-void
-Turn::halt()
-{
-  ROS_INFO("Turn halt");
-}
+    void halt();
 
-BT::NodeStatus
-Turn::tick()
-{
-  return BT::NodeStatus::SUCCESS;
-
-
-  ROS_INFO("Turn tick");
-  geometry_msgs::Twist cmd;
-
-  cmd.linear.x = 0;
-  cmd.angular.z = TURN_VEL;
-
-  pub_vel_.publish(cmd);
-  return BT::NodeStatus::FAILURE;
-}
+    BT::NodeStatus tick();
+  protected:
+    ros::NodeHandle nh_;
+    ros::Publisher pub_vel_;
+    static constexpr double TURN_VEL = 0.35;
+};
 
 }  // namespace luggage
 
-#include "behaviortree_cpp_v3/bt_factory.h"
-BT_REGISTER_NODES(factory)
-{
-  factory.registerNodeType<luggage::Turn>("Turn");
-}
+#endif  // LUGGAGE_Lost_H
