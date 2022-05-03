@@ -32,7 +32,8 @@ GoToRef::GoToRef(const std::string& name)
   ROS_INFO("CONSTRUCTOR GoToRef");
   result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToRef::ResultCallback, this);
   result_ = 0;
-  coords_[0] = 2.0;
+  coords_[0] = 1.0;
+  coords_[1] = 1.0;
   
 }
 
@@ -45,8 +46,7 @@ GoToRef::halt()
 void
 GoToRef::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
-	//result_ = msg->status;
-	result_ = 3;
+	result_ = msg->status.status;
 }
 
 BT::NodeStatus
@@ -55,15 +55,14 @@ GoToRef::tick()
 	MyNode my_node;
 	my_node.doWork(200, coords_);
 
-	ROS_INFO("NAV START");
+	ROS_INFO("GO TO REF");
 
-	while (result_ != 3)
+	if (result_ == 3)
 	{
-		ros::spinOnce();
-		ROS_INFO("Result: %d",result_);
+		  	return BT::NodeStatus::SUCCESS;
 	}
 
-  	return BT::NodeStatus::SUCCESS;
+  	return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage
 

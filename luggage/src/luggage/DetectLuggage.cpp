@@ -44,7 +44,7 @@ const darknet_ros_msgs::BoundingBoxesConstPtr& boxes)
   cv_bridge::CvImagePtr img_ptr_color;
   try
   {
-      img_ptr_color = cv_bridge::toCvCopy(*image, sensor_msgs::image_encodings::TYPE_32FC1);
+      img_ptr_color = cv_bridge::toCvCopy(*image, sensor_msgs::image_encodings::TYPE_32FC3);
   }
   catch (cv_bridge::Exception& e)
   {
