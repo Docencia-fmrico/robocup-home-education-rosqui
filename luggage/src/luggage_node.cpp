@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 
   factory.registerFromPlugin(loader.getOSName("asr_detect_luggage_bt_node"));
   factory.registerFromPlugin(loader.getOSName("asr_go_to_bag_bt_node"));
-  factory.registerFromPlugin(loader.getOSName("asr_turn1_bt_node"));
+  factory.registerFromPlugin(loader.getOSName("asr_lost_bt_node"));
   factory.registerFromPlugin(loader.getOSName("asr_percieve_person1_bt_node"));
   factory.registerFromPlugin(loader.getOSName("asr_follow_person1_bt_node"));
   factory.registerFromPlugin(loader.getOSName("asr_go_to_ref_bt_node"));
