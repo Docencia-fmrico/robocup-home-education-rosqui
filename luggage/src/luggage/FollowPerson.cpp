@@ -83,13 +83,11 @@ FollowPerson::tick()
     if (c == 'a')
       return BT::NodeStatus::SUCCESS;
 
-    std::string person_x = getInput<std::string>("person_x").value();
-    std::string person_z = getInput<std::string>("person_z").value();
+    int X = getInput<int>("person_x").value();
+    double Z = getInput<double>("person_z").value();
 
-    ROS_INFO("X:%s Z:%s", person_x.c_str(), person_z.c_str());
-    int X = std::stoi(person_x.c_str());
-    double Z = std::stod(person_z.c_str());
-
+    ROS_INFO("X:%d Z:%lf", X, Z);
+    
     geometry_msgs::Twist cmd;
     angular_pid_.set_pid(0.4, 0.05, 0.55);
     linear_pid_.set_pid(0.4, 0.05, 0.55);
