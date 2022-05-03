@@ -52,6 +52,9 @@ GoToRef::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& ms
 BT::NodeStatus
 GoToRef::tick()
 {
+	ROS_INFO("GoToRef");
+	return BT::NodeStatus::SUCCESS;
+
 	MyNode my_node;
 	my_node.doWork(200, coords_);
 

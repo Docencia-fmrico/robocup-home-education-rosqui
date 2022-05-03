@@ -35,7 +35,6 @@ DetectLuggage::DetectLuggage(const std::string& name, const BT::NodeConfiguratio
   sync_bbx.registerCallback(boost::bind(&DetectLuggage::callback_bbx, this, _1, _2));
   min_x = 100;
   max_x = 100;
-  listen_t = ros::Time::now();
 }
 
 void DetectLuggage::callback_bbx(const sensor_msgs::ImageConstPtr& image,
@@ -86,39 +85,38 @@ DetectLuggage::tick()
 
   ROS_INFO("Detect Luggage Tick");
   luggage::Dialog forwarder;
-  ros::Time actual_t = ros::Time::now();
+  ROS_INFO("Speak:");
+  ros::Duration(1, 0).sleep();
+  forwarder.speak("Good morning, what is your name?");
+  ROS_INFO("FIRST LISTEN");
+  forwarder.listen(); 
+  ros::spinOnce();
+  ROS_INFO("SECOND LISTEN");
+  forwarder.listen(); 
+  ros::spinOnce();
 
-  if((ros::Time::now() - listen_t).toSec() > 5){
-    ros::Duration(1, 0).sleep();
-    listen_t = ros::Time::now();
-    forwarder.speak("Good morning, what is your name?");
-  } else {
-    forwarder.listen();
+  dialogflow_ros_msgs::DialogflowResult side;
+  side = forwarder.getValue();
+  for (const auto & param : side.parameters) {
+    for (const auto & value : param.value) {
+      std::cerr << "\t" << value << std::endl;
+
+      if (value == "left")   // Numero mágico
+      {
+        ROS_INFO("USER'S LEFT");
+        setOutput("color", color_);
+        setOutput("bag_pos", "left");
+        return BT::NodeStatus::SUCCESS;
+
+      } else if (value == "right")   // Numero mágico
+      {
+        ROS_INFO("USER'S RIGHT");
+        setOutput("color", color_);
+        setOutput("bag_pos", "right");
+        return BT::NodeStatus::SUCCESS;
+      }
+    }
   }
-
-  /*sleep(2);
-
-  setOutput("bag_pos", "right");
-  return BT::NodeStatus::SUCCESS; */
-
-  ROS_INFO("DETECT LUGGAGE TICK");
-
-
-    if (min_x < 50)   // Numero mágico
-  {
-    ROS_INFO("USER'S LEFT");
-    setOutput("color", color_);
-    setOutput("bag_pos", "left");
-    return BT::NodeStatus::SUCCESS;
-
-  } else if (max_x > 450)   // Numero mágico
-  {
-    ROS_INFO("USER'S RIGHT");
-    setOutput("color", color_);
-    setOutput("bag_pos", "right");
-    return BT::NodeStatus::SUCCESS;
-  }*/
-
   return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage

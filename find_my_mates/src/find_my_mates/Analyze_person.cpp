@@ -32,7 +32,7 @@ AnalyzePerson::halt()
 BT::NodeStatus
 AnalyzePerson::tick()
 {
-  
+    return BT::NodeStatus::RUNNING; 
 }
 }  // namespace find_my_mates
 

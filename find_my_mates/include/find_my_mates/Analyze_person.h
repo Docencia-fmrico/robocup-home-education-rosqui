@@ -11,13 +11,17 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-/*
+
 #ifndef FIND_MY_MATES_AnalyzePerson_H
 #define FIND_MY_MATES_AnalyzePerson_H
 
 #include <find_my_mates/DialogInterface.h>
 #include <sound_play/SoundRequest.h>
 #include <string>
+
+#include "behaviortree_cpp_v3/behavior_tree.h"
+#include "behaviortree_cpp_v3/bt_factory.h"
+
 
 namespace ph = std::placeholders;
 
@@ -26,7 +30,7 @@ namespace find_my_mates
 class AnalyzePerson : public DialogInterface
 {
   public:
-    AnalyzePerson(): nh_()
+    explicit AnalyzePerson(): nh_()
     {
       this->registerCallback(std::bind(&AnalyzePerson::noIntentCB, this, ph::_1));
       this->registerCallback(
@@ -84,4 +88,3 @@ class AnalyzePerson : public DialogInterface
 }  // namespace find_my_mates
 
 #endif  // FIND_MY_MATES_AnalyzePerson_H
-*/

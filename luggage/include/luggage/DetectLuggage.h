@@ -59,7 +59,8 @@ class DetectLuggage : public BT::ActionNodeBase
     int min_x;
     int max_x;
 
-    ros::Time listen_t;
+    
+
     std::vector<int> color_ = {0,0,0};
 
 };
