@@ -15,7 +15,6 @@
 #include <string>
 
 #include "luggage/GoToRef.h"
-#include "nav_node.cpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include <move_base_msgs/MoveBaseActionResult.h>
@@ -29,12 +28,11 @@ GoToRef::GoToRef(const std::string& name)
 : BT::ActionNodeBase(name, {}),
   nh_()
 {
-  ROS_INFO("CONSTRUCTOR GoToRef");
-  result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToRef::ResultCallback, this);
-  result_ = 0;
-  coords_[0] = 1.0;
-  coords_[1] = 1.0;
-  
+	ROS_INFO("CONSTRUCTOR GoToRef");
+	result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToRef::ResultCallback, this);
+	result_ = 0;
+	MyNode my_node_;
+  	do_work_ = true;
 }
 
 void
@@ -52,15 +50,17 @@ GoToRef::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& ms
 BT::NodeStatus
 GoToRef::tick()
 {
-	MyNode my_node;
+	if(do_work_){
+		my_node_.doWork(200, coords_);
+		do_work_ = false;
+	}
 
-	my_node.doWork(200, coords_);
-
-	ROS_INFO("GO TO REF");
-	std::cerr << "LOG: result: " << result_ << std::endl;s
+	ROS_INFO("Result: %d", result_);
+	//std::cerr << "LOG: result: " << result_ << std::endl;
 
 	if (result_ == 3)
 	{
+		ROS_INFO("LEAVING");
 		return BT::NodeStatus::SUCCESS;
 	}
 
