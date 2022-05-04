@@ -55,7 +55,9 @@ class Dialog : public DialogInterface
       this->registerCallback(
         std::bind(&Dialog::PresentationCB, this, ph::_1),
         "Presentation");
-      
+      this->registerCallback(
+        std::bind(&Dialog::StartCB, this, ph::_1),
+        "Start");
     }
 
     void noIntentCB(dialogflow_ros_msgs::DialogflowResult result)
@@ -77,12 +79,13 @@ class Dialog : public DialogInterface
         }
       } 
       speak(result.fulfillment_text);
-      listen();
     }
 
     void DetectLCB(dialogflow_ros_msgs::DialogflowResult result)
     {
       ROS_INFO("[Dialog] DetectLCB: intent [%s]", result.intent.c_str());
+
+      side_ = result;
       
       for (const auto & param : result.parameters) {
         std::cerr << param << std::endl;
@@ -91,11 +94,26 @@ class Dialog : public DialogInterface
         }
       }
       speak(result.fulfillment_text);
-      listen();
+    }
+
+    void StartCB(dialogflow_ros_msgs::DialogflowResult result)
+    {
+      ROS_INFO("[Dialog] DetectLCB: intent [%s]", result.intent.c_str());
+      start_ = 0;
+    }
+
+    int get_start() {
+      return start_;
+    }
+
+    dialogflow_ros_msgs::DialogflowResult getValue() {
+      return side_;
     }
 
   private:
     ros::NodeHandle nh_;
+    dialogflow_ros_msgs::DialogflowResult side_;
+    int start_ = 1;
 };
 }  // namespace luggage
 

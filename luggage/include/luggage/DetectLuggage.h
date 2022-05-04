@@ -39,7 +39,6 @@ class DetectLuggage : public BT::ActionNodeBase
     void callback_bbx(const sensor_msgs::ImageConstPtr& image,
     const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
     void getPredominantColor(int red, int green, int blue);
-
     static BT::PortsList providedPorts()
     {
         return { BT::OutputPort<std::string>("bag_pos"), BT::OutputPort<std::vector<int>>("color")};

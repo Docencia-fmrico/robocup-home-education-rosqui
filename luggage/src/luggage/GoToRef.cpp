@@ -15,6 +15,7 @@
 #include <string>
 
 #include "luggage/GoToRef.h"
+#include "luggage/Dialog.h"
 #include "nav_node.cpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
@@ -30,10 +31,11 @@ GoToRef::GoToRef(const std::string& name)
 : BT::ActionNodeBase(name, {}),
   nh_()
 {
-	ROS_INFO("CONSTRUCTOR GoToRef");
-	result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToRef::ResultCallback, this);
-	result_ = 0;
-  	first_ = true;
+    
+  ROS_INFO("CONSTRUCTOR GoToRef");
+  result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToRef::ResultCallback, this);
+  result_ = 0;
+  coords_[0] = 2.0;
 }
 
 void

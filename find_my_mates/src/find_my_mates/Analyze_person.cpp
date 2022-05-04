@@ -23,6 +23,18 @@
 namespace find_my_mates
 {
 
+AnalyzePerson::AnalyzePerson(const std::string& name, const BT::NodeConfiguration & config)
+: BT::ActionNodeBase(name, config),
+  nh_(),
+  image_color_sub(nh_, "/camera/rgb/image_raw", 1),
+  bbx_sub(nh_, "/darknet_ros/bounding_boxes", 1),
+  sync_bbx(MySyncPolicy_bbx(10), image_color_sub, bbx_sub)
+{
+  sync_bbx.registerCallback(boost::bind(&AnalyzePerson::callback_bbx, this, _1, _2));
+  min_x = 100;
+  max_x = 100;
+}
+
 void
 AnalyzePerson::halt()
 {
@@ -32,7 +44,7 @@ AnalyzePerson::halt()
 BT::NodeStatus
 AnalyzePerson::tick()
 {
-  
+    return BT::NodeStatus::RUNNING; 
 }
 }  // namespace find_my_mates
 
