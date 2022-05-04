@@ -16,6 +16,8 @@
 
 #include "luggage/DetectLuggage.h"
 
+#include "luggage/Dialog.h"
+
 #include "behaviortree_cpp_v3/behavior_tree.h"
 
 #include "ros/ros.h"
@@ -33,6 +35,7 @@ DetectLuggage::DetectLuggage(const std::string& name, const BT::NodeConfiguratio
   sync_bbx.registerCallback(boost::bind(&DetectLuggage::callback_bbx, this, _1, _2));
   min_x = 100;
   max_x = 100;
+  listen_t = ros::Time::now();
 }
 
 void DetectLuggage::getPredominantColor(int red, int green, int blue)
@@ -156,16 +159,26 @@ DetectLuggage::halt()
 BT::NodeStatus
 DetectLuggage::tick()
 {
-  /*ROS_INFO("Detect Luggage Tick");
 
-  get_color();
-  ROS_INFO("R_%d,G:%d,B:%d",color_[0], color_[1], color_[2]);
-  setOutput("color", color_);
-  
+  ROS_INFO("Detect Luggage Tick");
+  luggage::Dialog forwarder;
+  ros::Time actual_t = ros::Time::now();
+
+  if((ros::Time::now() - listen_t).toSec() > 5){
+    ros::Duration(1, 0).sleep();
+    listen_t = ros::Time::now();
+    forwarder.speak("Good morning, what is your name?");
+  } else {
+    forwarder.listen();
+  }
+
+  /*sleep(2);
+
   setOutput("bag_pos", "right");
   return BT::NodeStatus::SUCCESS; */
 
   ROS_INFO("DETECT LUGGAGE TICK");
+
 
     if (min_x < 50)   // Numero mágico
   {
@@ -173,7 +186,6 @@ DetectLuggage::tick()
     setOutput("color", color_);
     setOutput("bag_pos", "left");
     return BT::NodeStatus::SUCCESS;
-
 
   } else if (max_x > 450)   // Numero mágico
   {

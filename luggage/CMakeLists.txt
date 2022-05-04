@@ -29,6 +29,13 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_conversions
   pcl_ros
   darknet_ros_msgs
+  dialogflow_ros_msgs
+  std_srvs
+  sound_play
+  actionlib
+  actionlib_msgs
+  gb_dialog
+  backward_ros
 )
 
 catkin_package(
@@ -60,6 +67,7 @@ add_library(asr_lost_bt_node SHARED src/luggage/Lost.cpp)
 add_library(asr_percieve_person1_bt_node SHARED src/luggage/PercievePerson.cpp)
 add_library(asr_go_to_bag_bt_node SHARED src/luggage/GoToBag.cpp)
 add_library(asr_detect_luggage_bt_node SHARED src/luggage/DetectLuggage.cpp)
+
 add_library(asr_go_to_ref_bt_node SHARED src/luggage/GoToRef.cpp)
 add_library(asr_go_to_origin_bt_node SHARED src/luggage/GoToOrigin.cpp)
 list(APPEND plugin_libs
@@ -77,14 +85,13 @@ foreach(bt_plugin ${plugin_libs})
   target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
 endforeach()
 
-add_executable(luggage_node src/luggage_node.cpp)
+add_executable(luggage_node src/luggage_node.cpp src/luggage/DialogInterface.cpp )
 target_link_libraries(luggage_node ${catkin_LIBRARIES} ${ZMQ_LIBRARIES} ${OpenCV_LIBRARIES})
 
 set(cv_bridge_DIR /usr/local/share/cv_bridge/cmake)
 
 roslint_cpp(
   src/luggage_node.cpp
-  include/luggage/GoToBag.h src/luggage/GoToBag.cpp
   include/luggage/nav_node.h src/luggage/nav_node.cpp
   include/luggage/DialogInterface.h src/luggage/DialogInterface.cpp
   include/luggage/example.cpp
