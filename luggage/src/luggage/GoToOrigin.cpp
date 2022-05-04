@@ -32,6 +32,7 @@ GoToOrigin::GoToOrigin(const std::string& name)
   ROS_INFO("CONSTRUCTOR GoToOrigin");
   result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToOrigin::ResultCallback, this);
   result_ = 0;
+  first_ = true;
 }
 
 void
@@ -48,15 +49,20 @@ GoToOrigin::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr&
 
 BT::NodeStatus
 GoToOrigin::tick()
-{
-	Navigation my_node_;
-	my_node_.doWork(200, coords_);
+{	
+	if(first_){
+		Navigation my_node_;
+		my_node_.doWork(200, coords_);
+		first_ = false;
+	}
 
-	ROS_INFO("GO TO ORIGIN");
+	if (result_ != 0)
+		ROS_INFO("Result: %d", result_);
 
 	if (result_ == 3)
 	{
-		  	return BT::NodeStatus::SUCCESS;
+		ROS_INFO("LEAVING");
+		return BT::NodeStatus::SUCCESS;
 	}
 
   	return BT::NodeStatus::RUNNING;
