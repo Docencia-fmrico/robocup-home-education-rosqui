@@ -86,6 +86,9 @@ roslint_cpp(
   src/luggage_node.cpp
   include/luggage/GoToBag.h src/luggage/GoToBag.cpp
   include/luggage/nav_node.h src/luggage/nav_node.cpp
+  include/luggage/DialogInterface.h src/luggage/DialogInterface.cpp
+  include/luggage/example.cpp
+  include/luggage/Dialog.h
   include/luggage/GoToOrigin.h src/luggage/GoToOrigin.cpp
   include/luggage/GoToRef.h src/luggage/GoToRef.cpp
   include/luggage/GoToBag.h src/luggage/GoToBag.cpp
