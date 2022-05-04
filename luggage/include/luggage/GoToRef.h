@@ -18,6 +18,7 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include <message_filters/subscriber.h>
+#include "NearGo.h"
 
 #include <move_base_msgs/MoveBaseActionResult.h>
 
@@ -43,6 +44,7 @@ class GoToRef : public BT::ActionNodeBase
     int result_;
     std::vector<float> coords_ = {1.63, 2.8, 0.0, 0.0, 0.0, 0.0, 1.0};
     bool first_;
+    NearGo neargo_;
 };
 
 }  // namespace luggage

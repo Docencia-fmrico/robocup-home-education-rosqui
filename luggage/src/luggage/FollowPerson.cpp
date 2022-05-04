@@ -15,6 +15,7 @@
 #include "luggage/FollowPerson.h"
 #include "luggage/PIDController.h"
 #include "geometry_msgs/Point.h"
+#include "NearGo.cpp"
 #include <string>
 #include <termios.h>
 
@@ -82,6 +83,11 @@ FollowPerson::tick()
     int c = getch();   // call your non-blocking input function
     if (c == 'a')
       return BT::NodeStatus::SUCCESS;
+
+	NearGo neargo_;
+	bool collision = neargo_.scan();
+	if (collision)
+		return BT::NodeStatus::RUNNING;
 
     int X = getInput<int>("person_x").value();
     double Z = getInput<double>("person_z").value();

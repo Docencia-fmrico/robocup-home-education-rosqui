@@ -52,27 +52,15 @@ GoToRef::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& ms
 
 BT::NodeStatus
 GoToRef::tick()
-
 {
-	ROS_INFO("GoToRef");
-
-	luggage::Dialog forwarder;
-	ros::Duration(1, 0).sleep();
-	dialogflow_ros_msgs::DialogflowResult side;
-	int controler = 1;
-
-	while (controler) {
-		ROS_INFO("bucle");
-		forwarder.listen(); 
-		ros::spinOnce();
-		if (forwarder.get_start() == 0)
-			controler = 0;
-		ros::Duration(2, 0).sleep();
+	if(first_){
+		Navigation my_node_;
+		my_node_.doWork(200, coords_);
+		first_ = false;
 	}
-
-	ROS_INFO("NAV START");
-	//MyNode my_node;
-	//my_node.doWork(200, coords_);
+	
+	if (result_ != 0)
+		ROS_INFO("Result: %d", result_);
 
 	if (result_ == 3)
 	{

@@ -42,6 +42,7 @@ class GoToOrigin : public BT::ActionNodeBase
     ros::Subscriber result_sub_;
     int result_;
     std::vector<float> coords_ = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+    bool first_;
 };
 
 }  // namespace luggage
