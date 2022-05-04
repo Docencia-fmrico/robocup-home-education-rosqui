@@ -14,7 +14,9 @@
 
 #include "luggage/FollowPerson.h"
 #include "luggage/PIDController.h"
+#include "geometry_msgs/Point.h"
 #include <string>
+#include <termios.h>
 
 namespace luggage
 {
@@ -31,18 +33,61 @@ FollowPerson::halt()
   ROS_INFO("FollowPerson halt");
 }
 
+char 
+FollowPerson::getch()
+{
+	fd_set set;
+	struct timeval timeout;
+	int rv;
+	char buff = 0;
+	int len = 1;
+	int filedesc = 0;
+	FD_ZERO(&set);
+	FD_SET(filedesc, &set);
+	
+	timeout.tv_sec = 0;
+	timeout.tv_usec = 1000;
+
+	rv = select(filedesc + 1, &set, NULL, NULL, &timeout);
+
+	struct termios old = {0};
+	if (tcgetattr(filedesc, &old) < 0)
+		ROS_ERROR("tcsetattr()");
+	old.c_lflag &= ~ICANON;
+	old.c_lflag &= ~ECHO;
+	old.c_cc[VMIN] = 1;
+	old.c_cc[VTIME] = 0;
+	if (tcsetattr(filedesc, TCSANOW, &old) < 0)
+		ROS_ERROR("tcsetattr ICANON");
+
+	if(rv == -1)
+		ROS_ERROR("select");
+	else if(rv == 0)
+		ROS_INFO("no_key_pressed");
+	else
+		read(filedesc, &buff, len );
+
+	old.c_lflag |= ICANON;
+	old.c_lflag |= ECHO;
+	if (tcsetattr(filedesc, TCSADRAIN, &old) < 0)
+		ROS_ERROR ("tcsetattr ~ICANON");
+	return (buff);
+}
+
 BT::NodeStatus
 FollowPerson::tick()
 {
     ROS_INFO("FollowPerson tick");
 
-    std::string person_x = getInput<std::string>("person_x").value();
-    std::string person_z = getInput<std::string>("person_z").value();
+    int c = getch();   // call your non-blocking input function
+    if (c == 'a')
+      return BT::NodeStatus::SUCCESS;
 
-    ROS_INFO("X:%s Z:%s", person_x.c_str(), person_z.c_str());
-    int X = std::stoi(person_x.c_str());
-    double Z = std::stod(person_z.c_str());
+    int X = getInput<int>("person_x").value();
+    double Z = getInput<double>("person_z").value();
 
+    ROS_INFO("X:%d Z:%lf", X, Z);
+    
     geometry_msgs::Twist cmd;
     angular_pid_.set_pid(0.4, 0.05, 0.55);
     linear_pid_.set_pid(0.4, 0.05, 0.55);

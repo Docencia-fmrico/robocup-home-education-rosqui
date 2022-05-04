@@ -19,9 +19,10 @@
 #include "nav_node.cpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
-#include <move_base_msgs/MoveBaseActionResult.h>
+#include "move_base_msgs/MoveBaseActionResult.h"
 
 #include "ros/ros.h"
+
 
 namespace luggage
 {
@@ -30,6 +31,7 @@ GoToRef::GoToRef(const std::string& name)
 : BT::ActionNodeBase(name, {}),
   nh_()
 {
+    
   ROS_INFO("CONSTRUCTOR GoToRef");
   result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToRef::ResultCallback, this);
   result_ = 0;
@@ -45,12 +47,12 @@ GoToRef::halt()
 void
 GoToRef::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
-	//result_ = msg->status;
-	result_ = 3;
+	result_ = msg->status.status;
 }
 
 BT::NodeStatus
 GoToRef::tick()
+
 {
 	ROS_INFO("GoToRef");
 
@@ -72,13 +74,13 @@ GoToRef::tick()
 	MyNode my_node;
 	my_node.doWork(200, coords_);
 
-	while (result_ != 3)
+	if (result_ == 3)
 	{
-		ros::spinOnce();
-		ROS_INFO("Result: %d",result_);
+		ROS_INFO("LEAVING");
+		return BT::NodeStatus::SUCCESS;
 	}
 
-  	return BT::NodeStatus::SUCCESS;
+  	return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage
 

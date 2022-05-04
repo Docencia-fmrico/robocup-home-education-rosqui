@@ -12,43 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_FOLLOWPERSON_H
-#define LUGGAGE_FOLLOWPERSON_H
+#ifndef LUGGAGE_Lost_H
+#define LUGGAGE_Lost_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
-#include "luggage/PIDController.h"
 
 #include <string>
-#include <iostream>
-
 #include "geometry_msgs/Twist.h"
 #include "ros/ros.h"
 
 namespace luggage
 {
 
-class FollowPerson : public BT::ActionNodeBase
+class Lost : public BT::ActionNodeBase
 {
   public:
-    explicit FollowPerson(const std::string& name, const BT::NodeConfiguration & config);
+    explicit Lost(const std::string& name);
 
     void halt();
-    char getch();
+
     BT::NodeStatus tick();
-
-    static BT::PortsList providedPorts()
-    {
-        return { BT::InputPort<double>("person_z"), BT::InputPort<int>("person_x")};
-    }
-
   protected:
     ros::NodeHandle nh_;
     ros::Publisher pub_vel_;
-    PIDController linear_pid_;
-    PIDController angular_pid_;
+    static constexpr double TURN_VEL = 0.35;
 };
 
 }  // namespace luggage
 
-#endif  // LUGGAGE_FOLLOWPERSON_H
+#endif  // LUGGAGE_Lost_H

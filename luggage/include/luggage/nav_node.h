@@ -12,33 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_TURN_H
-#define LUGGAGE_TURN_H
+#ifndef LUGGAGE_NAVIGATION_H
+#define LUGGAGE_NAVIGATION_H
 
-#include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
-
-#include <string>
-#include "geometry_msgs/Twist.h"
-#include "ros/ros.h"
+#include <ros/ros.h>
+#include <actionlib/client/simple_action_client.h>
+#include <move_base_msgs/MoveBaseAction.h>
 
 namespace luggage
 {
 
-class Turn : public BT::ActionNodeBase
+typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> Client;
+
+class Navigation
 {
-  public:
-    explicit Turn(const std::string& name);
+public:
 
-    void halt();
+	Navigation();
+	void doWork(long int until, std::vector<float> coords);
+	void feedbackCb(const move_base_msgs::MoveBaseFeedbackConstPtr& feedback);
+	void doneCb(const actionlib::SimpleClientGoalState& state,
+  	const move_base_msgs::MoveBaseResultConstPtr& result);
 
-    BT::NodeStatus tick();
-  protected:
-    ros::NodeHandle nh_;
-    ros::Publisher pub_vel_;
-    static constexpr double TURN_VEL = 0.35;
+private:
+	Client ac;
 };
 
 }  // namespace luggage
 
-#endif  // LUGGAGE_TURN_H
+#endif  // LUGGAGE_NAVIGATION_H

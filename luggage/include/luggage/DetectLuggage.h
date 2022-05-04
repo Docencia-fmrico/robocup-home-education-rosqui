@@ -38,7 +38,7 @@ class DetectLuggage : public BT::ActionNodeBase
     explicit DetectLuggage(const std::string& name, const BT::NodeConfiguration & config);
     void callback_bbx(const sensor_msgs::ImageConstPtr& image,
     const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
-
+    void getPredominantColor(int red, int green, int blue);
     static BT::PortsList providedPorts()
     {
         return { BT::OutputPort<std::string>("bag_pos"), BT::OutputPort<std::vector<int>>("color")};
@@ -57,6 +57,10 @@ class DetectLuggage : public BT::ActionNodeBase
     message_filters::Synchronizer<MySyncPolicy_bbx> sync_bbx;
     int min_x;
     int max_x;
+    int min_y;
+    int max_y;
+    
+    ros::Time listen_t;
     std::vector<int> color_ = {0,0,0};
 
 };

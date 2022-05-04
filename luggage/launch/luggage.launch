@@ -23,7 +23,8 @@
   </include>
   -->
 
-  <!--include file="$(find robots)/launch/kobuki_astra.launch"/> -->
+  <include file="$(find robots)/launch/kobuki_rplidar_astra.launch"/>
+  <include file="$(find navigation)/launch/navigation.launch"/>
 
   <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" args="scan:=scan_filtered" output="screen">
     <!--

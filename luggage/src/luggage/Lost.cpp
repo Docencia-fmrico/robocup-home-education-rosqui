@@ -13,31 +13,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "luggage/Turn.h"
+#include "luggage/Lost.h"
 #include <string>
 
 namespace luggage
 {
 
-Turn::Turn(const std::string& name)
+Lost::Lost(const std::string& name)
 : BT::ActionNodeBase(name, {})
 {
     pub_vel_ = nh_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 100);
 }
 
 void
-Turn::halt()
+Lost::halt()
 {
-  ROS_INFO("Turn halt");
+  ROS_INFO("Lost halt");
 }
 
 BT::NodeStatus
-Turn::tick()
+Lost::tick()
 {
   return BT::NodeStatus::SUCCESS;
 
 
-  ROS_INFO("Turn tick");
+  ROS_INFO("Lost tick");
   geometry_msgs::Twist cmd;
 
   cmd.linear.x = 0;
@@ -52,5 +52,5 @@ Turn::tick()
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<luggage::Turn>("Turn");
+  factory.registerNodeType<luggage::Lost>("Lost");
 }
