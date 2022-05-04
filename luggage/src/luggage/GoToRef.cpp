@@ -71,8 +71,8 @@ GoToRef::tick()
 	}
 
 	ROS_INFO("NAV START");
-	MyNode my_node;
-	my_node.doWork(200, coords_);
+	//MyNode my_node;
+	//my_node.doWork(200, coords_);
 
 	if (result_ == 3)
 	{
