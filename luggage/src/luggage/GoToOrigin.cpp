@@ -49,8 +49,8 @@ GoToOrigin::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr&
 BT::NodeStatus
 GoToOrigin::tick()
 {
-	MyNode my_node;
-	my_node.doWork(200, coords_);
+	Navigation my_node_;
+	my_node_.doWork(200, coords_);
 
 	ROS_INFO("GO TO ORIGIN");
 

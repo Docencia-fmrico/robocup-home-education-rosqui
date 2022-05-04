@@ -34,12 +34,12 @@ class FollowPerson : public BT::ActionNodeBase
     explicit FollowPerson(const std::string& name, const BT::NodeConfiguration & config);
 
     void halt();
-
+    char getch();
     BT::NodeStatus tick();
 
     static BT::PortsList providedPorts()
     {
-        return { BT::InputPort<std::string>("person_z"), BT::InputPort<std::string>("person_x")};
+        return { BT::InputPort<double>("person_z"), BT::InputPort<int>("person_x")};
     }
 
   protected:
