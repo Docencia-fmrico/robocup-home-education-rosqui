@@ -22,7 +22,6 @@
 #include <move_base_msgs/MoveBaseActionResult.h>
 
 #include "geometry_msgs/Twist.h"
-#include "/home/pawn/catkin_ws/src/robocup-home-education-rosqui/luggage/src/luggage/nav_node.cpp"
 
 #include <string>
 #include <vector>
@@ -43,8 +42,7 @@ class GoToRef : public BT::ActionNodeBase
     ros::Subscriber result_sub_;
     int result_;
     std::vector<float> coords_ = {1.63, 2.8, 0.0, 0.0, 0.0, 0.0, 1.0};
-    MyNode my_node_;
-    bool do_work_;
+    bool first_;
 };
 
 }  // namespace luggage

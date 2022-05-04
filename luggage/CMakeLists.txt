@@ -85,6 +85,7 @@ set(cv_bridge_DIR /usr/local/share/cv_bridge/cmake)
 roslint_cpp(
   src/luggage_node.cpp
   include/luggage/GoToBag.h src/luggage/GoToBag.cpp
+  include/luggage/nav_node.h src/luggage/nav_node.cpp
   include/luggage/GoToOrigin.h src/luggage/GoToOrigin.cpp
   include/luggage/GoToRef.h src/luggage/GoToRef.cpp
   include/luggage/GoToBag.h src/luggage/GoToBag.cpp

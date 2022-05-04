@@ -15,11 +15,13 @@
 #include <string>
 
 #include "luggage/GoToRef.h"
+#include "nav_node.cpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
-#include <move_base_msgs/MoveBaseActionResult.h>
+#include "move_base_msgs/MoveBaseActionResult.h"
 
 #include "ros/ros.h"
+
 
 namespace luggage
 {
@@ -31,8 +33,7 @@ GoToRef::GoToRef(const std::string& name)
 	ROS_INFO("CONSTRUCTOR GoToRef");
 	result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToRef::ResultCallback, this);
 	result_ = 0;
-	MyNode my_node_;
-  	do_work_ = true;
+  	first_ = true;
 }
 
 void
@@ -49,14 +50,14 @@ GoToRef::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& ms
 
 BT::NodeStatus
 GoToRef::tick()
-{
-	if(do_work_){
+{	
+	if(first_){
+		Navigation my_node_;
 		my_node_.doWork(200, coords_);
-		do_work_ = false;
+		first_ = false;
 	}
 
 	ROS_INFO("Result: %d", result_);
-	//std::cerr << "LOG: result: " << result_ << std::endl;
 
 	if (result_ == 3)
 	{
