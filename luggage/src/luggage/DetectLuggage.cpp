@@ -88,9 +88,11 @@ DetectLuggage::tick()
   ROS_INFO("Speak:");
   ros::Duration(1, 0).sleep();
   forwarder.speak("Good morning, what is your name?");
+  ros::Duration(3, 0).sleep();
   ROS_INFO("FIRST LISTEN");
   forwarder.listen(); 
   ros::spinOnce();
+  ros::Duration(7, 0).sleep();
   ROS_INFO("SECOND LISTEN");
   forwarder.listen(); 
   ros::spinOnce();

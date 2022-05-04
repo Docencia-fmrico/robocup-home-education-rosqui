@@ -15,6 +15,7 @@
 #include <string>
 
 #include "luggage/GoToRef.h"
+#include "luggage/Dialog.h"
 #include "nav_node.cpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
@@ -33,7 +34,6 @@ GoToRef::GoToRef(const std::string& name)
   result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToRef::ResultCallback, this);
   result_ = 0;
   coords_[0] = 2.0;
-  
 }
 
 void
@@ -53,12 +53,24 @@ BT::NodeStatus
 GoToRef::tick()
 {
 	ROS_INFO("GoToRef");
-	return BT::NodeStatus::SUCCESS;
 
-	MyNode my_node;
-	my_node.doWork(200, coords_);
+	luggage::Dialog forwarder;
+	ros::Duration(1, 0).sleep();
+	dialogflow_ros_msgs::DialogflowResult side;
+	int controler = 1;
+
+	while (controler) {
+		ROS_INFO("bucle");
+		forwarder.listen(); 
+		ros::spinOnce();
+		if (forwarder.get_start() == 0)
+			controler = 0;
+		ros::Duration(2, 0).sleep();
+	}
 
 	ROS_INFO("NAV START");
+	MyNode my_node;
+	my_node.doWork(200, coords_);
 
 	while (result_ != 3)
 	{

@@ -56,6 +56,9 @@ class Dialog : public DialogInterface
       this->registerCallback(
         std::bind(&Dialog::PresentationCB, this, ph::_1),
         "Presentation");
+      this->registerCallback(
+        std::bind(&Dialog::StartCB, this, ph::_1),
+        "Start");
       
     }
 
@@ -93,6 +96,20 @@ class Dialog : public DialogInterface
         }
       }
       speak(result.fulfillment_text);
+    }
+
+    void StartCB(dialogflow_ros_msgs::DialogflowResult result)
+    {
+      ROS_INFO("[Dialog] DetectLCB: intent [%s]", result.intent.c_str());
+
+      side_ = result;
+      
+      for (const auto & param : result.parameters) {
+        std::cerr << param << std::endl;
+        for (const auto & value : param.value) {
+          std::cerr << "\t" << value << std::endl;
+        }
+      }
     }
 
     dialogflow_ros_msgs::DialogflowResult getValue() {
