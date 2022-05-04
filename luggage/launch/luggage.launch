@@ -6,6 +6,7 @@
   <include file="$(find darknet_ros)/launch/darknet_ros.launch">
     <arg name="image" value="/camera/rgb/image_raw/"/>
   </include>
+  
   <!--laucher of dialog-->
   <arg name="config_file" default="$(find dialogflow_ros)/config/params.yaml"/>
   <arg name="google_application_credentials" default="$(env HOME)/df_arq_soft.json"/>

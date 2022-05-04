@@ -92,4 +92,5 @@ roslint_cpp(
   include/find_my_mates/Say_the_description.h src/find_my_mates/Say_the_description.cpp
   include/find_my_mates/BTNavAction.h
   include/find_my_mates/DialogInterface.h
+  include/find_my_mates/Dialog.h
 )
