@@ -25,8 +25,8 @@
 namespace luggage
 {
 
-DetectLuggage::DetectLuggage(const std::string& name)
-: BT::ActionNodeBase(name, {}),
+DetectLuggage::DetectLuggage(const std::string& name, const BT::NodeConfiguration & config)
+: BT::ActionNodeBase(name, config),
   nh_()
 {
   first_ = true;

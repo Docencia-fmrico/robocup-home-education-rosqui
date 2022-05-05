@@ -36,7 +36,11 @@ namespace luggage
 class DetectLuggage : public BT::ActionNodeBase
 {
   public:
-    explicit DetectLuggage(const std::string& name);
+    explicit DetectLuggage(const std::string& name, const BT::NodeConfiguration & config);
+    static BT::PortsList providedPorts()
+    {
+        return { BT::OutputPort<std::string>("bag_pos") };
+    }
 
     void halt();
 
