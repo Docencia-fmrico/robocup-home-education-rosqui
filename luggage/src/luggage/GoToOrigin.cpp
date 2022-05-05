@@ -44,7 +44,7 @@ GoToOrigin::halt()
 void
 GoToOrigin::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
-	result_ = msg->status.status;
+    result_ = msg->status.status;
 }
 
 BT::NodeStatus
@@ -64,8 +64,7 @@ GoToOrigin::tick()
 		ROS_INFO("LEAVING");
 		return BT::NodeStatus::SUCCESS;
 	}
-
-  	return BT::NodeStatus::RUNNING;
+    return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage
 

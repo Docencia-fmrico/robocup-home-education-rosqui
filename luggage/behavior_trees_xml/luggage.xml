@@ -3,6 +3,7 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
+            <Action ID="Start"/>
             <Action ID="GoToRef"/>
             <Action ID="DetectLuggage" bag_pos="{bag_pos}" color="{color}"/>
             <Action ID="GoToBag" bag_pos="{bag_pos}"/>
@@ -38,6 +39,7 @@
             <input_port name="person_x"/>
             <input_port name="person_z"/>
         </Action>
+        <Action ID="Start"/>
         <Action ID="Turn"/>
     </TreeNodesModel>
     <!-- ////////// -->

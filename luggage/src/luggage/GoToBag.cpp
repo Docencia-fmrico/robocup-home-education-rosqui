@@ -20,6 +20,8 @@
 
 #include "ros/ros.h"
 
+#include <vector>
+
 namespace luggage
 {
 
@@ -28,9 +30,8 @@ GoToBag::GoToBag(const std::string& name, const BT::NodeConfiguration & config)
   nh_()
 {
   ROS_INFO("CONSTRUCTOR BAG");
-  pub_vel_ = nh_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity",1);
+  pub_vel_ = nh_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
   first = true;
-
 }
 
 void
@@ -48,14 +49,14 @@ GoToBag::tick()
     bag_pos_ = getInput<std::string>("bag_pos").value();
     first = false;
   }
-  
+
   std::vector<int> color = getInput<std::vector<int>>("color").value();
-  ROS_INFO("R_%d,G:%d,B:%d",color[0], color[1], color[2]);
-  
+  ROS_INFO("R_%d,G:%d,B:%d", color[0], color[1], color[2]);
+
   geometry_msgs::Twist cmd;
   double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
   ROS_INFO("TIME: %f", current_ts_);
-  
+
   if ( (current_ts_ < ACTION_TIME_))
   {
       cmd.linear.x = 0;
