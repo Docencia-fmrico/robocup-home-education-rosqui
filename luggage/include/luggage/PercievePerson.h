@@ -44,7 +44,7 @@ class PercievePerson : public BT::ActionNodeBase
 
     static BT::PortsList providedPorts()
     {
-        return { BT::OutputPort<double>("person_z"), BT::OutputPort<int>("person_x"),  BT::OutputPort<std::vector<int>>("color")};
+        return { BT::OutputPort<double>("person_z"), BT::OutputPort<int>("person_x")};
     }
 
 
@@ -53,7 +53,6 @@ class PercievePerson : public BT::ActionNodeBase
   private:
     ros::NodeHandle nh_;
     message_filters::Subscriber<sensor_msgs::Image> image_depth_sub;
-    message_filters::Subscriber<sensor_msgs::Image> image_color_sub;
     message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> bbx_sub;
     typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image,
     darknet_ros_msgs::BoundingBoxes> MySyncPolicy_bbx;
@@ -61,13 +60,6 @@ class PercievePerson : public BT::ActionNodeBase
     ros::Time initial_ts_;
     bool detected;
     bool first;
-
-    int min_x;
-    int max_x;
-    int min_y;
-    int max_y;
-    
-    std::vector<int> color_ = {0, 0, 0};
 };
 
 }  // namespace luggage
