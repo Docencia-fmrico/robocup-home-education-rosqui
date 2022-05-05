@@ -39,7 +39,7 @@ class PercievePerson : public BT::ActionNodeBase
     explicit PercievePerson(const std::string& name, const BT::NodeConfiguration & config);
     void callback_bbx(const sensor_msgs::ImageConstPtr& image,
     const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
-
+    bool compare_colors(int R1, int G1, int B1, int R2, int G2, int B2);
     void halt();
 
     static BT::PortsList providedPorts()
@@ -53,6 +53,7 @@ class PercievePerson : public BT::ActionNodeBase
   private:
     ros::NodeHandle nh_;
     message_filters::Subscriber<sensor_msgs::Image> image_depth_sub;
+    message_filters::Subscriber<sensor_msgs::Image> image_color_sub;
     message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> bbx_sub;
     typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image,
     darknet_ros_msgs::BoundingBoxes> MySyncPolicy_bbx;
@@ -60,6 +61,13 @@ class PercievePerson : public BT::ActionNodeBase
     ros::Time initial_ts_;
     bool detected;
     bool first;
+
+    int min_x;
+    int max_x;
+    int min_y;
+    int max_y;
+    
+    std::vector<int> color_ = {0, 0, 0};
 };
 
 }  // namespace luggage

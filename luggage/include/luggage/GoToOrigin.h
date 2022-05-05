@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_GoToOrigin_H
-#define LUGGAGE_GoToOrigin_H
+#ifndef LUGGAGE_GOTOORIGIN_H
+#define LUGGAGE_GOTOORIGIN_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -42,8 +42,9 @@ class GoToOrigin : public BT::ActionNodeBase
     ros::Subscriber result_sub_;
     int result_;
     std::vector<float> coords_ = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+    bool first_;
 };
 
 }  // namespace luggage
 
-#endif  // LUGGAGE_GoToOrigin_H
+#endif  // LUGGAGE_GOTOORIGIN_H

@@ -14,8 +14,7 @@
 
 #include <string>
 
-#include "find_my_mates/Go_to_referee.h"
-#include "find_my_mates/Dialog.h"
+#include "find_my_mates/GoToPerson.h"
 #include "nav_node.cpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
@@ -23,56 +22,44 @@
 
 #include "ros/ros.h"
 
-
 namespace find_my_mates
 {
 
-Go_to_referee::Go_to_referee(const std::string& name)
+GoToPerson::GoToPerson(const std::string& name)
 : BT::ActionNodeBase(name, {}),
   nh_()
 {
-    
-  ROS_INFO("CONSTRUCTOR Go_to_referee");
-  result_sub_ = nh_.subscribe("/move_base/result", 1, &Go_to_referee::ResultCallback, this);
+  ROS_INFO("CONSTRUCTOR GoToPerson");
+  result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToPerson::ResultCallback, this);
   result_ = 0;
-  coords_[0] = 2.0;
+  first_ = true;
 }
 
 void
-Go_to_referee::halt()
+GoToPerson::halt()
 {
-  ROS_INFO("Go_to_referee halt");
+  ROS_INFO("GoToPerson halt");
 }
 
 void
-Go_to_referee::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
+GoToPerson::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
 	result_ = msg->status.status;
 }
 
 BT::NodeStatus
-Go_to_referee::tick()
-{
-	ROS_INFO("Go_to_referee");
+GoToPerson::tick()
+{	
 
-	/*find_my_mates::Dialog forwarder;
-	ros::Duration(1, 0).sleep();
-	dialogflow_ros_msgs::DialogflowResult side;
-	int controler = 1;
-
-	while (controler) {
-		ROS_INFO("bucle");
-		forwarder.listen(); 
-		ros::spinOnce();
-		if (forwarder.get_start() == 0)
-			controler = 0;
-		ros::Duration(2, 0).sleep();
+	if(first_){
+		Navigation my_node_;
+		my_node_.doWork(200, coords_);
+		first_ = false;
 	}
 
-	ROS_INFO("NAV START");
-	*/
-	//MyNode my_node;
-	//my_node.doWork(200, coords_);
+	if (result_ != 0)
+		ROS_INFO("Result: %d", result_);
+
 	if (result_ == 3)
 	{
 		ROS_INFO("LEAVING");
@@ -86,5 +73,5 @@ Go_to_referee::tick()
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<find_my_mates::Go_to_referee>("Go_to_referee");
+  factory.registerNodeType<find_my_mates::GoToPerson>("GoToPerson");
 }

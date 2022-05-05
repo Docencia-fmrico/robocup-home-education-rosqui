@@ -12,33 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_LOST_H
-#define LUGGAGE_LOST_H
+#ifndef FINDMYMATES_GOTOPERSON_H
+#define FINDMYMATES_GOTOPERSON_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
+#include <message_filters/subscriber.h>
+
+#include <move_base_msgs/MoveBaseActionResult.h>
+
+#include "geometry_msgs/Twist.h"
 
 #include <string>
-#include "geometry_msgs/Twist.h"
-#include "ros/ros.h"
+#include <vector>
 
-namespace luggage
+namespace find_my_mates
 {
 
-class Lost : public BT::ActionNodeBase
+class GoToPerson : public BT::ActionNodeBase
 {
   public:
-    explicit Lost(const std::string& name);
-
+    explicit GoToPerson(const std::string& name);
     void halt();
-
     BT::NodeStatus tick();
-  protected:
+    void ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg);
+
+  private:
     ros::NodeHandle nh_;
-    ros::Publisher pub_vel_;
-    static constexpr double TURN_VEL = 0.35;
+    ros::Subscriber result_sub_;
+    int result_;
+    std::vector<float> coords_ = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+    bool first_;
 };
 
-}  // namespace luggage
+}  // namespace find_my_mates
 
-#endif  // LUGGAGE_LOST_H
+#endif  // FINDMYMATES_GOTOPERSON_H

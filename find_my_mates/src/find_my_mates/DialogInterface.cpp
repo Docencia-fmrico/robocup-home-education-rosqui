@@ -79,7 +79,9 @@ void DialogInterface::registerCallback(
 }
 
 void DialogInterface::dfCallback(const DialogflowResult::ConstPtr& result)
-{ 
+
+{
+
   auto bool_msg = std_msgs::Bool();
   bool_msg.data = false;
   listening_gui_.publish(bool_msg);
@@ -91,7 +93,6 @@ void DialogInterface::dfCallback(const DialogflowResult::ConstPtr& result)
       std::regex intent_re = std::regex(item.first);
       if (std::regex_match(result->intent, intent_re))
       {
-        
         item.second(*result);
       }
     }

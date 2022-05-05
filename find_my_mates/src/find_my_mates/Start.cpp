@@ -14,59 +14,45 @@
 
 #include <string>
 
-#include "find_my_mates/Go_to_arena.h"
+#include "find_my_mates/Start.h"
+
 #include "find_my_mates/Dialog.h"
-#include "nav_node.cpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
-#include "move_base_msgs/MoveBaseActionResult.h"
 
 #include "ros/ros.h"
-
 
 namespace find_my_mates
 {
 
-Go_to_arena::Go_to_arena(const std::string& name)
-: BT::ActionNodeBase(name, {}),
+Start::Start(const std::string& name, const BT::NodeConfiguration & config)
+: BT::ActionNodeBase(name, config),
   nh_()
-{
-    
-  ROS_INFO("CONSTRUCTOR Go_to_arena");
-  result_sub_ = nh_.subscribe("/move_base/result", 1, &Go_to_arena::ResultCallback, this);
-  result_ = 0;
-  coords_[0] = 2.0;
-}
+{}
 
 void
-Go_to_arena::halt()
+Start::halt()
 {
-  ROS_INFO("Go_to_arena halt");
-}
-
-void
-Go_to_arena::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
-{
-	result_ = msg->status.status;
+  ROS_INFO("Start halt");
 }
 
 BT::NodeStatus
-Go_to_arena::tick()
-
+Start::tick()
 {
-	ROS_INFO("Go_to_arena");
-	if (result_ == 3)
-	{
-		ROS_INFO("LEAVING");
-		return BT::NodeStatus::SUCCESS;
-	}
+    ROS_INFO("Start");
+    find_my_mates::Dialog forwarder;
+    
+    forwarder.listen();
+    ros::spinOnce();
+    if (forwarder.get_start() == 0)
+        return BT::NodeStatus::SUCCESS;
 
-  	return BT::NodeStatus::RUNNING;
+  return BT::NodeStatus::RUNNING;
 }
 }  // namespace find_my_mates
 
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<find_my_mates::Go_to_arena>("Go_to_arena");
+  factory.registerNodeType<find_my_mates::Start>("Start");
 }

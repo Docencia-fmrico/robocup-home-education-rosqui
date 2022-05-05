@@ -14,8 +14,7 @@
 
 #include <string>
 
-#include "luggage/GoToRef.h"
-#include "luggage/Dialog.h"
+#include "find_my_mates/GoToRef.h"
 #include "nav_node.cpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
@@ -23,7 +22,7 @@
 
 #include "ros/ros.h"
 
-namespace luggage
+namespace find_my_mates
 {
 
 GoToRef::GoToRef(const std::string& name)
@@ -33,7 +32,7 @@ GoToRef::GoToRef(const std::string& name)
   ROS_INFO("CONSTRUCTOR GoToRef");
   result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToRef::ResultCallback, this);
   result_ = 0;
-  coords_[0] = 2.0;
+  first_ = true;
 }
 
 void
@@ -45,18 +44,19 @@ GoToRef::halt()
 void
 GoToRef::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
-    result_ = msg->status.status;
+	result_ = msg->status.status;
 }
 
 BT::NodeStatus
 GoToRef::tick()
-{
+{	
+
 	if(first_){
 		Navigation my_node_;
 		my_node_.doWork(200, coords_);
 		first_ = false;
 	}
-	
+
 	if (result_ != 0)
 		ROS_INFO("Result: %d", result_);
 
@@ -68,10 +68,10 @@ GoToRef::tick()
 
   	return BT::NodeStatus::RUNNING;
 }
-}  // namespace luggage
+}  // namespace find_my_mates
 
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<luggage::GoToRef>("GoToRef");
+  factory.registerNodeType<find_my_mates::GoToRef>("GoToRef");
 }

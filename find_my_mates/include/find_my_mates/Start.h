@@ -12,39 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIND_MY_MATES_Go_to_arena_H
-#define FIND_MY_MATES_Go_to_arena_H
+#ifndef FINDMYMATES_START_H
+#define FINDMYMATES_START_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
-#include <message_filters/subscriber.h>
 
-#include <move_base_msgs/MoveBaseActionResult.h>
-
-#include "geometry_msgs/Twist.h"
+#include <cv_bridge/cv_bridge.h>
 
 #include <string>
 #include <vector>
+#include "ros/ros.h"
 
 namespace find_my_mates
 {
 
-class Go_to_arena : public BT::ActionNodeBase
+class Start : public BT::ActionNodeBase
 {
   public:
-    explicit Go_to_arena(const std::string& name);
+    explicit Start(const std::string& name, const BT::NodeConfiguration & config);
     void halt();
     BT::NodeStatus tick();
-    void ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg);
+    static BT::PortsList providedPorts()
+    {
+        return { BT::OutputPort<std::string>("bag_pos"), BT::OutputPort<std::vector<int>>("color")};
+    }
 
   private:
     ros::NodeHandle nh_;
-    ros::Subscriber result_sub_;
-    int result_;
-    std::vector<float> coords_ = {1.63, 2.8, 0.0, 0.0, 0.0, 0.0, 1.0};
-    bool first_;
 };
 
 }  // namespace find_my_mates
 
-#endif  // FIND_MY_MATES_Go_to_arena_H
+#endif  // FINDMYMATES_START_H

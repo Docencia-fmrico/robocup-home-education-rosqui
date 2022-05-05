@@ -12,33 +12,47 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_LOST_H
-#define LUGGAGE_LOST_H
+#include <string>
+
+#include "luggage/Start.h"
+
+#include "luggage/Dialog.h"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
 
-#include <string>
-#include "geometry_msgs/Twist.h"
 #include "ros/ros.h"
 
 namespace luggage
 {
 
-class Lost : public BT::ActionNodeBase
+Start::Start(const std::string& name, const BT::NodeConfiguration & config)
+: BT::ActionNodeBase(name, config),
+  nh_()
+{}
+
+void
+Start::halt()
 {
-  public:
-    explicit Lost(const std::string& name);
+  ROS_INFO("Start halt");
+}
 
-    void halt();
+BT::NodeStatus
+Start::tick()
+{
+    ROS_INFO("Start");
+    luggage::Dialog forwarder;
+    
+    forwarder.listen();
+    ros::spinOnce();
+    if (forwarder.get_start() == 0)
+        return BT::NodeStatus::SUCCESS;
 
-    BT::NodeStatus tick();
-  protected:
-    ros::NodeHandle nh_;
-    ros::Publisher pub_vel_;
-    static constexpr double TURN_VEL = 0.35;
-};
-
+  return BT::NodeStatus::RUNNING;
+}
 }  // namespace luggage
 
-#endif  // LUGGAGE_LOST_H
+#include "behaviortree_cpp_v3/bt_factory.h"
+BT_REGISTER_NODES(factory)
+{
+  factory.registerNodeType<luggage::Start>("Start");
+}

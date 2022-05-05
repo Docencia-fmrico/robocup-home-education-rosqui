@@ -12,33 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_LOST_H
-#define LUGGAGE_LOST_H
+#ifndef LUGGAGE_START_H
+#define LUGGAGE_START_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 
+#include <cv_bridge/cv_bridge.h>
+
 #include <string>
-#include "geometry_msgs/Twist.h"
+#include <vector>
 #include "ros/ros.h"
 
 namespace luggage
 {
 
-class Lost : public BT::ActionNodeBase
+class Start : public BT::ActionNodeBase
 {
   public:
-    explicit Lost(const std::string& name);
-
+    explicit Start(const std::string& name, const BT::NodeConfiguration & config);
     void halt();
-
     BT::NodeStatus tick();
-  protected:
+    static BT::PortsList providedPorts()
+    {
+        return { BT::OutputPort<std::string>("bag_pos"), BT::OutputPort<std::vector<int>>("color")};
+    }
+
+  private:
     ros::NodeHandle nh_;
-    ros::Publisher pub_vel_;
-    static constexpr double TURN_VEL = 0.35;
 };
 
 }  // namespace luggage
 
-#endif  // LUGGAGE_LOST_H
+#endif  // LUGGAGE_START_H

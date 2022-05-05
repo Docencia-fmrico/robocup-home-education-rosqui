@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIND_MY_MATES_Go_to_person_H
-#define FIND_MY_MATES_Go_to_person_H
+#ifndef FINDMYMATES_GOTOARENA_H
+#define FINDMYMATES_GOTOARENA_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -29,10 +29,10 @@
 namespace find_my_mates
 {
 
-class Go_to_person : public BT::ActionNodeBase
+class Go_to_arena : public BT::ActionNodeBase
 {
   public:
-    explicit Go_to_person(const std::string& name);
+    explicit GoToArena(const std::string& name);
     void halt();
     BT::NodeStatus tick();
     void ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg);
@@ -41,10 +41,12 @@ class Go_to_person : public BT::ActionNodeBase
     ros::NodeHandle nh_;
     ros::Subscriber result_sub_;
     int result_;
-    std::vector<float> coords_ = {1.63, 2.8, 0.0, 0.0, 0.0, 0.0, 1.0};
+
+    std::vector<float> coords_ = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
     bool first_;
 };
 
 }  // namespace find_my_mates
 
-#endif  // FIND_MY_MATES_Go_to_person_H
+#endif  // FINDMYMATES_GOTOARENA_H
+
