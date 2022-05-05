@@ -41,8 +41,19 @@ class GoToPerson : public BT::ActionNodeBase
     ros::NodeHandle nh_;
     ros::Subscriber result_sub_;
     int result_;
-    std::vector<float> coords_ = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
     bool first_;
+
+    int current_pos_;
+
+    std::vector<float> coords1 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+    std::vector<float> coords2 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+    std::vector<float> coords3 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+    std::vector<float> coords4 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+    std::vector<float> coords5 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+    std::vector<float> coords6 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+
+    std::vector<std::vector<float>> all_coords = {coords1, coords2, coords3, coords4, coords5, coords6};
+    
 };
 
 }  // namespace find_my_mates

@@ -33,6 +33,7 @@ GoToPerson::GoToPerson(const std::string& name)
   result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToPerson::ResultCallback, this);
   result_ = 0;
   first_ = true;
+  current_pos_ = 0;
 }
 
 void
@@ -53,7 +54,7 @@ GoToPerson::tick()
 
 	if(first_){
 		Navigation my_node_;
-		my_node_.doWork(200, coords_);
+		my_node_.doWork(200, all_coords[current_pos_]);
 		first_ = false;
 	}
 
@@ -64,6 +65,9 @@ GoToPerson::tick()
 	{
 		ROS_INFO("LEAVING");
 		return BT::NodeStatus::SUCCESS;
+		current_pos_++;
+		first_ = true;
+		result_ = 0;
 	}
 
   	return BT::NodeStatus::RUNNING;
