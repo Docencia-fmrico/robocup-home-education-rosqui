@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_GOTOREF_H
-#define LUGGAGE_GOTOREF_H
+#ifndef FINDMYMATES_GOTOREF_H
+#define FINDMYMATES_GOTOREF_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include <message_filters/subscriber.h>
-#include "NearGo.h"
 
 #include <move_base_msgs/MoveBaseActionResult.h>
 
@@ -27,7 +26,7 @@
 #include <string>
 #include <vector>
 
-namespace luggage
+namespace find_my_mates
 {
 
 class GoToRef : public BT::ActionNodeBase
@@ -42,10 +41,10 @@ class GoToRef : public BT::ActionNodeBase
     ros::NodeHandle nh_;
     ros::Subscriber result_sub_;
     int result_;
-    std::vector<float> coords_ = {1.63, 2.8, 0.0, 0.0, 0.0, 0.0, 1.0};
+    std::vector<float> coords_ = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
     bool first_;
 };
 
-}  // namespace luggage
+}  // namespace find_my_mates
 
-#endif  // LUGGAGE_GOTOREF_H
+#endif  // FINDMYMATES_GOTOREF_H
