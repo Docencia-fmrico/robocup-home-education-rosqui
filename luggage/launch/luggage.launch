@@ -7,6 +7,9 @@
     <arg name="image" value="/camera/rgb/image_raw/"/>
   </include>
   
+  <include file="$(find robots)/launch/kobuki_rplidar_astra.launch"/>
+  <include file="$(find navigation)/launch/navigation.launch"/>
+
   <!--laucher of dialog-->
   <arg name="config_file" default="$(find dialogflow_ros)/config/params.yaml"/>
   <arg name="google_application_credentials" default="$(env HOME)/df_arq_soft.json"/>
@@ -17,35 +20,5 @@
     <arg name="config_file" value="$(arg config_file)"/>
   </include>
   <!--FIN laucher of dialog-->
-
-
-  <!--nclude file="$(find navigation)/launch/slam_mapping.launch">
-  </include>
-  -->
-
-  <include file="$(find robots)/launch/kobuki_rplidar_astra.launch"/>
-  <include file="$(find navigation)/launch/navigation.launch"/>
-
-  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" args="scan:=scan_filtered" output="screen">
-    <!--
-    descriptions and defaults:
-    http://www.ros.org/wiki/gmapping#Parameters
-    -->
-
-    <param name="xmin" value="-1.0"/>
-    <param name="ymin" value="-1.0"/>
-    <param name="xmax" value="15.0"/>
-    <param name="ymax" value="15.0"/>
-    <param name="maxUrange" value="20.0"/><!--60! ?-->
-    <param name="maxRange" value="20.0"/>
-
-    <param name="map_update_interval" value="5.0"/> <!-- def -->
-    <param name="linearUpdate" value="0.2"/>
-    <param name="angularUpdate" value="0.15"/>
-    <param name="particles" value="50"/>
-
-    <param name="delta" value="0.02"/>
-
-  </node>
 
 </launch>
