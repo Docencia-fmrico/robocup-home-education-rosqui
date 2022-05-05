@@ -11,20 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-/*
-#ifndef FIND_MY_MATES_GO_TO_ARENA_H
-#define FIND_MY_MATES_GO_TO_ARENA_H
+
+#ifndef FINDMYMATES_GOTOARENA_H
+#define FINDMYMATES_GOTOARENA_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
-
-#include <move_base_msgs/MoveBaseAction.h>
 #include <message_filters/subscriber.h>
-#include "find_my_mates/BTNavAction.h"
+
+#include <move_base_msgs/MoveBaseActionResult.h>
 
 #include "geometry_msgs/Twist.h"
 
 #include <string>
+#include <vector>
 
 namespace find_my_mates
 {
@@ -32,24 +32,19 @@ namespace find_my_mates
 class GoToArena : public BT::ActionNodeBase
 {
   public:
-    explicit GoToArena(const std::string& name,
-    const std::string & action_name,
-    const BT::NodeConfiguration & config);
-
-    void on_halt();
-    BT::NodeStatus on_tick();
-    void on_start();
-    void on_feedback(const move_base_msgs::MoveBaseFeedbackConstPtr& feedback);
-
-    static BT::PortsList providedPorts() {
-      return {};
-    }
+    explicit GoToArena(const std::string& name);
+    void halt();
+    BT::NodeStatus tick();
+    void ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg);
 
   private:
-    int counter_;
-
+    ros::NodeHandle nh_;
+    ros::Subscriber result_sub_;
+    int result_;
+    std::vector<float> coords_ = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+    bool first_;
 };
 
 }  // namespace find_my_mates
-*/
-#endif  // FIND_MY_MATES_GO_TO_ARENA_H
+
+#endif  // FINDMYMATES_GOTOARENA_H

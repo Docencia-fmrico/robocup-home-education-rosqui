@@ -62,9 +62,9 @@ link_directories(
 
 add_library(asr_start_program_bt_node SHARED src/find_my_mates/Start.cpp)
 add_library(asr_analyze_person_bt_node SHARED src/find_my_mates/Analyze_person.cpp)
-add_library(asr_go_to_arena_bt_node SHARED src/find_my_mates/Go_to_arena.cpp)
-add_library(asr_go_to_person_bt_node SHARED src/find_my_mates/Go_to_person.cpp)
-add_library(asr_go_to_referee_bt_node SHARED src/find_my_mates/Go_to_referee.cpp)
+add_library(asr_go_to_arena_bt_node SHARED src/find_my_mates/GoToArena.cpp)
+add_library(asr_go_to_person_bt_node SHARED src/find_my_mates/GoToPerson.cpp)
+add_library(asr_go_to_referee_bt_node SHARED src/find_my_mates/GoToRef.cpp)
 add_library(asr_go_say_the_description_bt_node SHARED src/find_my_mates/Say_the_description.cpp)
 list(APPEND plugin_libs
   asr_start_program_bt_node
@@ -88,9 +88,10 @@ set(cv_bridge_DIR /usr/local/share/cv_bridge/cmake)
 roslint_cpp(
   src/find_my_mates_node.cpp
   include/find_my_mates/Analyze_person.h src/find_my_mates/Analyze_person.cpp
-  include/find_my_mates/Go_to_arena.h src/find_my_mates/Go_to_arena.cpp
-  include/find_my_mates/Go_to_person.h src/find_my_mates/Go_to_person.cpp
-  include/find_my_mates/Go_to_referee.h src/find_my_mates/Go_to_referee.cpp
+  include/find_my_mates/nav_node.h src/find_my_mates/nav_node.cpp
+  include/find_my_mates/GoToArena.h src/find_my_mates/GoToArena.cpp
+  include/find_my_mates/GoToPerson.h src/find_my_mates/GoToPerson.cpp
+  include/find_my_mates/GoToRef.h src/find_my_mates/GoToRef.cpp
   include/find_my_mates/Say_the_description.h src/find_my_mates/Say_the_description.cpp
   include/find_my_mates/BTNavAction.h
   include/find_my_mates/DialogInterface.h src/find_my_mates/DialogInterface.cpp
