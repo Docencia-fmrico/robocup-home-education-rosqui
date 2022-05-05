@@ -107,19 +107,7 @@ NearGo::scanFilteredCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   int front = num_ranges/2; // num_ranges/2 para simulador
   int near_sector = check_sector(msg, num_ranges, proportion, front);
 
-  if(near_sector < NUM_SECTORS && near_sector > FRONT_LIMIT_SECT)
-  {
-    detected_ = true;
-    direction_ = DETECTED_RIGHT;
-    ROS_INFO("DETECTED_RIGHT");
-  }
-  else if(near_sector > -NUM_SECTORS && near_sector < -FRONT_LIMIT_SECT)
-  {
-    detected_ = true;
-    direction_ = DETECTED_LEFT;
-    ROS_INFO("DETECTED_LEFT");
-  }
-  else if(near_sector > -FRONT_LIMIT_SECT && near_sector < FRONT_LIMIT_SECT)
+  if(near_sector > -FRONT_LIMIT_SECT && near_sector < FRONT_LIMIT_SECT)
   {
     detected_ = true;
     direction_ = DETECTED_FRONT;

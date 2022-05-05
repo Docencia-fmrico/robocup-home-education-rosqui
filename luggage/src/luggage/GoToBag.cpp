@@ -68,12 +68,6 @@ GoToBag::tick()
 
       ROS_INFO("TIME: %f %f", current_ts_, TURNING_VEL_);
   }
-  else if (current_ts_ <= 2*ACTION_TIME_)
-  {
-      cmd.linear.x = FORWARD_VEL;
-      cmd.angular.z = 0;
-      ROS_INFO("TIME: %f %s", current_ts_, "FORWARD");
-  }
   else if (current_ts_ >= 5*ACTION_TIME_)
   {
       ROS_INFO("BAG REACHED");

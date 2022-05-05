@@ -41,7 +41,7 @@ class GoToOrigin : public BT::ActionNodeBase
     ros::NodeHandle nh_;
     ros::Subscriber result_sub_;
     int result_;
-    std::vector<float> coords_ = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+    std::vector<float> coords_ = {3.04, 0.03, 0.0, 0.0, 0.0, 0.69, 0.71};
     bool first_;
 };
 
