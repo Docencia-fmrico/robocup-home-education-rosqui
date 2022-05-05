@@ -40,11 +40,16 @@ namespace find_my_mates
 class AnalyzePerson : public BT::ActionNodeBase
 {
   public:
-    explicit AnalyzePerson(const std::string& name);
+    explicit AnalyzePerson(const std::string& name, const BT::NodeConfiguration & config);
 
     void halt();
 
     BT::NodeStatus tick();
+
+    static BT::PortsList providedPorts()
+    {
+        return { BT::OutputPort<std::string>("occupied_pos") };
+    }
     
   private:
     ros::NodeHandle nh_;

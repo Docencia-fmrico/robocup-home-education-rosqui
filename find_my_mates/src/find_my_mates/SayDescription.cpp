@@ -25,8 +25,8 @@
 namespace find_my_mates
 {
 
-SayDescription::SayDescription(const std::string& name)
-: BT::ActionNodeBase(name, {}),
+SayDescription::SayDescription(const std::string& name, const BT::NodeConfiguration & config)
+: BT::ActionNodeBase(name, config),
   nh_()
 {
   ROS_INFO("CONSTRUCTOR SayDescription");

@@ -32,10 +32,14 @@ namespace find_my_mates
 class SayDescription : public BT::ActionNodeBase
 {
   public:
-    explicit SayDescription(const std::string& name);
+    explicit SayDescription(const std::string& name, const BT::NodeConfiguration & config);
     void halt();
     BT::NodeStatus tick();
     void ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg);
+    static BT::PortsList providedPorts()
+    {
+        return { BT::InputPort<std::string>("occupied_pos") };
+    }
 
   private:
     ros::NodeHandle nh_;

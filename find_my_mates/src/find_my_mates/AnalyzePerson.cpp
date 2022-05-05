@@ -23,8 +23,8 @@
 namespace find_my_mates
 {
 
-AnalyzePerson::AnalyzePerson(const std::string& name)
-: BT::ActionNodeBase(name, {}),
+AnalyzePerson::AnalyzePerson(const std::string& name, const BT::NodeConfiguration & config)
+: BT::ActionNodeBase(name, config),
   nh_()
 {
 }
