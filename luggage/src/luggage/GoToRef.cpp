@@ -31,7 +31,6 @@ GoToRef::GoToRef(const std::string& name)
 : BT::ActionNodeBase(name, {}),
   nh_()
 {
-    
   ROS_INFO("CONSTRUCTOR GoToRef");
   result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToRef::ResultCallback, this);
   result_ = 0;
@@ -47,40 +46,22 @@ GoToRef::halt()
 void
 GoToRef::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
-	result_ = msg->status.status;
+    result_ = msg->status.status;
 }
 
 BT::NodeStatus
 GoToRef::tick()
-
 {
-	ROS_INFO("GoToRef");
+    return BT::NodeStatus::SUCCESS;
+    ROS_INFO("GoToRef");  
 
-	luggage::Dialog forwarder;
-	ros::Duration(1, 0).sleep();
-	dialogflow_ros_msgs::DialogflowResult side;
-	int controler = 1;
-
-	while (controler) {
-		ROS_INFO("bucle");
-		forwarder.listen(); 
-		ros::spinOnce();
-		if (forwarder.get_start() == 0)
-			controler = 0;
-		ros::Duration(2, 0).sleep();
-	}
-
-	ROS_INFO("NAV START");
-	//MyNode my_node;
-	//my_node.doWork(200, coords_);
-
-	if (result_ == 3)
-	{
-		ROS_INFO("LEAVING");
-		return BT::NodeStatus::SUCCESS;
-	}
-
-  	return BT::NodeStatus::RUNNING;
+    ROS_INFO("NAV START");
+    if (result_ == 3)
+    {
+        ROS_INFO("LEAVING");
+        return BT::NodeStatus::SUCCESS;
+    }
+    return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage
 

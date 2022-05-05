@@ -35,6 +35,10 @@
 /* Author: Jonatan Gines jginesclavero@gmail.com */
 
 /* Mantainer: Jonatan Gines jginesclavero@gmail.com */
+
+#ifndef LUGGAGE_DIALOG_H
+#define LUGGAGE_DIALOG_H
+
 #include <luggage/DialogInterface.h>
 #include <sound_play/SoundRequest.h>
 #include <string>
@@ -71,13 +75,15 @@ class Dialog : public DialogInterface
     void PresentationCB(dialogflow_ros_msgs::DialogflowResult result)
     {
       ROS_INFO("[Dialog] PresentationCB: intent [%s]", result.intent.c_str());
-      
-      for (const auto & param : result.parameters) {
+
+      for (const auto & param : result.parameters)
+      {
         std::cerr << param << std::endl;
-        for (const auto & value : param.value) {
+        for (const auto & value : param.value)
+        {
           std::cerr << "\t" << value << std::endl;
         }
-      } 
+      }
       speak(result.fulfillment_text);
     }
 
@@ -86,10 +92,12 @@ class Dialog : public DialogInterface
       ROS_INFO("[Dialog] DetectLCB: intent [%s]", result.intent.c_str());
 
       side_ = result;
-      
-      for (const auto & param : result.parameters) {
+
+      for (const auto & param : result.parameters)
+      {
         std::cerr << param << std::endl;
-        for (const auto & value : param.value) {
+        for (const auto & value : param.value)
+        {
           std::cerr << "\t" << value << std::endl;
         }
       }
@@ -102,11 +110,13 @@ class Dialog : public DialogInterface
       start_ = 0;
     }
 
-    int get_start() {
+    int get_start()
+    {
       return start_;
     }
 
-    dialogflow_ros_msgs::DialogflowResult getValue() {
+    dialogflow_ros_msgs::DialogflowResult getValue()
+    {
       return side_;
     }
 
@@ -117,3 +127,4 @@ class Dialog : public DialogInterface
 };
 }  // namespace luggage
 
+#endif  // LUGGAGE_DIALOG_H

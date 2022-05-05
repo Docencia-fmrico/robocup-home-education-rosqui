@@ -35,12 +35,12 @@
 /* Author: Jonatan Gines jonatan.gines@urjc.es */
 
 /* Mantainer: Jonatan Gines jonatan.gines@urjc.es */
-#include <luggage/DialogInterface.h>
+#include <find_my_mates/DialogInterface.h>
 
 #include <string>
 #include <utility>
 
-namespace luggage
+namespace find_my_mates
 {
 
 DialogInterface::DialogInterface()
@@ -119,4 +119,4 @@ bool DialogInterface::listen()
   return true;
 }
 
-};  // namespace luggage
+};  // namespace find_my_mates

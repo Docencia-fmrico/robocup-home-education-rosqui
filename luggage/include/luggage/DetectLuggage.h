@@ -47,7 +47,7 @@ class DetectLuggage : public BT::ActionNodeBase
     void halt();
 
     BT::NodeStatus tick();
-    
+
   private:
     ros::NodeHandle nh_;
     message_filters::Subscriber<sensor_msgs::Image> image_color_sub;
@@ -59,10 +59,9 @@ class DetectLuggage : public BT::ActionNodeBase
     int max_x;
     int min_y;
     int max_y;
-    
-    ros::Time listen_t;
-    std::vector<int> color_ = {0,0,0};
 
+    ros::Time listen_t;
+    std::vector<int> color_ = {0, 0, 0};
 };
 
 }  // namespace luggage

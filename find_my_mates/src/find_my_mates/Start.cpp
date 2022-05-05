@@ -14,57 +14,45 @@
 
 #include <string>
 
-#include "luggage/GoToOrigin.h"
-#include "nav_node.cpp"
+#include "find_my_mates/Start.h"
+
+#include "find_my_mates/Dialog.h"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
-#include "move_base_msgs/MoveBaseActionResult.h"
 
 #include "ros/ros.h"
 
-namespace luggage
+namespace find_my_mates
 {
 
-GoToOrigin::GoToOrigin(const std::string& name)
-: BT::ActionNodeBase(name, {}),
+Start::Start(const std::string& name, const BT::NodeConfiguration & config)
+: BT::ActionNodeBase(name, config),
   nh_()
-{
-  ROS_INFO("CONSTRUCTOR GoToOrigin");
-  result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToOrigin::ResultCallback, this);
-  result_ = 0;
-}
+{}
 
 void
-GoToOrigin::halt()
+Start::halt()
 {
-  ROS_INFO("GoToOrigin halt");
-}
-
-void
-GoToOrigin::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
-{
-    result_ = msg->status.status;
+  ROS_INFO("Start halt");
 }
 
 BT::NodeStatus
-GoToOrigin::tick()
+Start::tick()
 {
-    Navigation my_node_;
-    my_node_.doWork(200, coords_);
-
-    ROS_INFO("GO TO ORIGIN");
-
-    if (result_ == 3)
-    {
+    ROS_INFO("Start");
+    find_my_mates::Dialog forwarder;
+    
+    forwarder.listen();
+    ros::spinOnce();
+    if (forwarder.get_start() == 0)
         return BT::NodeStatus::SUCCESS;
-    }
 
-    return BT::NodeStatus::RUNNING;
+  return BT::NodeStatus::RUNNING;
 }
-}  // namespace luggage
+}  // namespace find_my_mates
 
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<luggage::GoToOrigin>("GoToOrigin");
+  factory.registerNodeType<find_my_mates::Start>("Start");
 }

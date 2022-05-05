@@ -3,6 +3,7 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
+            <Action ID="Start"/>
             <Action ID="Go_to_arena"/>
             <Action ID="Go_to_person"/>
             <Action ID="Analyze_person"/>
@@ -17,6 +18,7 @@
         <Action ID="Go_to_person"/>
         <Action ID="Go_to_referee"/>
         <Action ID="Say_the_description"/>
+        <Action ID="Start"/>
     </TreeNodesModel>
     <!-- ////////// -->
 </root>

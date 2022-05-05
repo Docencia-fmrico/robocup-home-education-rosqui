@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_GoToBag_H
-#define LUGGAGE_GoToBag_H
+#ifndef LUGGAGE_GOTOBAG_H
+#define LUGGAGE_GOTOBAG_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -50,9 +50,8 @@ class GoToBag : public BT::ActionNodeBase
     static constexpr double ACTION_TIME_ = 2.0;
     ros::Publisher pub_vel_;
     bool first;
-
 };
 
 }  // namespace luggage
 
-#endif  // LUGGAGE_GoToBag_H
+#endif  // LUGGAGE_GOTOBAG_H

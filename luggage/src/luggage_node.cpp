@@ -32,6 +32,7 @@ int main(int argc, char **argv)
   BT::BehaviorTreeFactory factory;
   BT::SharedLibrary loader;
 
+  factory.registerFromPlugin(loader.getOSName("asr_start_bt_node"));
   factory.registerFromPlugin(loader.getOSName("asr_detect_luggage_bt_node"));
   factory.registerFromPlugin(loader.getOSName("asr_go_to_bag_bt_node"));
   factory.registerFromPlugin(loader.getOSName("asr_lost_bt_node"));
@@ -41,7 +42,7 @@ int main(int argc, char **argv)
   factory.registerFromPlugin(loader.getOSName("asr_go_to_origin_bt_node"));
 
   auto blackboard = BT::Blackboard::create();
-  blackboard->set("bag_pos", "pos"); 
+  blackboard->set("bag_pos", "pos");
   blackboard->set("color", "color");
   blackboard->set("person_x", "X");
   blackboard->set("person_z", "Z");

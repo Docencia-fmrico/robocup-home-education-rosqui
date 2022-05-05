@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_NAVIGATION_H
-#define LUGGAGE_NAVIGATION_H
+#ifndef LUGGAGE_NAV_NODE_H
+#define LUGGAGE_NAV_NODE_H
 
 #include <ros/ros.h>
+#include <vector>
 #include <actionlib/client/simple_action_client.h>
 #include <move_base_msgs/MoveBaseAction.h>
 
@@ -27,17 +28,16 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> Client;
 class Navigation
 {
 public:
-
-	Navigation();
-	void doWork(long int until, std::vector<float> coords);
-	void feedbackCb(const move_base_msgs::MoveBaseFeedbackConstPtr& feedback);
-	void doneCb(const actionlib::SimpleClientGoalState& state,
-  	const move_base_msgs::MoveBaseResultConstPtr& result);
+    Navigation();
+    void doWork(long int until, std::vector<float> coords);
+    void feedbackCb(const move_base_msgs::MoveBaseFeedbackConstPtr& feedback);
+    void doneCb(const actionlib::SimpleClientGoalState& state,
+    const move_base_msgs::MoveBaseResultConstPtr& result);
 
 private:
-	Client ac;
+    Client ac;
 };
 
 }  // namespace luggage
 
-#endif  // LUGGAGE_NAVIGATION_H
+#endif  // LUGGAGE_NAV_NODE_H

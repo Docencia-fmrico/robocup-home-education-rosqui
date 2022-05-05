@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LUGGAGE_GoToRef_H
-#define LUGGAGE_GoToRef_H
+#ifndef LUGGAGE_GOTOREF_H
+#define LUGGAGE_GOTOREF_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -47,4 +47,4 @@ class GoToRef : public BT::ActionNodeBase
 
 }  // namespace luggage
 
-#endif  // LUGGAGE_GoToRef_H
+#endif  // LUGGAGE_GOTOREF_H
