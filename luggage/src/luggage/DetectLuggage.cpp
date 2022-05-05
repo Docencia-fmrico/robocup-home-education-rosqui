@@ -170,7 +170,7 @@ DetectLuggage::tick()
   ROS_INFO("Detect Luggage Tick");
   luggage::Dialog forwarder;
 
-  ROS_INFO("Speak:");
+  /*ROS_INFO("Speak:");
   ros::Duration(1, 0).sleep();
   forwarder.speak("Good morning, what is your name?");
   ros::Duration(3, 0).sleep();
@@ -178,7 +178,9 @@ DetectLuggage::tick()
   ROS_INFO("FIRST LISTEN");
   forwarder.listen();
   ros::spinOnce();
-  ros::Duration(7, 0).sleep();
+  ros::Duration(7, 0).sleep();*/
+
+  forwarder.speak("RIGHT OR LEFT?");
 
   ROS_INFO("SECOND LISTEN");
   forwarder.listen();

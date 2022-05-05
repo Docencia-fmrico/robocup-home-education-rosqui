@@ -20,6 +20,8 @@
 
 #include <cv_bridge/cv_bridge.h>
 
+#include "luggage/Dialog.h"
+
 #include <string>
 #include <vector>
 #include "ros/ros.h"
@@ -30,16 +32,14 @@ namespace luggage
 class Start : public BT::ActionNodeBase
 {
   public:
-    explicit Start(const std::string& name, const BT::NodeConfiguration & config);
+    explicit Start(const std::string& name);
     void halt();
     BT::NodeStatus tick();
-    static BT::PortsList providedPorts()
-    {
-        return { BT::OutputPort<std::string>("bag_pos"), BT::OutputPort<std::vector<int>>("color")};
-    }
 
   private:
     ros::NodeHandle nh_;
+    bool first_;
+    luggage::Dialog forwarder_;
 };
 
 }  // namespace luggage

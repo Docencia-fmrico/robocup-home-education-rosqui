@@ -16,8 +16,6 @@
 
 #include "luggage/Start.h"
 
-#include "luggage/Dialog.h"
-
 #include "behaviortree_cpp_v3/behavior_tree.h"
 
 #include "ros/ros.h"
@@ -25,10 +23,12 @@
 namespace luggage
 {
 
-Start::Start(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ActionNodeBase(name, config),
+Start::Start(const std::string& name)
+: BT::ActionNodeBase(name, {}),
   nh_()
-{}
+{
+  first_ = true;
+}
 
 void
 Start::halt()
@@ -40,11 +40,13 @@ BT::NodeStatus
 Start::tick()
 {
     ROS_INFO("Start");
-    luggage::Dialog forwarder;
-    
-    forwarder.listen();
-    ros::spinOnce();
-    if (forwarder.get_start() == 0)
+    if (first_)
+    {
+      forwarder_.listen();
+      first_ = false;
+    }
+
+    if (forwarder_.get_start() == 0)
         return BT::NodeStatus::SUCCESS;
 
   return BT::NodeStatus::RUNNING;
