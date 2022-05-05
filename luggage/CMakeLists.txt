@@ -35,7 +35,6 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   actionlib_msgs
   gb_dialog
-  backward_ros
 )
 
 catkin_package(
@@ -93,10 +92,12 @@ set(cv_bridge_DIR /usr/local/share/cv_bridge/cmake)
 
 roslint_cpp(
   src/luggage_node.cpp
+  include/luggage/BumpGo_Base.h
   include/luggage/nav_node.h src/luggage/nav_node.cpp
   include/luggage/DialogInterface.h src/luggage/DialogInterface.cpp
   include/luggage/Dialog.h
   include/luggage/GoToOrigin.h src/luggage/GoToOrigin.cpp
+  include/luggage/NearGo.h src/luggage/NearGo.cpp
   include/luggage/GoToRef.h src/luggage/GoToRef.cpp
   include/luggage/GoToBag.h src/luggage/GoToBag.cpp
   include/luggage/DetectLuggage.h src/luggage/DetectLuggage.cpp
