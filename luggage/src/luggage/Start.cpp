@@ -40,16 +40,15 @@ BT::NodeStatus
 Start::tick()
 {
     ROS_INFO("Start");
-    if (first_)
+    if (forwarder_.get_first() == 1)
     {
       forwarder_.listen();
-      first_ = false;
     }
 
     if (forwarder_.get_start() == 0)
         return BT::NodeStatus::SUCCESS;
 
-  return BT::NodeStatus::RUNNING;
+    return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage
 

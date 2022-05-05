@@ -107,10 +107,17 @@ class Dialog : public DialogInterface
     {
       ROS_INFO("[Dialog] StartCB: intent [%s]", result.intent.c_str());
       start_ = 0;
+      first_ = 0;
       speak(result.fulfillment_text);
     }
 
     int get_start()
+    {
+      ROS_INFO("first_: %d",first_);
+      return first_;
+    }
+
+    int get_first()
     {
       ROS_INFO("start_: %d",start_);
       return start_;
@@ -125,6 +132,7 @@ class Dialog : public DialogInterface
     ros::NodeHandle nh_;
     dialogflow_ros_msgs::DialogflowResult side_;
     int start_ = 1;
+    int first_ = 1;
 };
 }  // namespace luggage
 
