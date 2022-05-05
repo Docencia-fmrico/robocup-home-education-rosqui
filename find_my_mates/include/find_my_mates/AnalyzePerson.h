@@ -22,22 +22,25 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 
+#include <message_filters/subscriber.h>
+#include <message_filters/time_synchronizer.h>
+#include <message_filters/sync_policies/approximate_time.h>
+
+#include <cv_bridge/cv_bridge.h>
+
+#include <sensor_msgs/Image.h>
+#include <darknet_ros_msgs/BoundingBoxes.h>
+
+#include <vector>
 
 namespace ph = std::placeholders;
 
 namespace find_my_mates
 {
-class AnalyzePerson : public DialogInterface
+class AnalyzePerson : public BT::ActionNodeBase
 {
   public:
-    explicit AnalyzePerson(const std::string& name, const BT::NodeConfiguration & config);
-    void callback_bbx(const sensor_msgs::ImageConstPtr& image,
-    const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
-
-    static BT::PortsList providedPorts()
-    {
-        return { BT::OutputPort<std::string>("bag_pos"), BT::OutputPort<std::vector<int>>("color")};
-    }
+    explicit AnalyzePerson(const std::string& name);
 
     void halt();
 
@@ -45,15 +48,6 @@ class AnalyzePerson : public DialogInterface
     
   private:
     ros::NodeHandle nh_;
-    message_filters::Subscriber<sensor_msgs::Image> image_color_sub;
-    message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> bbx_sub;
-    typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image,
-    darknet_ros_msgs::BoundingBoxes> MySyncPolicy_bbx;
-    message_filters::Synchronizer<MySyncPolicy_bbx> sync_bbx;
-    int min_x;
-    int max_x;
-    std::vector<int> color_ = {0,0,0};
-
 };
 
 }  // namespace find_my_mates

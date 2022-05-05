@@ -37,7 +37,7 @@ int main(int argc, char **argv)
   factory.registerFromPlugin(loader.getOSName("asr_go_to_arena_bt_node"));
   factory.registerFromPlugin(loader.getOSName("asr_go_to_person_bt_node"));
   factory.registerFromPlugin(loader.getOSName("asr_go_to_referee_bt_node"));
-  factory.registerFromPlugin(loader.getOSName("asr_go_say_the_description_bt_node"));
+  factory.registerFromPlugin(loader.getOSName("asr_go_say_description_bt_node"));
 
   auto blackboard = BT::Blackboard::create();
   blackboard->set("bag_pos", "pos");

@@ -16,8 +16,6 @@
 
 #include "find_my_mates/Start.h"
 
-#include "find_my_mates/Dialog.h"
-
 #include "behaviortree_cpp_v3/behavior_tree.h"
 
 #include "ros/ros.h"
@@ -28,7 +26,9 @@ namespace find_my_mates
 Start::Start(const std::string& name, const BT::NodeConfiguration & config)
 : BT::ActionNodeBase(name, config),
   nh_()
-{}
+{
+  first_ = true;
+}
 
 void
 Start::halt()
@@ -40,11 +40,14 @@ BT::NodeStatus
 Start::tick()
 {
     ROS_INFO("Start");
-    find_my_mates::Dialog forwarder;
-    
-    forwarder.listen();
+    if (first_)
+    {
+      forwarder_.listen();
+      first_ = false;
+    }
+
     ros::spinOnce();
-    if (forwarder.get_start() == 0)
+    if (forwarder_.get_start() == 0)
         return BT::NodeStatus::SUCCESS;
 
   return BT::NodeStatus::RUNNING;

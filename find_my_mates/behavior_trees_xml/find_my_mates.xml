@@ -4,20 +4,20 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
             <Action ID="Start"/>
-            <Action ID="Go_to_arena"/>
-            <Action ID="Go_to_person"/>
-            <Action ID="Analyze_person"/>
-            <Action ID="Go_to_referee"/>
-            <Action ID="Say_the_description"/>
+            <Action ID="GoToArena"/>
+            <Action ID="GoToPerson"/>
+            <Action ID="AnalyzePerson"/>
+            <Action ID="GoToRef"/>
+            <Action ID="SayDescription"/>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
-        <Action ID="Analyze_person"/>
-        <Action ID="Go_to_arena"/>
-        <Action ID="Go_to_person"/>
-        <Action ID="Go_to_referee"/>
-        <Action ID="Say_the_description"/>
+        <Action ID="AnalyzePerson"/>
+        <Action ID="GoToArena"/>
+        <Action ID="GoToPerson"/>
+        <Action ID="GoToRef"/>
+        <Action ID="SayDescription"/>
         <Action ID="Start"/>
     </TreeNodesModel>
     <!-- ////////// -->
