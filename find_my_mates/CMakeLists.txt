@@ -35,6 +35,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   actionlib_msgs
   gb_dialog
+  backward_ros
 )
 
 catkin_package(
@@ -78,7 +79,7 @@ foreach(bt_plugin ${plugin_libs})
   target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
 endforeach()
 
-add_executable(find_my_mates_node src/find_my_mates_node.cpp)
+add_executable(find_my_mates_node src/find_my_mates_node.cpp src/find_my_mates/DialogInterface.cpp)
 target_link_libraries(find_my_mates_node ${catkin_LIBRARIES} ${ZMQ_LIBRARIES} ${OpenCV_LIBRARIES})
 
 set(cv_bridge_DIR /usr/local/share/cv_bridge/cmake)
@@ -91,6 +92,5 @@ roslint_cpp(
   include/find_my_mates/Go_to_referee.h src/find_my_mates/Go_to_referee.cpp
   include/find_my_mates/Say_the_description.h src/find_my_mates/Say_the_description.cpp
   include/find_my_mates/BTNavAction.h
-  include/find_my_mates/DialogInterface.h
-  include/find_my_mates/Dialog.h
+  include/find_my_mates/DialogInterface.h src/find_my_mates/DialogInterface.cpp
 )

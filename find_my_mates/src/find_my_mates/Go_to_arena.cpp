@@ -11,88 +11,62 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-/*
+
 #include <string>
 
 #include "find_my_mates/Go_to_arena.h"
+#include "find_my_mates/Dialog.h"
+#include "nav_node.cpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
+#include "move_base_msgs/MoveBaseActionResult.h"
 
 #include "ros/ros.h"
+
 
 namespace find_my_mates
 {
 
-GoToArena::GoToArena(
-  const std::string& name,
-  const std::string & action_name,
-  const BT::NodeConfiguration & config)
-: BTNavAction(name, action_name, config), counter_(0)
+Go_to_arena::Go_to_arena(const std::string& name)
+: BT::ActionNodeBase(name, {}),
+  nh_()
 {
+    
+  ROS_INFO("CONSTRUCTOR Go_to_arena");
+  result_sub_ = nh_.subscribe("/move_base/result", 1, &Go_to_arena::ResultCallback, this);
+  result_ = 0;
+  coords_[0] = 2.0;
 }
 
 void
-GoToArena::on_halt()
+Go_to_arena::halt()
 {
-  ROS_INFO("Move halt");
+  ROS_INFO("Go_to_arena halt");
 }
 
 void
-GoToArena::on_start()
+Go_to_arena::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
-  move_base_msgs::MoveBaseGoal goal;
-
-  goal.target_pose.header.frame_id = "map";
-  goal.target_pose.header.stamp = ros::Time::now();
-  goal.target_pose.pose.position.x = 3.0;
-  goal.target_pose.pose.position.y = 0.0;
-  goal.target_pose.pose.position.z = 0.0;
-  goal.target_pose.pose.orientation.x = 0.0;
-  goal.target_pose.pose.orientation.y = 0.0;
-  goal.target_pose.pose.orientation.z = 0.0;
-  goal.target_pose.pose.orientation.w = 1.0;
-
-  set_goal(goal);
-
-  ROS_INFO("Move start");
+	result_ = msg->status.status;
 }
 
 BT::NodeStatus
-GoToArena::on_tick()
+Go_to_arena::tick()
+
 {
-  ROS_INFO("Move tick");
-  
-  if (counter_++ == 20)
-  {
-    std::cerr << "New Goal===========================" << std::endl;
-    move_base_msgs::MoveBaseGoal goal;
+	ROS_INFO("Go_to_arena");
+	if (result_ == 3)
+	{
+		ROS_INFO("LEAVING");
+		return BT::NodeStatus::SUCCESS;
+	}
 
-    goal.target_pose.header.frame_id = "map";
-    goal.target_pose.header.stamp = ros::Time::now();
-    goal.target_pose.pose.position.x = 3.0;
-    goal.target_pose.pose.position.y = 2.0;
-    goal.target_pose.pose.position.z = 0.0;
-    goal.target_pose.pose.orientation.x = 0.0;
-    goal.target_pose.pose.orientation.y = 0.0;
-    goal.target_pose.pose.orientation.z = 0.0;
-    goal.target_pose.pose.orientation.w = 1.0;
-
-    set_goal(goal);
-  }
-
-  return BT::NodeStatus::RUNNING;
-}
-
-void
-MovGoToArena::on_feedback(const move_base_msgs::MoveBaseFeedbackConstPtr& feedback)
-{
-	ROS_INFO("Current count %lf", feedback->base_position.pose.position.x);
+  	return BT::NodeStatus::RUNNING;
 }
 }  // namespace find_my_mates
 
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<find_my_mates::GoToArena>("GoToArena");
+  factory.registerNodeType<find_my_mates::Go_to_arena>("Go_to_arena");
 }
-*/

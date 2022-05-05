@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-/*
+
 #include <string>
 
 #include "find_my_mates/Analyze_person.h"
@@ -24,15 +24,15 @@ namespace find_my_mates
 {
 
 AnalyzePerson::AnalyzePerson(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ActionNodeBase(name, config),
-  nh_(),
-  image_color_sub(nh_, "/camera/rgb/image_raw", 1),
-  bbx_sub(nh_, "/darknet_ros/bounding_boxes", 1),
-  sync_bbx(MySyncPolicy_bbx(10), image_color_sub, bbx_sub)
+: BT::ActionNodeBase(name, config), nh_(), 
+image_color_sub(nh_, "/camera/rgb/image_raw", 1),
+bbx_sub(nh_, "/darknet_ros/bounding_boxes", 1),
+sync_bbx(MySyncPolicy_bbx(10), image_color_sub, bbx_sub)
 {
-  sync_bbx.registerCallback(boost::bind(&AnalyzePerson::callback_bbx, this, _1, _2));
+  //sync_bbx.registerCallback(boost::bind(&AnalyzePerson::callback_bbx, this, _1, _2));
   min_x = 100;
   max_x = 100;
+  ROS_INFO("Constructor AnalyzePerson");
 }
 
 void
@@ -44,7 +44,8 @@ AnalyzePerson::halt()
 BT::NodeStatus
 AnalyzePerson::tick()
 {
-    return BT::NodeStatus::RUNNING; 
+  ROS_INFO("AnalyzePerson tick");
+  return BT::NodeStatus::RUNNING; 
 }
 }  // namespace find_my_mates
 
@@ -54,4 +55,3 @@ BT_REGISTER_NODES(factory)
 {
   factory.registerNodeType<find_my_mates::AnalyzePerson>("AnalyzePerson");
 }
-*/

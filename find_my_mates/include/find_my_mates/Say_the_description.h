@@ -11,52 +11,38 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-/*
+
 #ifndef SAYTHEDESCRIPTION__H
 #define SAYTHEDESCRIPTION__H
 
-#include <find_my_mates/DialogInterface.h>
-#include <sound_play/SoundRequest.h>
+#include "behaviortree_cpp_v3/behavior_tree.h"
+#include "behaviortree_cpp_v3/bt_factory.h"
+
+#include <cv_bridge/cv_bridge.h>
+
 #include <string>
+#include <vector>
+#include "ros/ros.h"
 
 namespace ph = std::placeholders;
 
 namespace find_my_mates
 {
-class Say_the_description: public DialogInterface
+class Say_the_description: public BT::ActionNodeBase
 {
   public:
-    Say_the_description(): nh_()
+    explicit Say_the_description(const std::string& name, const BT::NodeConfiguration & config);
+    static BT::PortsList providedPorts()
     {
-      this->registerCallback(std::bind(&Say_the_description::noIntentCB, this, ph::_1));
-      this->registerCallback(
-        std::bind(&Say_the_description::DetectL, this, ph::_1),
-        "Detect Luggage");
+        return { BT::OutputPort<std::string>("bag_pos"), BT::OutputPort<std::vector<int>>("color")};
     }
 
-    void noIntentCB(dialogflow_ros_msgs::DialogflowResult result)
-    {
-      ROS_INFO("[Say_the_description] noIntentCB: intent [%s]", result.intent.c_str());
-      listen();
-    }
-
-    void DetectL(dialogflow_ros_msgs::DialogflowResult result)
-    {
-      ROS_INFO("[Say_the_description] introduceIntentCB: intent [%s]", result.intent.c_str());
-      
-      for (const auto & param : result.parameters) {
-        std::cerr << param << std::endl;
-        for (const auto & value : param.value) {
-          std::cerr << "\t" << value << std::endl;
-        }
-      }
-      speak(result.fulfillment_text);
-    }
-
+    void halt();
+    BT::NodeStatus tick();
+    
   private:
     ros::NodeHandle nh_;
 };
 };  // namespace find_my_mates
 
 #endif
-*/

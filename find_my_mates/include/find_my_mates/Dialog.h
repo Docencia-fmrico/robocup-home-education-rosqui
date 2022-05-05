@@ -41,8 +41,7 @@
 
 namespace ph = std::placeholders;
 
-namespace } find_my_mates
-
+namespace find_my_mates
 {
 class Dialog : public DialogInterface
 {

@@ -12,38 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <string>
+#ifndef FIND_MY_MATES_NAVIGATION_H
+#define FIND_MY_MATES_NAVIGATION_H
 
-#include "find_my_mates/Say_the_description.h"
-
-#include "behaviortree_cpp_v3/behavior_tree.h"  
-
-#include "ros/ros.h"
+#include <ros/ros.h>
+#include <actionlib/client/simple_action_client.h>
+#include <move_base_msgs/MoveBaseAction.h>
 
 namespace find_my_mates
 {
 
-Say_the_description::Say_the_description(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ActionNodeBase(name, config), nh_()
-{}
+typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> Client;
 
-void
-Say_the_description::halt()
+class Navigation
 {
-  ROS_INFO("Say the description halt");
-}
+public:
 
-BT::NodeStatus
-Say_the_description::tick()
-{
-  ROS_INFO("Say the description tick");
-  return BT::NodeStatus::RUNNING; 
-}
+	Navigation();
+	void doWork(long int until, std::vector<float> coords);
+	void feedbackCb(const move_base_msgs::MoveBaseFeedbackConstPtr& feedback);
+	void doneCb(const actionlib::SimpleClientGoalState& state,
+  	const move_base_msgs::MoveBaseResultConstPtr& result);
+
+private:
+	Client ac;
+};
 
 }  // namespace find_my_mates
 
-#include "behaviortree_cpp_v3/bt_factory.h"
-BT_REGISTER_NODES(factory)
-{
-  factory.registerNodeType<find_my_mates::Say_the_description>("Say_the_description");
-}
+#endif  // FIND_MY_MATES_NAVIGATION_H

@@ -22,12 +22,22 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 
+#include <message_filters/subscriber.h>
+#include <message_filters/time_synchronizer.h>
+#include <message_filters/sync_policies/approximate_time.h>
+
+#include <cv_bridge/cv_bridge.h>
+
+#include <sensor_msgs/Image.h>
+#include <darknet_ros_msgs/BoundingBoxes.h>
+
+#include <vector>
 
 namespace ph = std::placeholders;
 
 namespace find_my_mates
 {
-class AnalyzePerson : public DialogInterface
+class AnalyzePerson : public BT::ActionNodeBase
 {
   public:
     explicit AnalyzePerson(const std::string& name, const BT::NodeConfiguration & config);

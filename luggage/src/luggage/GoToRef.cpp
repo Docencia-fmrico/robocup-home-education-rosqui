@@ -23,7 +23,6 @@
 
 #include "ros/ros.h"
 
-
 namespace luggage
 {
 
