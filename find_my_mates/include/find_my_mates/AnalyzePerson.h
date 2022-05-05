@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIND_MY_MATES_AnalyzePerson_H
-#define FIND_MY_MATES_AnalyzePerson_H
+#ifndef FIND_MY_MATES_ANALYZEPERSON_H
+#define FIND_MY_MATES_ANALYZEPERSON_H
 
 #include <find_my_mates/DialogInterface.h>
 #include <sound_play/SoundRequest.h>
@@ -52,4 +52,4 @@ class AnalyzePerson : public BT::ActionNodeBase
 
 }  // namespace find_my_mates
 
-#endif  // FIND_MY_MATES_AnalyzePerson_H
+#endif  // FIND_MY_MATES_ANALYZEPERSON_H

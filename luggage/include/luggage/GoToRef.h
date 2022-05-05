@@ -44,6 +44,7 @@ class GoToRef : public BT::ActionNodeBase
     int result_;
     std::vector<float> coords_ = {2.0, 0.0, 0.0, 0.0, 0.0, 0.71, 0.70};
     bool first_;
+    NearGo neargo_;
 };
 
 }  // namespace luggage
