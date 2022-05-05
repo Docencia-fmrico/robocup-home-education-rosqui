@@ -35,6 +35,7 @@ GoToRef::GoToRef(const std::string& name)
   result_sub_ = nh_.subscribe("/move_base/result", 1, &GoToRef::ResultCallback, this);
   result_ = 0;
   coords_[0] = 2.0;
+  first_ = true;
 }
 
 void
