@@ -12,39 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FINDMYMATES_START_H
-#define FINDMYMATES_START_H
+#ifndef FINDMYMATES_SayDescription_H
+#define FINDMYMATES_SayDescription_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
+#include <message_filters/subscriber.h>
 
-#include <cv_bridge/cv_bridge.h>
+#include <move_base_msgs/MoveBaseActionResult.h>
+
+#include "geometry_msgs/Twist.h"
 
 #include <string>
 #include <vector>
-#include "ros/ros.h"
-#include "Dialog.h"
 
 namespace find_my_mates
 {
 
-class Start : public BT::ActionNodeBase
+class SayDescription : public BT::ActionNodeBase
 {
   public:
-    explicit Start(const std::string& name, const BT::NodeConfiguration & config);
+    explicit SayDescription(const std::string& name);
     void halt();
     BT::NodeStatus tick();
-    static BT::PortsList providedPorts()
-    {
-        return { BT::OutputPort<std::string>("bag_pos"), BT::OutputPort<std::vector<int>>("color")};
-    }
+    void ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg);
 
   private:
     ros::NodeHandle nh_;
-    Dialog forwarder_;
+    ros::Subscriber result_sub_;
+    int result_;
+    std::vector<float> coords_ = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
     bool first_;
 };
 
 }  // namespace find_my_mates
 
-#endif  // FINDMYMATES_START_H
+#endif  // FINDMYMATES_SayDescription_H

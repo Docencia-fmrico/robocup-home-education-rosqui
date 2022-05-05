@@ -11,24 +11,40 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-/*
+
 #include <string>
 
-#include "find_my_mates/Say_the_description.h"
+#include "find_my_mates/AnalyzePerson.h"
 
-#include "behaviortree_cpp_v3/behavior_tree.h"  
+#include "behaviortree_cpp_v3/behavior_tree.h"
 
 #include "ros/ros.h"
 
 namespace find_my_mates
 {
-    ROS_INFO("Info \n");
 
+AnalyzePerson::AnalyzePerson(const std::string& name)
+: BT::ActionNodeBase(name, {}),
+  nh_()
+{
+}
+
+void
+AnalyzePerson::halt()
+{
+  ROS_INFO("AnalyzePerson halt");
+}
+
+BT::NodeStatus
+AnalyzePerson::tick()
+{
+    return BT::NodeStatus::RUNNING; 
+}
 }  // namespace find_my_mates
+
 
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<find_my_mates::Say_the_description>("Say_the_description");
+  factory.registerNodeType<find_my_mates::AnalyzePerson>("AnalyzePerson");
 }
-*/
