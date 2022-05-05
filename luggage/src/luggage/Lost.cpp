@@ -15,6 +15,7 @@
 
 #include "luggage/Lost.h"
 #include <string>
+#include "luggage/Dialog.h"
 
 namespace luggage
 {
@@ -23,6 +24,8 @@ Lost::Lost(const std::string& name)
 : BT::ActionNodeBase(name, {})
 {
     pub_vel_ = nh_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 100);
+    detected_ts_ = ros::Time::now();
+    time_ = 1;
 }
 
 void
@@ -34,11 +37,16 @@ Lost::halt()
 BT::NodeStatus
 Lost::tick()
 {
-  return BT::NodeStatus::SUCCESS;
-
-
   ROS_INFO("Lost tick");
   geometry_msgs::Twist cmd;
+  luggage::Dialog forwarder_;
+
+  if ((ros::Time::now() - detected_ts_).toSec() > time_)
+  {
+    detected_ts_ = ros::Time::now();
+    forwarder_.speak("I am lost referee");
+    time_ ++;
+  }
 
   cmd.linear.x = 0;
   cmd.angular.z = TURN_VEL;

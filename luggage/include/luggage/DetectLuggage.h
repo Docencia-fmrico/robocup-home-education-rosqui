@@ -25,6 +25,7 @@
 
 #include <sensor_msgs/Image.h>
 #include <darknet_ros_msgs/BoundingBoxes.h>
+#include "luggage/Dialog.h"
 
 #include <string>
 #include <vector>
@@ -61,6 +62,8 @@ class DetectLuggage : public BT::ActionNodeBase
     int max_y;
 
     ros::Time listen_t;
+    bool first_;
+    luggage::Dialog forwarder_;
     std::vector<int> color_ = {0, 0, 0};
 };
 

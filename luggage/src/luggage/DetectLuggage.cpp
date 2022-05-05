@@ -35,6 +35,7 @@ DetectLuggage::DetectLuggage(const std::string& name, const BT::NodeConfiguratio
   sync_bbx.registerCallback(boost::bind(&DetectLuggage::callback_bbx, this, _1, _2));
   min_x = 100;
   max_x = 100;
+  first_ = true;
 }
 
 void DetectLuggage::getPredominantColor(int red, int green, int blue)
@@ -168,41 +169,30 @@ BT::NodeStatus
 DetectLuggage::tick()
 {
   ROS_INFO("Detect Luggage Tick");
-  luggage::Dialog forwarder;
-
-  /*ROS_INFO("Speak:");
-  ros::Duration(1, 0).sleep();
-  forwarder.speak("Good morning, what is your name?");
-  ros::Duration(3, 0).sleep();
-
-  ROS_INFO("FIRST LISTEN");
-  forwarder.listen();
-  ros::spinOnce();
-  ros::Duration(7, 0).sleep();*/
-
-  forwarder.speak("RIGHT OR LEFT?");
-
-  ROS_INFO("SECOND LISTEN");
-  forwarder.listen();
-  ros::spinOnce();
+  if (first_)
+  {
+    forwarder_.speak("Good Morning, what is your luggage? is it at your rhigt or at your left?");
+    forwarder_.listen();
+    first_ = false;
+  }
 
   dialogflow_ros_msgs::DialogflowResult side;
-  side = forwarder.getValue();
+  side = forwarder_.getValue();
   for (const auto & param : side.parameters)
   {
     for (const auto & value : param.value)
     {
-      std::cerr << "\t" << value << std::endl;
-
-      if (value == "left")   // Numero mágico
+      if (value == "left")   
       {
+        forwarder_.speak("Ok, put the luggage on me please");
         ROS_INFO("USER'S LEFT");
         setOutput("color", color_);
         setOutput("bag_pos", "left");
         return BT::NodeStatus::SUCCESS;
       }
-      else if (value == "right")   // Numero mágico
+      else if (value == "right")  
       {
+        forwarder_.speak("Ok, put the luggage on me please");
         ROS_INFO("USER'S RIGHT");
         setOutput("color", color_);
         setOutput("bag_pos", "right");

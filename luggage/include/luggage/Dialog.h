@@ -67,7 +67,6 @@ class Dialog : public DialogInterface
     void noIntentCB(dialogflow_ros_msgs::DialogflowResult result)
     {
       ROS_INFO("[Dialog] noIntentCB: intent [%s]", result.intent.c_str());
-      ros::Duration(1, 0).sleep();
       speak("Sorry, can you repeat it please?");
       listen();
     }
@@ -106,12 +105,14 @@ class Dialog : public DialogInterface
 
     void StartCB(dialogflow_ros_msgs::DialogflowResult result)
     {
-      ROS_INFO("[Dialog] DetectLCB: intent [%s]", result.intent.c_str());
+      ROS_INFO("[Dialog] StartCB: intent [%s]", result.intent.c_str());
       start_ = 0;
+      speak(result.fulfillment_text);
     }
 
     int get_start()
     {
+      ROS_INFO("start_: %d",start_);
       return start_;
     }
 

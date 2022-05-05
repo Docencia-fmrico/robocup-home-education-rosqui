@@ -37,6 +37,8 @@ class Lost : public BT::ActionNodeBase
     ros::NodeHandle nh_;
     ros::Publisher pub_vel_;
     static constexpr double TURN_VEL = 0.35;
+    ros::Time detected_ts_;
+    int time_;
 };
 
 }  // namespace luggage
