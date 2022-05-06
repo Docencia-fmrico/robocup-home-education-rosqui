@@ -44,10 +44,17 @@ DetectLuggage::tick()
   ROS_INFO("Detect Luggage Tick");
   if (first_)
   {
+    detected_ts_ = ros::Time::now();
     forwarder_.speak("Good Morning, what is your luggage? is it at your right or at your left?");
     forwarder_.listen();
     first_ = false;
   }
+
+  double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
+   if ( (current_ts_ > 10))
+   {
+     return BT::NodeStatus::SUCCESS;
+   }
 
   dialogflow_ros_msgs::DialogflowResult side;
   side = forwarder_.getValue();
