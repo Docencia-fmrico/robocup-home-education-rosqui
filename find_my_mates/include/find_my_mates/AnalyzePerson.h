@@ -43,16 +43,18 @@ class AnalyzePerson : public BT::ActionNodeBase
     explicit AnalyzePerson(const std::string& name, const BT::NodeConfiguration & config);
 
     void halt();
+    bool is_person();
 
     BT::NodeStatus tick();
 
     static BT::PortsList providedPorts()
     {
-        return { BT::OutputPort<std::string>("occupied_pos") };
+        return { BT::OutputPort<int>("occupied_pos") };
     }
     
   private:
     ros::NodeHandle nh_;
+    int occupied_pos_;
 };
 
 }  // namespace find_my_mates

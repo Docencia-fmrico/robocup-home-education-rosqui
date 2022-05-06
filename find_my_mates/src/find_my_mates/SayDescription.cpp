@@ -30,9 +30,6 @@ SayDescription::SayDescription(const std::string& name, const BT::NodeConfigurat
   nh_()
 {
   ROS_INFO("CONSTRUCTOR SayDescription");
-  result_sub_ = nh_.subscribe("/move_base/result", 1, &SayDescription::ResultCallback, this);
-  result_ = 0;
-  first_ = true;
 }
 
 void
@@ -41,32 +38,12 @@ SayDescription::halt()
   ROS_INFO("SayDescription halt");
 }
 
-void
-SayDescription::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
-{
-	result_ = msg->status.status;
-}
-
 BT::NodeStatus
 SayDescription::tick()
 {	
-
-	if(first_){
-		Navigation my_node_;
-		my_node_.doWork(200, coords_);
-		first_ = false;
-	}
-
-	if (result_ != 0)
-		ROS_INFO("Result: %d", result_);
-
-	if (result_ == 3)
-	{
-		ROS_INFO("LEAVING");
-		return BT::NodeStatus::SUCCESS;
-	}
-
-  	return BT::NodeStatus::RUNNING;
+	int pos = getInput<int>("occupied_pos").value();
+	forwarder_.speak(std::to_string(pos));
+  	return BT::NodeStatus::SUCCESS;
 }
 }  // namespace find_my_mates
 

@@ -27,6 +27,7 @@ AnalyzePerson::AnalyzePerson(const std::string& name, const BT::NodeConfiguratio
 : BT::ActionNodeBase(name, config),
   nh_()
 {
+  int occupied_pos_ = 0;
 }
 
 void
@@ -35,10 +36,25 @@ AnalyzePerson::halt()
   ROS_INFO("AnalyzePerson halt");
 }
 
+bool
+is_person()
+{
+  // HAY QUE PONER LÓGICA
+  return true;
+}
+
 BT::NodeStatus
 AnalyzePerson::tick()
-{
-    return BT::NodeStatus::RUNNING; 
+{ 
+    if (is_person())
+    {
+      setOutput("occupied_pos",occupied_pos_);
+      return BT::NodeStatus::SUCCESS; 
+    }
+    else {
+      occupied_pos_++;
+      return BT::NodeStatus::FAILURE; 
+    }
 }
 }  // namespace find_my_mates
 
