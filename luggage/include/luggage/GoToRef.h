@@ -42,7 +42,7 @@ class GoToRef : public BT::ActionNodeBase
     ros::NodeHandle nh_;
     ros::Subscriber result_sub_;
     int result_;
-    std::vector<float> coords_ = {0.37, 3.63, 0.0, 0.0, 0.0, -0.91, 0.41};
+    std::vector<float> coords_ = {0.88, 4.48, 0.0, 0.0, 0.0, -0.96, 0.262};
     bool first_;
     NearGo neargo_;
 };
