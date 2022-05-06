@@ -48,6 +48,7 @@ class DetectLuggage : public BT::ActionNodeBase
 
   private:
     ros::NodeHandle nh_;
+    ros::Time detected_ts_;
     bool first_;
     luggage::Dialog forwarder_;
 };
