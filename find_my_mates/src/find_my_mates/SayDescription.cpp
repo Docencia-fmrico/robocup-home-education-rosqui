@@ -30,6 +30,7 @@ SayDescription::SayDescription(const std::string& name, const BT::NodeConfigurat
   nh_()
 {
   ROS_INFO("CONSTRUCTOR SayDescription");
+  first_ = true;
 }
 
 void
@@ -41,9 +42,23 @@ SayDescription::halt()
 BT::NodeStatus
 SayDescription::tick()
 {	
-	int pos = getInput<int>("occupied_pos").value();
-	forwarder_.speak("There is a person in position" + std::to_string(pos));
-  	return BT::NodeStatus::SUCCESS;
+
+  if(first_){
+    detected_ts_ = ros::Time::now();
+    pos_ = getInput<int>("occupied_pos").value();
+    first_ = false;
+  }
+
+  double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
+
+  if(current_ts_< TIME_TO_SPEAK){
+    forwarder_.speak("There is a person in position" + std::to_string(pos_));
+    return BT::NodeStatus::RUNNING;
+  }
+  else {
+    first_ = true;
+    return BT::NodeStatus::SUCCESS;
+  }
 }
 }  // namespace find_my_mates
 

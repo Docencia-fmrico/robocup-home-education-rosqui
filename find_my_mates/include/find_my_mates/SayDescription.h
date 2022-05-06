@@ -46,6 +46,10 @@ class SayDescription : public BT::ActionNodeBase
   private:
     ros::NodeHandle nh_;
     find_my_mates::Dialog forwarder_;
+    ros::Time detected_ts_;
+    int TIME_TO_SPEAK = 5;
+    int pos_;
+    bool first_;
 };
 
 }  // namespace find_my_mates
