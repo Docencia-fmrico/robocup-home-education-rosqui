@@ -41,9 +41,9 @@ class AnalyzePerson : public BT::ActionNodeBase
 {
   public:
     explicit AnalyzePerson(const std::string& name, const BT::NodeConfiguration & config);
-
+    void callback_bbx(const sensor_msgs::ImageConstPtr& image,
+    const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
     void halt();
-    bool is_person();
 
     BT::NodeStatus tick();
 
@@ -54,7 +54,13 @@ class AnalyzePerson : public BT::ActionNodeBase
     
   private:
     ros::NodeHandle nh_;
+    message_filters::Subscriber<sensor_msgs::Image> image_depth_sub;
+    message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> bbx_sub;
+    typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image,
+    darknet_ros_msgs::BoundingBoxes> MySyncPolicy_bbx;
+    message_filters::Synchronizer<MySyncPolicy_bbx> sync_bbx;
     int occupied_pos_;
+    bool detected_;
 };
 
 }  // namespace find_my_mates

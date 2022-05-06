@@ -17,6 +17,7 @@
 #include "find_my_mates/AnalyzePerson.h"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
+#include <darknet_ros_msgs/BoundingBoxes.h>
 
 #include "ros/ros.h"
 
@@ -25,9 +26,20 @@ namespace find_my_mates
 
 AnalyzePerson::AnalyzePerson(const std::string& name, const BT::NodeConfiguration & config)
 : BT::ActionNodeBase(name, config),
-  nh_()
+  nh_(),
+  image_depth_sub(nh_, "/camera/depth/image_raw", 1),
+  bbx_sub(nh_, "/darknet_ros/bounding_boxes", 1),
+  sync_bbx(MySyncPolicy_bbx(10), image_depth_sub, bbx_sub)
 {
   int occupied_pos_ = 0;
+  detected_ = false;
+  sync_bbx.registerCallback(boost::bind(&AnalyzePerson::callback_bbx, this, _1, _2));
+}
+
+void AnalyzePerson::callback_bbx(const sensor_msgs::ImageConstPtr& image,
+const darknet_ros_msgs::BoundingBoxesConstPtr& boxes)
+{
+  detected_ = true;
 }
 
 void
@@ -36,19 +48,13 @@ AnalyzePerson::halt()
   ROS_INFO("AnalyzePerson halt");
 }
 
-bool
-is_person()
-{
-  // HAY QUE PONER LÓGICA
-  return true;
-}
-
 BT::NodeStatus
 AnalyzePerson::tick()
 { 
-    if (is_person())
+    if (detected_)
     {
       setOutput("occupied_pos",occupied_pos_);
+      detected_ = false;
       return BT::NodeStatus::SUCCESS; 
     }
     else {
