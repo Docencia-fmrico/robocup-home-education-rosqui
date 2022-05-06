@@ -23,6 +23,8 @@
 
 #include "geometry_msgs/Twist.h"
 
+#include "Dialog.h"
+
 #include <string>
 #include <vector>
 
@@ -32,16 +34,21 @@ namespace find_my_mates
 class SayDescription : public BT::ActionNodeBase
 {
   public:
-    explicit SayDescription(const std::string& name);
+    explicit SayDescription(const std::string& name, const BT::NodeConfiguration & config);
     void halt();
     BT::NodeStatus tick();
-    void ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg);
+
+    static BT::PortsList providedPorts()
+    {
+        return { BT::InputPort<int>("occupied_pos") };
+    }
 
   private:
     ros::NodeHandle nh_;
-    ros::Subscriber result_sub_;
-    int result_;
-    std::vector<float> coords_ = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+    find_my_mates::Dialog forwarder_;
+    ros::Time detected_ts_;
+    int TIME_TO_SPEAK = 5;
+    int pos_;
     bool first_;
 };
 

@@ -49,7 +49,7 @@ class GoToBag : public BT::ActionNodeBase
     static constexpr double TURNING_VEL_ = 0.3;
     static constexpr double ACTION_TIME_ = 2.0;
     ros::Publisher pub_vel_;
-    bool first;
+    bool first_;
 };
 
 }  // namespace luggage

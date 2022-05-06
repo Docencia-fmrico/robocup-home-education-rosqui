@@ -25,13 +25,11 @@
 namespace find_my_mates
 {
 
-SayDescription::SayDescription(const std::string& name)
-: BT::ActionNodeBase(name, {}),
+SayDescription::SayDescription(const std::string& name, const BT::NodeConfiguration & config)
+: BT::ActionNodeBase(name, config),
   nh_()
 {
   ROS_INFO("CONSTRUCTOR SayDescription");
-  result_sub_ = nh_.subscribe("/move_base/result", 1, &SayDescription::ResultCallback, this);
-  result_ = 0;
   first_ = true;
 }
 
@@ -41,32 +39,26 @@ SayDescription::halt()
   ROS_INFO("SayDescription halt");
 }
 
-void
-SayDescription::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
-{
-	result_ = msg->status.status;
-}
-
 BT::NodeStatus
 SayDescription::tick()
 {	
 
-	if(first_){
-		Navigation my_node_;
-		my_node_.doWork(200, coords_);
-		first_ = false;
-	}
+  if(first_){
+    detected_ts_ = ros::Time::now();
+    pos_ = getInput<int>("occupied_pos").value();
+    first_ = false;
+  }
 
-	if (result_ != 0)
-		ROS_INFO("Result: %d", result_);
+  double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
 
-	if (result_ == 3)
-	{
-		ROS_INFO("LEAVING");
-		return BT::NodeStatus::SUCCESS;
-	}
-
-  	return BT::NodeStatus::RUNNING;
+  if(current_ts_< TIME_TO_SPEAK){
+    forwarder_.speak("There is a person in position" + std::to_string(pos_));
+    return BT::NodeStatus::RUNNING;
+  }
+  else {
+    first_ = true;
+    return BT::NodeStatus::SUCCESS;
+  }
 }
 }  // namespace find_my_mates
 

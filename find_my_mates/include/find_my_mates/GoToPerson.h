@@ -45,12 +45,12 @@ class GoToPerson : public BT::ActionNodeBase
 
     int current_pos_;
 
-    std::vector<float> coords1 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
-    std::vector<float> coords2 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
-    std::vector<float> coords3 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
-    std::vector<float> coords4 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
-    std::vector<float> coords5 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
-    std::vector<float> coords6 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+    std::vector<float> coords1 = {1.24, 6.43, 0.0, 0.0, 0.0, 0.73, 0.67};
+    std::vector<float> coords2 = {-0.7, 6.15, 0.0, 0.0, 0.0, 0.84, 0.52};
+    std::vector<float> coords3 = {-0.77, 5.82, 0.0, 0.0, 0.0, 0.99, 0.02};
+    std::vector<float> coords4 = {-0.15, 4.28, 0.0, 0.0, 0.0, -0.94, 0.32};
+    std::vector<float> coords5 = {0.53, 3.44, 0.0, 0.0, 0.0, -0.76, 0.64};
+    std::vector<float> coords6 = {2.21, 3.21, 0.0, 0.0, 0.0, -0.69, 0.71};
 
     std::vector<std::vector<float>> all_coords = {coords1, coords2, coords3, coords4, coords5, coords6};
     

@@ -31,7 +31,7 @@ GoToBag::GoToBag(const std::string& name, const BT::NodeConfiguration & config)
 {
   ROS_INFO("CONSTRUCTOR BAG");
   pub_vel_ = nh_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
-  first = true;
+  first_ = true;
 }
 
 void
@@ -43,11 +43,11 @@ GoToBag::halt()
 BT::NodeStatus
 GoToBag::tick()
 {
-  if (first)
+  if (first_)
   {
     detected_ts_ = ros::Time::now();
     bag_pos_ = getInput<std::string>("bag_pos").value();
-    first = false;
+    first_ = false;
   }
 
   std::vector<int> color = getInput<std::vector<int>>("color").value();
