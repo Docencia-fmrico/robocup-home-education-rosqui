@@ -53,7 +53,8 @@ DetectLuggage::tick()
   double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
    if ( (current_ts_ > 10))
    {
-     return BT::NodeStatus::SUCCESS;
+      setOutput("bag_pos", "left");
+      return BT::NodeStatus::SUCCESS;
    }
 
   dialogflow_ros_msgs::DialogflowResult side;
