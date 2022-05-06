@@ -42,7 +42,7 @@ BT::NodeStatus
 SayDescription::tick()
 {	
 	int pos = getInput<int>("occupied_pos").value();
-	forwarder_.speak(std::to_string(pos));
+	forwarder_.speak("There is a person in position" + std::to_string(pos));
   	return BT::NodeStatus::SUCCESS;
 }
 }  // namespace find_my_mates
