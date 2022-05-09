@@ -222,7 +222,7 @@ Here you can see the tick of <b>Lost.cpp</b>:
 	
 Go to Origin, basically is a node used for <b>going to the starting position.</b>
     
- In <b>GotoOrigin.h</b> you can find the vector with the <b>specific position of the origin.</b>
+ In <b>GoToOrigin.h</b> you can find the vector with the <b>specific position of the origin.</b>
     
      std::vector<float> coords_ = {0.37, 3.63, 0.0, 0.0, 0.0, -0.91, 0.41};
     
