@@ -72,7 +72,7 @@ alt="The Recepcionist map" width="600" height="600">
  
  Start, basically is a node used for <b>initializing the program without clicking a button.</b>
     
- Here you can see the tick in <b>Start.cpp</b>:
+ Here you can see the tick of <b>Start.cpp</b>:
     
      Start::tick()
      { 
@@ -100,7 +100,7 @@ alt="The Recepcionist map" width="600" height="600">
     
      std::vector<float> coords_ = {0.88, 4.48, 0.0, 0.0, 0.0, -0.96, 0.262};
     
- Here you can see the tick in <b>GotoRef.cpp</b>:    
+ Here you can see the tick of <b>GotoRef.cpp</b>:    
     
     GoToRef::tick()
     {
@@ -135,7 +135,7 @@ This node waits for the referee to receive either <b>left</b> or <b>right</b>.
        
  Go to bag, basically is a node used for <b>turning to the direction given in Detect Luggage.</b>
       
- Here you can see the tick in <b>GotoBag.cpp</b>:
+ Here you can see the tick of <b>GotoBag.cpp</b>:
 	
  ```
  if (first_)
@@ -166,29 +166,90 @@ This node waits for the referee to receive either <b>left</b> or <b>right</b>.
  }
 	
  pub_vel_.publish(cmd);
- return BT::NodeStatus::RUNNING;
-	
+ return BT::NodeStatus::RUNNING;	
  ```
-  
-    
+   
 </details>
 
 <details><summary><b>Follow Person</b></summary>
+	
+ This node is reused from the task <b>visual behaviour</b>.
+	
+ <a href="https://github.com/Docencia-fmrico/visual-behavior-rosqui">You</a> can have a look if you want to.
     
     
 </details>
 
 <details><summary><b>Lost</b></summary>
-    
-    
+This node is used when the robot cannot see the referee and start turning and saying "I am lost referee", so the referee can realize that the robot is not seeing him/her.
+Here you can see the tick of <b>Lost.cpp</b>:    
+	
+```
+ Lost::tick()
+ {
+   ROS_INFO("Lost tick");
+   geometry_msgs::Twist cmd;
+   luggage::Dialog forwarder_;
+
+   if ((ros::Time::now() - detected_ts_).toSec() > time_)
+   {
+     detected_ts_ = ros::Time::now();
+     forwarder_.speak("I am lost referee");
+     time_ ++;
+   }
+
+   cmd.linear.x = 0;
+   cmd.angular.z = TURN_VEL;
+
+   pub_vel_.publish(cmd);
+   return BT::NodeStatus::FAILURE;
+ }
+	
+```
+   
 </details>
 
 <details><summary><b>Percieve Person</b></summary>
+	
+ This node is reused from the task <b>visual behaviour</b>.
+	
+ <a href="https://github.com/Docencia-fmrico/visual-behavior-rosqui">You</a> can have a look if you want to.
     
     
 </details>
 
 <details><summary><b>Go to origin</b></summary>
+	
+Go to Origin, basically is a node used for <b>going to the starting position.</b>
+    
+ In <b>GotoOrigin.h</b> you can find the vector with the <b>specific position of the origin.</b>
+    
+     std::vector<float> coords_ = {0.37, 3.63, 0.0, 0.0, 0.0, -0.91, 0.41};
+    
+ Here you can see the tick of <b>GotoOrigin.cpp</b>:    
+
+```
+ GoToOrigin::tick()
+{	
+    if(first_){
+	Navigation my_node_;
+	my_node_.doWork(200, coords_);
+	first_ = false;
+    }
+
+    if (result_ != 0)
+	ROS_INFO("Result: %d", result_);
+
+    if (result_ == 3)
+    {
+	ROS_INFO("LEAVING");
+	return BT::NodeStatus::SUCCESS;
+    }
+    return BT::NodeStatus::RUNNING;
+}
+
+```
+	
     
     
 </details>
