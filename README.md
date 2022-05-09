@@ -14,8 +14,8 @@
   Its main goal is that the robot helps the operator to carry a bag to the car parked outside.
   This is the map in which the task is going to be done:
   
- <img src="" align="center"
-alt="Carry my luggage map" width="700" height="400">
+ <img src="https://github.com/Docencia-fmrico/robocup-home-education-rosqui/blob/main/images/luggage_map.jpeg" align="center"
+alt="Carry my luggage map" width="500" height="500">
   
   The route is:
   
@@ -32,8 +32,8 @@ alt="Carry my luggage map" width="700" height="400">
   Its main goal is that the robot will get int the arena to find mates and tell the referee their names and extra information.
   This is the map in which the task is going to be done:
   
- <img src="" align="center"
-alt="Find My Mates map" width="700" height="400">
+ <img src="https://github.com/Docencia-fmrico/robocup-home-education-rosqui/blob/main/images/find_mates_map.jpeg" align="center"
+alt="Find My Mates map" width="500" height="500">
   
   The route is:
   
@@ -48,8 +48,8 @@ alt="Find My Mates map" width="700" height="400">
   Its main goal is that the robot will welcome people, ask their names and their favourite drink and give seat. After that, the robot will report Jhon about people, indicating where they are seated and the information obtained.
   This is the map in which the task is going to be done:
   
- <img src="" align="center"
-alt="The Recepcionist map" width="700" height="400">
+ <img src="https://github.com/Docencia-fmrico/robocup-home-education-rosqui/blob/main/images/recepcionist_map.jpeg" align="center"
+alt="The Recepcionist map" width="500" height="500">
   
   The route is:
   
@@ -63,6 +63,9 @@ We decided to deal <b>carry my luggage</b> and <b>find my mates</b>:
 <h2>CARRY MY LUGGAGE</h2>
 
 This is the <b>behaviour tree</b> we have decided to implement:
+
+<img src="https://github.com/Docencia-fmrico/robocup-home-education-rosqui/blob/main/images/luggage_bt.png" align="center"
+alt="The Recepcionist map" width="600" height="600">
 
 
 <details><summary><b>Start</b></summary>
@@ -109,6 +112,9 @@ This is the <b>behaviour tree</b> we have decided to implement:
 <h2>FIND MY MATES</h2>
 
 This is the <b>behaviour tree</b> we have decided to implement:
+
+<img src="https://github.com/Docencia-fmrico/robocup-home-education-rosqui/blob/main/images/find_mates_bt.png" align="center"
+alt="The Recepcionist map" width="600" height="600">
 
 <details><summary><b>Go to arena</b></summary>
     
