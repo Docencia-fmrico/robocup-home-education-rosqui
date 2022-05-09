@@ -94,7 +94,7 @@ alt="The Recepcionist map" width="600" height="600">
 <details><summary><b>Go to Ref</b></summary>
     
     
- Start, basically is a node used for <b>going to the referee's position.</b>
+ Go to Ref, basically is a node used for <b>going to the referee's position.</b>
     
  In <b>GotoRef.h</b> you can find the vector with the <b>specific position of the referee.</b>
     
@@ -126,12 +126,50 @@ alt="The Recepcionist map" width="600" height="600">
 </details>
 
 <details><summary><b>Detect Luggage</b></summary>
-    
+	
+This node waits for the referee to receive either <b>left</b> or <b>right</b>.
     
 </details>
 
 <details><summary><b>Go to bag</b></summary>
-    
+       
+ Go to bag, basically is a node used for <b>turning to the direction given in Detect Luggage.</b>
+      
+ Here you can see the tick in <b>GotoBag.cpp</b>:
+	
+ ```
+ if (first_)
+ {
+ 	detected_ts_ = ros::Time::now();
+    	bag_pos_ = getInput<std::string>("bag_pos").value();
+    	first_ = false;
+ }
+	
+ geometry_msgs::Twist cmd;
+ double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
+ ROS_INFO("TIME: %f", current_ts_);
+	
+ if ((current_ts_ < ACTION_TIME_))
+ {
+ 	cmd.linear.x = 0;
+
+   	if (bag_pos_ == "left")
+            cmd.angular.z = TURNING_VEL_;
+      	else
+            cmd.angular.z = -TURNING_VEL_;
+        ROS_INFO("TIME: %f %f", current_ts_, TURNING_VEL_);
+				  
+ }else if (current_ts_ >= 5*ACTION_TIME_)
+ {
+        ROS_INFO("BAG REACHED");
+        return BT::NodeStatus::SUCCESS;
+ }
+	
+ pub_vel_.publish(cmd);
+ return BT::NodeStatus::RUNNING;
+	
+ ```
+  
     
 </details>
 
