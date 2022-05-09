@@ -77,15 +77,15 @@ alt="The Recepcionist map" width="600" height="600">
      Start::tick()
         { 
             ROS_INFO("Start");
-             if (forwarder_.get_first() == 1)
-             {
+            if (forwarder_.get_first() == 1)
+            {
                 forwarder_.listen();
-             }
+            }
 
-              if (forwarder_.get_start() == 0)
-        return BT::NodeStatus::SUCCESS;
+            if (forwarder_.get_start() == 0)
+                return BT::NodeStatus::SUCCESS;
 
-        return BT::NodeStatus::RUNNING;
+            return BT::NodeStatus::RUNNING;
         }
     
     
