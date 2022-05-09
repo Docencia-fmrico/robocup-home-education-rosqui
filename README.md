@@ -251,12 +251,8 @@ Go to Origin, basically is a node used for <b>going to the starting position.</b
     return BT::NodeStatus::RUNNING;
 }
 
-```
-	
-    
-    
+```    
 </details>
-
 
 <h2>FIND MY MATES</h2>
 
@@ -266,24 +262,130 @@ This is the <b>behaviour tree</b> we have decided to implement:
 alt="The Recepcionist map" width="600" height="600">
 
 <details><summary><b>Go to arena</b></summary>
+	
+Go to arena, basically is a node used for <b>going to the middle of the arena.</b>
     
+ In <b>GotoArena.h</b> you can find the vector with the <b>specific position of the middle of the arena.</b>
+    
+     std::vector<float> coords_ = {0.37, 3.63, 0.0, 0.0, 0.0, -0.91, 0.41};
+    
+ Here you can see the tick of <b>GotoArena.cpp</b>:    
+ 
+ ```
+ GoToArena::tick()
+ {	
+	if(first_){
+		Navigation my_node_;
+		my_node_.doWork(200, coords_);
+		first_ = false;
+	}
+
+	if (result_ != 0)
+		ROS_INFO("Result: %d", result_);
+
+	if (result_ == 3)
+	{
+		ROS_INFO("LEAVING");
+		return BT::NodeStatus::SUCCESS;
+	}
+
+  	return BT::NodeStatus::RUNNING;
+}
+```    
     
 </details>
 
 <details><summary><b>Go to person</b></summary>
+	
+Go to person, basically is a node used for <b>going for each person's position.</b>
     
+ In <b>GotoPerson.h</b> you can find 6 vectors for <b>each person's position</b>
     
+    std::vector<float> coords1 = {1.24, 6.43, 0.0, 0.0, 0.0, 0.73, 0.67};
+    std::vector<float> coords2 = {-0.7, 6.15, 0.0, 0.0, 0.0, 0.84, 0.52};
+    std::vector<float> coords3 = {-0.77, 5.82, 0.0, 0.0, 0.0, 0.99, 0.02};
+    std::vector<float> coords4 = {-0.15, 4.28, 0.0, 0.0, 0.0, -0.94, 0.32};
+    std::vector<float> coords5 = {0.53, 3.44, 0.0, 0.0, 0.0, -0.76, 0.64};
+    std::vector<float> coords6 = {2.21, 3.21, 0.0, 0.0, 0.0, -0.69, 0.71};
+    
+ Here you can see the tick of <b>GotoPerson.cpp</b>:    
+ 
+ ```
+ GoToPerson::tick()
+ {	
+	if(first_){
+		Navigation my_node_;
+		my_node_.doWork(200, all_coords[current_pos_]);
+		first_ = false;
+	}
+
+	if (result_ != 0)
+		ROS_INFO("Result: %d", result_);
+
+	if (result_ == 3)
+	{
+		ROS_INFO("LEAVING");
+		return BT::NodeStatus::SUCCESS;
+		current_pos_++;
+		first_ = true;
+		result_ = 0;
+	}
+
+  	return BT::NodeStatus::RUNNING;
+ }
+``` 
 </details>
 
 <details><summary><b>Analyze person</b></summary>
 
+In this node we tried to get the person's color T-shirt but we found many problems so we finally decided to make a node which <b>tells that there is a person.</b>
+	
+Here you can see the tick of <b>AnalyzePerson.cpp:</b>
+```
+AnalyzePerson::tick()
+{ 
+    if (detected_)
+    {
+      setOutput("occupied_pos",occupied_pos_);
+      detected_ = false;
+      return BT::NodeStatus::SUCCESS; 
+    }
+    else {
+      occupied_pos_++;
+      return BT::NodeStatus::FAILURE; 
+    }
+}
 
- <b>Filtering problems</b>   
-    
+```
+
 </details>
 
 <details><summary><b>Say description</b></summary>
-    
+
+This node gets the <b>person's position</b> from the blackboard and tells the referee.
+Here you can see the tick of <b>SayDescription.cpp:</b>
+```	
+SayDescription::tick()
+{	
+
+  if(first_){
+    detected_ts_ = ros::Time::now();
+    pos_ = getInput<int>("occupied_pos").value();
+    first_ = false;
+  }
+
+  double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
+
+  if(current_ts_< TIME_TO_SPEAK){
+    forwarder_.speak("There is a person in position" + std::to_string(pos_));
+    return BT::NodeStatus::RUNNING;
+  }
+  else {
+    first_ = true;
+    return BT::NodeStatus::SUCCESS;
+  }
+}
+```    
     
 </details>
 
