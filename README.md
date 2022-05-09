@@ -69,6 +69,24 @@ alt="The Recepcionist map" width="600" height="600">
 
 
 <details><summary><b>Start</b></summary>
+ 
+ Start, basically is a node used for <b>initializing the program without clicking a button.</b>
+    
+ Here you can see the tick in <b>start.cpp</b>:
+    
+     Start::tick()
+        { 
+            ROS_INFO("Start");
+             if (forwarder_.get_first() == 1)
+             {
+                forwarder_.listen();
+             }
+
+              if (forwarder_.get_start() == 0)
+        return BT::NodeStatus::SUCCESS;
+
+        return BT::NodeStatus::RUNNING;
+        }
     
     
 </details>
