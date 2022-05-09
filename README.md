@@ -72,7 +72,7 @@ alt="The Recepcionist map" width="600" height="600">
  
  Start, basically is a node used for <b>initializing the program without clicking a button.</b>
     
- Here you can see the tick in <b>start.cpp</b>:
+ Here you can see the tick in <b>Start.cpp</b>:
     
      Start::tick()
      { 
@@ -92,6 +92,35 @@ alt="The Recepcionist map" width="600" height="600">
 </details>
 
 <details><summary><b>Go to Ref</b></summary>
+    
+    
+ Start, basically is a node used for <b>going to the referee's position.</b>
+    
+ In <b>GotoRef.h</b> you can find the vector with the <b>specific position of the referee.</b>
+    
+     std::vector<float> coords_ = {0.88, 4.48, 0.0, 0.0, 0.0, -0.96, 0.262};
+    
+ Here you can see the tick in <b>GotoRef.cpp</b>:    
+    
+    GoToRef::tick()
+    {
+	    if(first_){
+		    Navigation my_node_;
+		    my_node_.doWork(200, coords_);
+		    first_ = false;
+	    }
+	
+	    if (result_ != 0)
+		    ROS_INFO("Result: %d", result_);
+
+	    if (result_ == 3)
+	    {
+		    ROS_INFO("LEAVING");
+		    return BT::NodeStatus::SUCCESS;
+	    }
+
+  	    return BT::NodeStatus::RUNNING;
+    }
     
     
 </details>
