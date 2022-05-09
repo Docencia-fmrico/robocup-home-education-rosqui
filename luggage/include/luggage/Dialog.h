@@ -68,7 +68,11 @@ class Dialog : public DialogInterface
     {
       ROS_INFO("[Dialog] noIntentCB: intent [%s]", result.intent.c_str());
       speak("Sorry, can you repeat it please?");
-      listen();
+      if ( direction_ == 1)
+      {
+        listen();
+      }
+      
     }
 
     void PresentationCB(dialogflow_ros_msgs::DialogflowResult result)
@@ -101,6 +105,8 @@ class Dialog : public DialogInterface
         }
       }
       speak(result.fulfillment_text);
+      direction_ = 0;
+      luggage_ = 0;
     }
 
     void StartCB(dialogflow_ros_msgs::DialogflowResult result)
@@ -123,6 +129,12 @@ class Dialog : public DialogInterface
       return start_;
     }
 
+    int get_luggage()
+    {
+      ROS_INFO("luggage_: %d",luggage_);
+      return luggage_;
+    }
+
     dialogflow_ros_msgs::DialogflowResult getValue()
     {
       return side_;
@@ -133,6 +145,8 @@ class Dialog : public DialogInterface
     dialogflow_ros_msgs::DialogflowResult side_;
     int start_ = 1;
     int first_ = 1;
+    int luggage_ = 1;
+    int direction_ = 1;
 };
 }  // namespace luggage
 

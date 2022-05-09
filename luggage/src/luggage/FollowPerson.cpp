@@ -84,11 +84,11 @@ FollowPerson::tick()
     if (c == 'a')
       return BT::NodeStatus::SUCCESS;
 
-	NearGo neargo_;
+	/*NearGo neargo_;
 	bool collision = neargo_.scan();
 	if (collision)
 		return BT::NodeStatus::RUNNING;
-
+		*/
     int X = getInput<int>("person_x").value();
     double Z = getInput<double>("person_z").value();
 

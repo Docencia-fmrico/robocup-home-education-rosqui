@@ -51,7 +51,6 @@ GoToPerson::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr&
 BT::NodeStatus
 GoToPerson::tick()
 {	
-
 	if(first_){
 		Navigation my_node_;
 		my_node_.doWork(200, all_coords[current_pos_]);

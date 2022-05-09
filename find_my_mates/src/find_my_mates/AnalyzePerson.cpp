@@ -39,6 +39,7 @@ AnalyzePerson::AnalyzePerson(const std::string& name, const BT::NodeConfiguratio
 void AnalyzePerson::callback_bbx(const sensor_msgs::ImageConstPtr& image,
 const darknet_ros_msgs::BoundingBoxesConstPtr& boxes)
 {
+  std::cerr << "person on : " << occupied_pos_ << std::endl;
   detected_ = true;
 }
 

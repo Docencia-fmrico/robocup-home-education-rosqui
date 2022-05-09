@@ -45,40 +45,41 @@ DetectLuggage::tick()
   if (first_)
   {
     detected_ts_ = ros::Time::now();
-    forwarder_.speak("Good Morning, what is your luggage? is it at your right or at your left?");
     forwarder_.listen();
+    //forwarder_.speak("Is luggage at your right or at your left?");
     first_ = false;
   }
-
-  double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
-   if ( (current_ts_ > 10))
-   {
-      setOutput("bag_pos", "left");
-      return BT::NodeStatus::SUCCESS;
-   }
-
-  dialogflow_ros_msgs::DialogflowResult side;
-  side = forwarder_.getValue();
-  for (const auto & param : side.parameters)
-  {
-    for (const auto & value : param.value)
+    double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
+    if ( (current_ts_ > 20))
     {
-      if (value == "left")   
-      {
-        forwarder_.speak("Ok, put the left luggage on me please");
-        ROS_INFO("USER'S LEFT");
-        setOutput("bag_pos", "left");
-        return BT::NodeStatus::SUCCESS;
-      }
-      else if (value == "right")  
-      {
-        forwarder_.speak("Ok, put the right luggage on me please");
-        ROS_INFO("USER'S RIGHT");
+        ROS_INFO("TIME EXCEEDED");
         setOutput("bag_pos", "right");
+        ROS_INFO("OUTPUT SET");
         return BT::NodeStatus::SUCCESS;
+    }
+
+    dialogflow_ros_msgs::DialogflowResult side;
+    side = forwarder_.getValue();
+    for (const auto & param : side.parameters)
+    {
+      for (const auto & value : param.value)
+      {
+        if (value == "left")   
+        {
+          forwarder_.speak("Ok, put the left luggage on me please");
+          ROS_INFO("USER'S LEFT");
+          setOutput("bag_pos", "left");
+          return BT::NodeStatus::SUCCESS;
+        }
+        else if (value == "right")  
+        {
+          forwarder_.speak("Ok, put the right luggage on me please");
+          ROS_INFO("USER'S RIGHT");
+          setOutput("bag_pos", "right");
+          return BT::NodeStatus::SUCCESS;
+        }
       }
     }
-  }
   return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage

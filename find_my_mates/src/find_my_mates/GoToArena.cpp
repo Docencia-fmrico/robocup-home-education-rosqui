@@ -50,7 +50,6 @@ GoToArena::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& 
 BT::NodeStatus
 GoToArena::tick()
 {	
-
 	if(first_){
 		Navigation my_node_;
 		my_node_.doWork(200, coords_);

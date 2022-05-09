@@ -83,7 +83,7 @@ PercievePerson::halt()
 BT::NodeStatus
 PercievePerson::tick()
 {
-
+  ROS_INFO("Percieve Tick");
   if (first)
   {
     initial_ts_ = ros::Time::now();

@@ -39,7 +39,7 @@ public:
 private:
 // Sectors to divide the left or right sectors
   static const int NUM_SECTORS = 10;
-  static constexpr float MIN_RANGE_LASER = 0.5;
+  static constexpr float MIN_RANGE_LASER = 0.01;
   static const int FRONT_LIMIT_SECT = 3;
 };
 

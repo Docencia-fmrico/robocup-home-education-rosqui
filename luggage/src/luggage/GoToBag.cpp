@@ -50,14 +50,11 @@ GoToBag::tick()
     first_ = false;
   }
 
-  std::vector<int> color = getInput<std::vector<int>>("color").value();
-  ROS_INFO("R_%d,G:%d,B:%d", color[0], color[1], color[2]);
-
   geometry_msgs::Twist cmd;
   double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
   ROS_INFO("TIME: %f", current_ts_);
 
-  if ( (current_ts_ < ACTION_TIME_))
+  if ( (current_ts_ < 2 * ACTION_TIME_))
   {
       cmd.linear.x = 0;
 
@@ -68,7 +65,7 @@ GoToBag::tick()
 
       ROS_INFO("TIME: %f %f", current_ts_, TURNING_VEL_);
   }
-  else if (current_ts_ >= 5*ACTION_TIME_)
+  else //if (current_ts_ >= 5*ACTION_TIME_)
   {
       ROS_INFO("BAG REACHED");
       return BT::NodeStatus::SUCCESS;

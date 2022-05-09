@@ -34,7 +34,7 @@ class GoToBag : public BT::ActionNodeBase
 
     static BT::PortsList providedPorts()
     {
-        return { BT::InputPort<std::string>("bag_pos"), BT::InputPort<std::vector<int>>("color")};
+        return { BT::InputPort<std::string>("bag_pos")};
     }
 
     void halt();
