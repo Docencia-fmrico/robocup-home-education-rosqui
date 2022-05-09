@@ -72,7 +72,6 @@ class Dialog : public DialogInterface
       {
         listen();
       }
-      
     }
 
     void PresentationCB(dialogflow_ros_msgs::DialogflowResult result)
@@ -119,19 +118,19 @@ class Dialog : public DialogInterface
 
     int get_start()
     {
-      ROS_INFO("first_: %d",first_);
+      ROS_INFO("first_: %d", first_);
       return first_;
     }
 
     int get_first()
     {
-      ROS_INFO("start_: %d",start_);
+      ROS_INFO("start_: %d", start_);
       return start_;
     }
 
     int get_luggage()
     {
-      ROS_INFO("luggage_: %d",luggage_);
+      ROS_INFO("luggage_: %d", luggage_);
       return luggage_;
     }
 

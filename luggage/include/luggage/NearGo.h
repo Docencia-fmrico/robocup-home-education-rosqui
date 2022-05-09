@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef luggage_NEARGO_H
-#define luggage_NEARGO_H
+#ifndef LUGGAGE_NEARGO_H
+#define LUGGAGE_NEARGO_H
 
-//Clase padre
+// Clase padre
 #include "luggage/BumpGo_Base.h"
 
 #include "ros/ros.h"
@@ -34,7 +34,8 @@ public:
   bool scan();
   void scanFilteredCallback(const sensor_msgs::LaserScan::ConstPtr& msg);
   int check_sector(const sensor_msgs::LaserScan::ConstPtr& msg, int num_ranges, float proportion_to_check, int center);
-  float average_range(const sensor_msgs::LaserScan::ConstPtr& msg, int sector, int ranges_in_sector, int center, int num_ranges);
+  float average_range(const sensor_msgs::LaserScan::ConstPtr& msg, int sector,
+                      int ranges_in_sector, int center, int num_ranges);
 
 private:
 // Sectors to divide the left or right sectors
@@ -45,4 +46,4 @@ private:
 
 }  // namespace luggage
 
-#endif  // luggage_NEARGO_H
+#endif  // LUGGAGE_NEARGO_H

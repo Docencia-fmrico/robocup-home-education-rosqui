@@ -65,7 +65,7 @@ GoToBag::tick()
 
       ROS_INFO("TIME: %f %f", current_ts_, TURNING_VEL_);
   }
-  else //if (current_ts_ >= 5*ACTION_TIME_)
+  else  // if (current_ts_ >= 5*ACTION_TIME_)
   {
       ROS_INFO("BAG REACHED");
       return BT::NodeStatus::SUCCESS;

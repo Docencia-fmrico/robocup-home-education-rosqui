@@ -53,22 +53,22 @@ GoToRef::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& ms
 BT::NodeStatus
 GoToRef::tick()
 {
-	if(first_){
-		Navigation my_node_;
-		my_node_.doWork(200, coords_);
-		first_ = false;
-	}
-	
-	if (result_ != 0)
-		ROS_INFO("Result: %d", result_);
+    if (first_)
+    {
+        Navigation my_node_;
+        my_node_.doWork(200, coords_);
+        first_ = false;
+    }
+    if (result_ != 0)
+        ROS_INFO("Result: %d", result_);
 
-	if (result_ == 3)
-	{
-		ROS_INFO("LEAVING");
-		return BT::NodeStatus::SUCCESS;
-	}
+    if (result_ == 3)
+    {
+        ROS_INFO("LEAVING");
+        return BT::NodeStatus::SUCCESS;
+    }
 
-  	return BT::NodeStatus::RUNNING;
+    return BT::NodeStatus::RUNNING;
 }
 }  // namespace luggage
 

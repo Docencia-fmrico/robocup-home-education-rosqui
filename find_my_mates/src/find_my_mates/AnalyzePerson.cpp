@@ -51,16 +51,17 @@ AnalyzePerson::halt()
 
 BT::NodeStatus
 AnalyzePerson::tick()
-{ 
+{
     if (detected_)
     {
-      setOutput("occupied_pos",occupied_pos_);
+      setOutput("occupied_pos", occupied_pos_);
       detected_ = false;
-      return BT::NodeStatus::SUCCESS; 
+      return BT::NodeStatus::SUCCESS;
     }
-    else {
+    else
+    {
       occupied_pos_++;
-      return BT::NodeStatus::FAILURE; 
+      return BT::NodeStatus::FAILURE;
     }
 }
 }  // namespace find_my_mates

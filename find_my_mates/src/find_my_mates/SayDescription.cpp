@@ -41,9 +41,9 @@ SayDescription::halt()
 
 BT::NodeStatus
 SayDescription::tick()
-{	
-
-  if(first_){
+{
+  if (first_)
+  {
     detected_ts_ = ros::Time::now();
     pos_ = getInput<int>("occupied_pos").value();
     first_ = false;
@@ -51,11 +51,13 @@ SayDescription::tick()
 
   double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
 
-  if(current_ts_< TIME_TO_SPEAK){
+  if (current_ts_< TIME_TO_SPEAK)
+  {
     forwarder_.speak("There is a person in position" + std::to_string(pos_));
     return BT::NodeStatus::RUNNING;
   }
-  else {
+  else
+  {
     first_ = true;
     return BT::NodeStatus::SUCCESS;
   }

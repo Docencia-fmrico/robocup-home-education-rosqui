@@ -35,6 +35,8 @@
 /* Author: Jonatan Gines jginesclavero@gmail.com */
 
 /* Mantainer: Jonatan Gines jginesclavero@gmail.com */
+#ifndef FIND_MY_MATES_DIALOG_H
+#define FIND_MY_MATES_DIALOG_H
 #include <find_my_mates/DialogInterface.h>
 #include <sound_play/SoundRequest.h>
 #include <string>
@@ -122,4 +124,6 @@ class Dialog : public DialogInterface
     int start_ = 1;
 };
 }  // namespace find_my_mates
+
+#endif  // FIND_MY_MATES_DIALOG_H
 

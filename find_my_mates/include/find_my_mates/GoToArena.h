@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FINDMYMATES_GOTOARENA_H
-#define FINDMYMATES_GOTOARENA_H
+#ifndef FIND_MY_MATES_GOTOARENA_H
+#define FIND_MY_MATES_GOTOARENA_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -47,4 +47,4 @@ class GoToArena : public BT::ActionNodeBase
 
 }  // namespace find_my_mates
 
-#endif  // FINDMYMATES_GOTOARENA_H
+#endif  // FIND_MY_MATES_GOTOARENA_H

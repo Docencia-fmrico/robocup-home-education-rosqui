@@ -31,7 +31,7 @@ DetectLuggage::DetectLuggage(const std::string& name, const BT::NodeConfiguratio
 {
   first_ = true;
 }
- 
+
 void
 DetectLuggage::halt()
 {
@@ -46,7 +46,7 @@ DetectLuggage::tick()
   {
     detected_ts_ = ros::Time::now();
     forwarder_.listen();
-    //forwarder_.speak("Is luggage at your right or at your left?");
+    // forwarder_.speak("Is luggage at your right or at your left?");
     first_ = false;
   }
     double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
@@ -64,14 +64,14 @@ DetectLuggage::tick()
     {
       for (const auto & value : param.value)
       {
-        if (value == "left")   
+        if (value == "left")
         {
           forwarder_.speak("Ok, put the left luggage on me please");
           ROS_INFO("USER'S LEFT");
           setOutput("bag_pos", "left");
           return BT::NodeStatus::SUCCESS;
         }
-        else if (value == "right")  
+        else if (value == "right")
         {
           forwarder_.speak("Ok, put the right luggage on me please");
           ROS_INFO("USER'S RIGHT");

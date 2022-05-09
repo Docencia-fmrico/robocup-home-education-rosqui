@@ -45,31 +45,30 @@ GoToPerson::halt()
 void
 GoToPerson::ResultCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
-	result_ = msg->status.status;
+    result_ = msg->status.status;
 }
 
 BT::NodeStatus
 GoToPerson::tick()
-{	
-	if(first_){
-		Navigation my_node_;
-		my_node_.doWork(200, all_coords[current_pos_]);
-		first_ = false;
-	}
+{
+    if (first_)
+    {
+        Navigation my_node_;
+        my_node_.doWork(200, all_coords[current_pos_]);
+        first_ = false;
+    }
+    if (result_ != 0)
+        ROS_INFO("Result: %d", result_);
+    if (result_ == 3)
+    {
+        ROS_INFO("LEAVING");
+        return BT::NodeStatus::SUCCESS;
+        current_pos_++;
+        first_ = true;
+        result_ = 0;
+    }
 
-	if (result_ != 0)
-		ROS_INFO("Result: %d", result_);
-
-	if (result_ == 3)
-	{
-		ROS_INFO("LEAVING");
-		return BT::NodeStatus::SUCCESS;
-		current_pos_++;
-		first_ = true;
-		result_ = 0;
-	}
-
-  	return BT::NodeStatus::RUNNING;
+    return BT::NodeStatus::RUNNING;
 }
 }  // namespace find_my_mates
 

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FINDMYMATES_GOTOPERSON_H
-#define FINDMYMATES_GOTOPERSON_H
+#ifndef FIND_MY_MATES_GOTOPERSON_H
+#define FIND_MY_MATES_GOTOPERSON_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -51,11 +51,8 @@ class GoToPerson : public BT::ActionNodeBase
     std::vector<float> coords4 = {-0.15, 4.28, 0.0, 0.0, 0.0, -0.94, 0.32};
     std::vector<float> coords5 = {0.53, 3.44, 0.0, 0.0, 0.0, -0.76, 0.64};
     std::vector<float> coords6 = {2.21, 3.21, 0.0, 0.0, 0.0, -0.69, 0.71};
-
     std::vector<std::vector<float>> all_coords = {coords1, coords2, coords3, coords4, coords5, coords6};
-    
 };
-
 }  // namespace find_my_mates
 
-#endif  // FINDMYMATES_GOTOPERSON_H
+#endif  // FIND_MY_MATES_GOTOPERSON_H

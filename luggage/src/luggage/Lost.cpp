@@ -45,7 +45,7 @@ Lost::tick()
   {
     detected_ts_ = ros::Time::now();
     forwarder_.speak("I am lost referee");
-    time_ ++;
+    time_++;
   }
 
   cmd.linear.x = 0;

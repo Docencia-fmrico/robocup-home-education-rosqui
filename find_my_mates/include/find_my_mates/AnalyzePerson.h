@@ -51,7 +51,6 @@ class AnalyzePerson : public BT::ActionNodeBase
     {
         return { BT::OutputPort<int>("occupied_pos") };
     }
-    
   private:
     ros::NodeHandle nh_;
     message_filters::Subscriber<sensor_msgs::Image> image_depth_sub;

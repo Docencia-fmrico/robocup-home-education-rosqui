@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FINDMYMATES_SayDescription_H
-#define FINDMYMATES_SayDescription_H
+#ifndef FIND_MY_MATES_SAYDESCRIPTION_H
+#define FIND_MY_MATES_SAYDESCRIPTION_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -40,9 +40,8 @@ class SayDescription : public BT::ActionNodeBase
 
     static BT::PortsList providedPorts()
     {
-        return { BT::InputPort<int>("occupied_pos") };
+      return { BT::InputPort<int>("occupied_pos") };
     }
-
   private:
     ros::NodeHandle nh_;
     find_my_mates::Dialog forwarder_;
@@ -54,4 +53,4 @@ class SayDescription : public BT::ActionNodeBase
 
 }  // namespace find_my_mates
 
-#endif  // FINDMYMATES_SayDescription_H
+#endif  // FIND_MY_MATES_SAYDESCRIPTION_H

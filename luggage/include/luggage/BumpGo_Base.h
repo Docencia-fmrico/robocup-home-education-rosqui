@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef luggage_BUMPGO_BASE_H
-#define luggage_BUMPGO_BASE_H
+#ifndef LUGGAGE_BUMPGO_BASE_H
+#define LUGGAGE_BUMPGO_BASE_H
 
 #include "ros/ros.h"
 
@@ -26,7 +26,7 @@ namespace luggage
 class BumpGo_Base
 {
 public:
-  BumpGo_Base(): detected_(false), state_(GOING_FORWARD) {};
+  BumpGo_Base(): detected_(false), state_(GOING_FORWARD) {}
 
   virtual bool scan() = 0;
 
@@ -66,4 +66,4 @@ protected:
 
 }  // namespace luggage
 
-#endif  // luggage_BUMPGO_BASE_H
+#endif  // LUGGAGE_BUMPGO_BASE_H

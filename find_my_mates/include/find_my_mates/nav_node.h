@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FINDMYMATES_NAV_NODE_H
-#define FINDMYMATES_NAV_NODE_H
+#ifndef FIND_MY_MATES_NAV_NODE_H
+#define FIND_MY_MATES_NAV_NODE_H
 
 #include <ros/ros.h>
 #include <vector>
@@ -40,4 +40,4 @@ private:
 
 }  // namespace find_my_mates
 
-#endif  // FINDMYMATES_NAV_NODE_H
+#endif  // FIND_MY_MATES_NAV_NODE_H

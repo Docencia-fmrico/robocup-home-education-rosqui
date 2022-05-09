@@ -35,8 +35,8 @@
 /* Author: Jonatan Gines jginesclavero@gmail.com */
 
 /* Mantainer: Jonatan Gines jginesclavero@gmail.com */
-#ifndef DIALOGINTERFACE__H
-#define DIALOGINTERFACE__H
+#ifndef FIND_MY_MATES_DIALOGINTERFACE_H
+#define FIND_MY_MATES_DIALOGINTERFACE_H
 
 #include <ros/ros.h>
 #include <string>
@@ -60,7 +60,7 @@ public:
 
   bool speak(std::string str);
   bool listen();
-  virtual void listenCallback(DialogflowResult result){}
+  virtual void listenCallback(DialogflowResult result) {}
   void registerCallback(
     std::function<void(const DialogflowResult & result)> cb,
     std::string intent = "(.*)");
@@ -83,4 +83,4 @@ private:
 };
 };  // namespace find_my_mates
 
-#endif
+#endif  // FIND_MY_MATES_DIALOGINTERFACE_H"

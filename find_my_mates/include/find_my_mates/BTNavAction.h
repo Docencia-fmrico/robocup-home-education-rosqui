@@ -13,10 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIND_MY_MATES_BTACTION_H
-#define FIND_MY_MATES_BTACTION_H
+#ifndef FIND_MY_MATES_BTNAVACTION_H
+#define FIND_MY_MATES_BTNAVACTION_H
 
 #include <ros/ros.h>
+#include <string>
 
 #include "actionlib/client/simple_action_client.h"
 #include "move_base_msgs/MoveBaseAction.h"
@@ -34,8 +35,8 @@ public:
     action_client_(action_name, true)
   {
     ROS_INFO("Waiting for action server to start.");
-		action_client_.waitForServer();
-		ROS_INFO("Action server started, sending goal.");
+    action_client_.waitForServer();
+    ROS_INFO("Action server started, sending goal.");
 
     nav_need_send_goal_ = true;;
     nav_finished_ = false;
@@ -43,11 +44,11 @@ public:
   }
 
   virtual void on_halt() = 0;
-  virtual void on_start() {};
-  virtual void on_feedback(const move_base_msgs::MoveBaseFeedbackConstPtr& feedback) {};
+  virtual void on_start() {}
+  virtual void on_feedback(const move_base_msgs::MoveBaseFeedbackConstPtr& feedback) {}
   virtual BT::NodeStatus on_tick() = 0;
 
-  void halt() 
+  void halt()
   {
     on_halt();
 
@@ -78,15 +79,15 @@ public:
       std::cerr << "Sending new goal --------------------------" << std::endl;
       action_client_.sendGoal(
         goal_,
- 		  	boost::bind(&BTNavAction::doneCb, this, _1, _2),
-		  	actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction>::SimpleActiveCallback(),
-		  	boost::bind(&BTNavAction::feedbackCb, this, _1));
-      
+        boost::bind(&BTNavAction::doneCb, this, _1, _2),
+        actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction>::SimpleActiveCallback(),
+        boost::bind(&BTNavAction::feedbackCb, this, _1));
       nav_need_send_goal_ = false;
     }
 
     auto tick_status = on_tick();
-    if (tick_status != BT::NodeStatus::RUNNING) {
+    if (tick_status != BT::NodeStatus::RUNNING)
+    {
       action_client_.cancelAllGoals();
       nav_need_send_goal_ = true;
       nav_finished_ = false;
@@ -95,7 +96,8 @@ public:
 
     if (nav_finished_)
     {
-      if (nav_succeded_) {
+      if (nav_succeded_)
+      {
         return BT::NodeStatus::SUCCESS;
       }
       else
@@ -109,18 +111,18 @@ public:
     }
   }
 
-	void feedbackCb(const move_base_msgs::MoveBaseFeedbackConstPtr& feedback)
-	{
+  void feedbackCb(const move_base_msgs::MoveBaseFeedbackConstPtr& feedback)
+  {
     on_feedback(feedback);
-	}
+  }
 
-	void doneCb(const actionlib::SimpleClientGoalState& state,
-			const move_base_msgs::MoveBaseResultConstPtr& result)
-	{
+  void doneCb(const actionlib::SimpleClientGoalState& state,
+              const move_base_msgs::MoveBaseResultConstPtr& result)
+  {
     nav_finished_ = true;
     nav_succeded_ = state.state_ == actionlib::SimpleClientGoalState::StateEnum::SUCCEEDED;
-		ROS_INFO("Finished in state [%s]", state.toString().c_str());
-	}
+    ROS_INFO("Finished in state [%s]", state.toString().c_str());
+  }
 
 private:
   actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> action_client_;
@@ -133,4 +135,4 @@ private:
 
 }  // namespace find_my_mates
 
-#endif  // FIND_MY_MATES_BTACTION_H
+#endif  // FIND_MY_MATES_BTNAVACTION_H

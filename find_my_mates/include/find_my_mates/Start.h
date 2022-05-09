@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FINDMYMATES_START_H
-#define FINDMYMATES_START_H
+#ifndef FIND_MY_MATES_START_H
+#define FIND_MY_MATES_START_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -47,4 +47,4 @@ class Start : public BT::ActionNodeBase
 
 }  // namespace find_my_mates
 
-#endif  // FINDMYMATES_START_H
+#endif  // FIND_MY_MATES_START_H
