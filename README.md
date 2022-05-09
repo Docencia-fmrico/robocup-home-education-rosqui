@@ -138,19 +138,21 @@ This node waits for the referee to receive either <b>left</b> or <b>right</b>.
  Here you can see the tick of <b>GotoBag.cpp</b>:
 	
  ```
- if (first_)
+ GotoBag::tick()
  {
+     if (first_)
+     {
  	detected_ts_ = ros::Time::now();
     	bag_pos_ = getInput<std::string>("bag_pos").value();
     	first_ = false;
- }
+     }
 	
- geometry_msgs::Twist cmd;
- double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
- ROS_INFO("TIME: %f", current_ts_);
+     geometry_msgs::Twist cmd;
+     double current_ts_ = (ros::Time::now() - detected_ts_).toSec();
+     ROS_INFO("TIME: %f", current_ts_);
 	
- if ((current_ts_ < ACTION_TIME_))
- {
+     if ((current_ts_ < ACTION_TIME_))
+     {
  	cmd.linear.x = 0;
 
    	if (bag_pos_ == "left")
@@ -159,14 +161,15 @@ This node waits for the referee to receive either <b>left</b> or <b>right</b>.
             cmd.angular.z = -TURNING_VEL_;
         ROS_INFO("TIME: %f %f", current_ts_, TURNING_VEL_);
 				  
- }else if (current_ts_ >= 5*ACTION_TIME_)
- {
+     }else if (current_ts_ >= 5*ACTION_TIME_)
+     {
         ROS_INFO("BAG REACHED");
         return BT::NodeStatus::SUCCESS;
- }
+     }
 	
- pub_vel_.publish(cmd);
- return BT::NodeStatus::RUNNING;	
+     pub_vel_.publish(cmd);
+     return BT::NodeStatus::RUNNING;
+ }
  ```
    
 </details>
@@ -175,7 +178,7 @@ This node waits for the referee to receive either <b>left</b> or <b>right</b>.
 	
  This node is reused from the task <b>visual behaviour</b>.
 	
- <a href="https://github.com/Docencia-fmrico/visual-behavior-rosqui">You</a> can have a look if you want to.
+ You can <a href="https://github.com/Docencia-fmrico/visual-behavior-rosqui">have a look</a> if you want to.
     
     
 </details>
@@ -213,7 +216,7 @@ Here you can see the tick of <b>Lost.cpp</b>:
 	
  This node is reused from the task <b>visual behaviour</b>.
 	
- <a href="https://github.com/Docencia-fmrico/visual-behavior-rosqui">You</a> can have a look if you want to.
+ You can <a href="https://github.com/Docencia-fmrico/visual-behavior-rosqui">have a look</a> if you want to.
     
     
 </details>
