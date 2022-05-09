@@ -185,6 +185,7 @@ This node waits for the referee to receive either <b>left</b> or <b>right</b>.
 
 <details><summary><b>Lost</b></summary>
 This node is used when the robot cannot see the referee and start turning and saying "I am lost referee", so the referee can realize that the robot is not seeing him/her.
+	
 Here you can see the tick of <b>Lost.cpp</b>:    
 	
 ```
