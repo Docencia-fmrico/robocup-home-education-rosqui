@@ -3,11 +3,11 @@
 </a></p>
 
 <img src="https://github.com/Docencia-fmrico/visual-behavior-rosqui/blob/main/images/kobuki.jpg" align="right"
-     alt="Kobuki Image" width="250" height="200">
+     alt="Kobuki Image" width="230" height="200">
     
 <h1>ROBOCUP HOME EDUCATION</h1>
  
- <p> We were asked to complete two of the three different tasks for the robocup home edition which its final is going to be held in the 1st os June in Guimarães, Portugal. These 3 tasks are:
+ <p> We were asked to complete two of the three different tasks for the Robocup Home Edition which is going to be held on first of June in Guimarães, Portugal. These 3 tasks are:
  
  <b>Carry my Luggage</b>:
   
@@ -20,33 +20,53 @@ alt="Carry my luggage map" width="700" height="400">
   The route is:
   
     1º: The robot starts in the start point and it should get inside of the arena.
-  
-    2º: Inside of the arena
+    2º: Inside of the arena, reach to the referee's position.
+    3º: The referee is going to indicate the bag and the robot will move closer to it.
+    4º: The robot should indicate when it should start following the referee.
+    5º: The robot should follow the referee inside of the arena avoiding obstacles.
+    6º: The robot should follow the referee out of the arena until he/she indicates it.
+    7º: The robot should come back to the arena.
  
  <b>Find my mates</b>:
- 
+    
+  Its main goal is that the robot will get int the arena to find mates and tell the referee their names and extra information.
+  This is the map in which the task is going to be done:
+  
+ <img src="" align="center"
+alt="Find My Mates map" width="700" height="400">
+  
+  The route is:
+  
+    1º: The robot starts in the start point and it should get inside of the arena.
+    2º: Inside of the arena, the robot must find the first person.
+    3º: After that, the robot will move closer to the person.
+    4º: The robot should  ask the person's name and obtain the T-shirt color and the object.
+    5º: After that, the robot will report the information to the referee or it will keep finding people and report at the end. 
+  
  <b>The Receptionist</b>:
+ 
+  Its main goal is that the robot will welcome people, ask their names and their favourite drink and give seat. After that, the robot will report Jhon about people, indicating where they are seated and the information obtained.
+  This is the map in which the task is going to be done:
+  
+ <img src="" align="center"
+alt="The Recepcionist map" width="700" height="400">
+  
+  The route is:
+  
+    1º: The robot starts in the start point and it should get inside of the arena.
+    2º: Inside of the arena, the robot should welcome the first person, obtaining information about him/her.
+    3º: After that, the robot should guide the person to the seats and offer one.
+    4º: After that, the robot will report the information to the referee or it will keep finding people and report at the end.
+ 
 
 <h2>CARRY MY LUGGAGE</h2>
 First of all we have done a behaviour tree called <b>follow_person.xml</b>. Using Darknet_ros with a 3D camera we can obtain all x, y and z coordinates of a person. 
 
-<details><summary><b>Instalation</b></summary>
-For this task we had to install the following packages:
-    
-    $ sudo apt-get install ros-noetic-behaviortree-cpp-v3
-    $ sudo apt-get install ros-noetic-move-base-msgs
-    $ sudo apt-get install ros-noetic-kobuki-*
-    $ sudo apt-get install ros-noetic-cameras-*
-    
-If you want to try it by your own personal camera, you can download the following package:
-   
-    $ sudo apt-get install ros-noetic-usb-cam-*
-   
-By the way, if you get in trouble with any package you may need to download a github repository related to the package. 
+<details><summary><b>Behaviour Tree</b></summary>
 
 </details>
 
-<details><summary><b>Commands Used</b></summary>
+<details><summary><b>S</b></summary>
     
 - <b>See Darknet Ros using 3D camera</b>
     
