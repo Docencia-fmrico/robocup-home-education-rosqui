@@ -75,7 +75,7 @@ alt="The Recepcionist map" width="600" height="600">
  Here you can see the tick in <b>start.cpp</b>:
     
      Start::tick()
-        { 
+     { 
             ROS_INFO("Start");
             if (forwarder_.get_first() == 1)
             {
@@ -86,7 +86,7 @@ alt="The Recepcionist map" width="600" height="600">
                 return BT::NodeStatus::SUCCESS;
 
             return BT::NodeStatus::RUNNING;
-        }
+     }
     
     
 </details>
