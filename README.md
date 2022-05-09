@@ -363,6 +363,7 @@ AnalyzePerson::tick()
 <details><summary><b>Say description</b></summary>
 
 This node gets the <b>person's position</b> from the blackboard and tells the referee.
+	
 Here you can see the tick of <b>SayDescription.cpp:</b>
 ```	
 SayDescription::tick()
