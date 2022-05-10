@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Repeat name="" num_cycles="3">
+            <Sequence>
+                <Action ID="GoToArena"/>
+                <Fallback name="">
+                    <Action ID="GoToPerson"/>
+                    <Action ID="AnalyzePerson" occupied_pos="{occupied_pos}"/>
+                </Fallback>
+                <Action ID="GoToRef"/>
+                <Action ID="SayDescription" occupied_pos="{occupied_pos}"/>
+            </Sequence>
+        </Repeat>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="AnalyzePerson">
+            <input_port name="occupied_pos"/>
+        </Action>
+        <Action ID="GoToArena"/>
+        <Action ID="GoToPerson"/>
+        <Action ID="GoToRef"/>
+        <Action ID="SayDescription">
+            <output_port name="occupied_pos"/>
+        </Action>
+        <Action ID="Start"/>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+

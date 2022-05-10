@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <SequenceStar>
+            <Action ID="Start"/>
+            <Action ID="GoToRef"/>
+            <Action ID="DetectLuggage" bag_pos="{bag_pos}"/>
+            <Action ID="GoToBag" bag_pos="{bag_pos}"/>
+            <ReactiveSequence>
+                <Fallback>
+                    <Action ID="PercievePerson" person_x="{person_x}" person_z="{person_z}"/>
+                    <Action ID="Lost"/>
+                </Fallback>
+                <Action ID="FollowPerson" person_x="{person_x}" person_z="{person_z}"/>
+            </ReactiveSequence>
+            <Action ID="GoToOrigin"/>
+        </SequenceStar>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="DetectLuggage">
+            <input_port name="bag_pos"/>
+        </Action>
+        <Action ID="FollowPerson">
+            <output_port name="person_x"/>
+            <output_port name="person_z"/>
+        </Action>
+        <Action ID="GoToBag">
+            <output_port name="bag_pos"/>
+        </Action>
+        <Action ID="GoToOrigin"/>
+        <Action ID="GoToRef"/>
+        <Action ID="Lost"/>
+        <Action ID="Navigation"/>
+        <Action ID="PercievePerson">
+            <input_port name="person_x"/>
+            <input_port name="person_z"/>
+        </Action>
+        <Action ID="Start"/>
+        <Action ID="Turn"/>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+
